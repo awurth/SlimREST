@@ -5,14 +5,12 @@ namespace App\Middleware;
 use Interop\Container\ContainerInterface;
 
 use Cartalyst\Sentinel\Sentinel;
-use Slim\Flash\Messages;
 use Slim\Router;
 use Slim\Views\Twig;
 
 /**
  * @property Twig view
  * @property Router router
- * @property Messages flash
  * @property Sentinel auth
  */
 class Middleware

@@ -8,14 +8,10 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use Interop\Container\ContainerInterface;
 use Slim\Exception\NotFoundException;
-use Slim\Flash\Messages;
 use Slim\Router;
-use Slim\Views\Twig;
 
 /**
- * @property Twig view
  * @property Router router
- * @property Messages flash
  * @property Validator validator
  * @property Sentinel auth
  */
@@ -110,17 +106,6 @@ class Controller
     public function write(Response $response, $data, $status = 200)
     {
         return $response->withStatus($status)->getBody()->write($data);
-    }
-
-    /**
-     * Add a flash message
-     *
-     * @param string $name
-     * @param string $message
-     */
-    public function flash($name, $message)
-    {
-        $this->flash->addMessage($name, $message);
     }
 
     /**
