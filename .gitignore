@@ -1,8 +1,4 @@
 composer.phar
 composer.lock
 vendor/
-public/bower/
-cache/twig/*
-!cache/twig/.gitkeep
 bootstrap/parameters.yml
-public/css/*.css.map
