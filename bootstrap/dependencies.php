@@ -1,30 +1,33 @@
 <?php
 
+use Symfony\Component\Yaml\Yaml;
+use Illuminate\Database\Capsule\Manager;
+use Cartalyst\Sentinel\Native\Facades\Sentinel;
+use Cartalyst\Sentinel\Native\SentinelBootstrapper;
+use Awurth\Slim\Validation\Validator;
+use Slim\Handlers\Strategies\RequestResponseArgs;
+
 $container = $app->getContainer();
 
-$db = require_once __DIR__ . '/db.php';
+$parameters = Yaml::parse(file_get_contents(__DIR__ . '/parameters.yml'));
 
-$capsule = new \Illuminate\Database\Capsule\Manager();
-$capsule->addConnection($db);
+$capsule = new Manager();
+$capsule->addConnection($parameters['parameters']);
 $capsule->setAsGlobal();
 $capsule->bootEloquent();
 
-$container['db'] = function () use ($capsule) {
-    return $capsule;
-};
-
 $container['auth'] = function () {
-    $sentinel = new \Cartalyst\Sentinel\Native\Facades\Sentinel(
-        new \Cartalyst\Sentinel\Native\SentinelBootstrapper(__DIR__ . '/sentinel.php')
+    $sentinel = new Sentinel(
+        new SentinelBootstrapper(__DIR__ . '/sentinel.php')
     );
 
     return $sentinel->getSentinel();
 };
 
 $container['validator'] = function () {
-    return new \Awurth\Slim\Validation\Validator();
+    return new Validator();
 };
 
 $container['foundHandler'] = function() {
-    return new \Slim\Handlers\Strategies\RequestResponseArgs();
+    return new RequestResponseArgs();
 };
