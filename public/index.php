@@ -14,8 +14,8 @@ session_start();
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$settings = require __DIR__ . '/../bootstrap/settings.php';
-$app = new Slim\App($settings);
+$settings = Symfony\Component\Yaml\Yaml::parse(file_get_contents(__DIR__ . '/../bootstrap/settings.yml'));
+$app = new Slim\App($settings['settings']);
 
 require __DIR__ . '/../bootstrap/dependencies.php';
 
