@@ -2,12 +2,13 @@ settings:
     displayErrorDetails: true
     rest:
         prefix: /api
-        get: true
-        get_collection: true
-        post: true
-        put: true
-        delete: true
-        delete_collection: false
+        crud:
+            get: true
+            get_collection: true
+            post: true
+            put: true
+            delete: true
+            delete_collection: false
     cors:
         origin:  '*'
         headers: '*'
