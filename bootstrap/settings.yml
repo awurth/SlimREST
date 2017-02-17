@@ -8,3 +8,8 @@ settings:
         put: true
         delete: true
         delete_collection: false
+    cors:
+        origin:  '*'
+        headers: '*'
+        methods: 'GET,POST,PUT,DELETE'
+        max_age: 3600

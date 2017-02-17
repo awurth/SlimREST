@@ -10,21 +10,23 @@ This is a skeleton for Slim PHP micro-framework to get started quickly
 ## Installation
 ### 1. Create project
 #### Using composer
-```bash
+``` bash
 $ composer create-project awurth/slim-rest-base [app-name]
 ```
 
 #### Manual install
-```bash
+``` bash
 $ git clone https://github.com/awurth/slim-rest-base.git [app-name]
 $ cd [app-name]
 $ composer install
 ```
 
 ### 2. Create tables
-```bash
+``` bash
 $ php bootstrap/database.php
 ```
 
 # TODO
 - Rest router sub-resources
+- JWT auth
+- FoundHandler (inject response in controller ?)
