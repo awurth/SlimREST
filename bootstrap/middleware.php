@@ -1,3 +1,3 @@
 <?php
 
-$app->add(new App\Middleware\CORSMiddleware($container));
+$app->add(new App\Middleware\CORSMiddleware($config['settings']['cors']));
