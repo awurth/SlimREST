@@ -26,6 +26,13 @@ $ composer install
 $ php bootstrap/database.php
 ```
 
+## Features
+### Dump routes
+Execute the following command at the project root to print all routes in your terminal
+``` bash
+$ php console routes
+```
+
 # TODO
 - Rest router sub-resources
 - JWT auth
