@@ -30,20 +30,14 @@ class RoutesCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $routes = [];
         foreach ($this->router->getRoutes() as $route) {
-            $routes[] = [
-                'methods' => implode(', ', $route->getMethods()),
-                'name' => $route->getName(),
-                'pattern' => $route->getPattern(),
-                'callable' => $route->getCallable()
-            ];
-
             $output->writeln('<fg=cyan;options=bold>' . $route->getName() . '</>');
             $output->writeln('    ' . implode(', ', $route->getMethods()));
             $output->writeln('    ' . $route->getPattern());
             $output->writeln('    ' . $route->getCallable());
+            $output->writeln('');
         }
+        
         return 0;
     }
 }
