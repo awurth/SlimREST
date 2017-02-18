@@ -30,5 +30,3 @@ $ php bootstrap/database.php
 - Rest router sub-resources
 - JWT auth
 - FoundHandler (inject response in controller ?)
-- Route dumper
-- Symfony console
