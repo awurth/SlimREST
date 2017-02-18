@@ -37,7 +37,7 @@ class RoutesCommand extends Command
             $output->writeln('    ' . $route->getCallable());
             $output->writeln('');
         }
-        
+
         return 0;
     }
 }
