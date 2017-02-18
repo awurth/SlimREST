@@ -210,34 +210,46 @@ class RestRouter
      * @param string $collection
      * @param string $controller
      * @param string $singular
+     * @param array $middleware
      * @param string $key
      * @param string $requirement
+     * @return RouteInterface[]
      */
-    public function CRUD($collection, $controller, $singular = null, $key = self::DEFAULT_KEY, $requirement = self::DEFAULT_REQUIREMENT)
+    public function CRUD($collection, $controller, $singular = null, array $middleware = [], $key = self::DEFAULT_KEY, $requirement = self::DEFAULT_REQUIREMENT)
     {
+        $routes = [];
+
         if ($this->CRUDMethods['get']) {
-            $this->get($collection, $controller, $singular, $key, $requirement);
+            $routes[] = $this->get($collection, $controller, $singular, $key, $requirement);
         }
 
         if ($this->CRUDMethods['get_collection']) {
-            $this->cget($collection, $controller);
+            $routes[] = $this->cget($collection, $controller);
         }
 
         if ($this->CRUDMethods['post']) {
-            $this->post($collection, $controller, $singular);
+            $routes[] = $this->post($collection, $controller, $singular);
         }
 
         if ($this->CRUDMethods['put']) {
-            $this->put($collection, $controller, $singular, $key, $requirement);
+            $routes[] = $this->put($collection, $controller, $singular, $key, $requirement);
         }
 
         if ($this->CRUDMethods['delete']) {
-            $this->delete($collection, $controller, $singular, $key, $requirement);
+            $routes[] = $this->delete($collection, $controller, $singular, $key, $requirement);
         }
 
         if ($this->CRUDMethods['delete_collection']) {
-            $this->cdelete($collection, $controller);
+            $routes[] = $this->cdelete($collection, $controller);
         }
+
+        foreach ($routes as $route) {
+            foreach ($middleware as $m) {
+                $route->add($m);
+            }
+        }
+
+        return $routes;
     }
 
     /**
@@ -248,36 +260,48 @@ class RestRouter
      * @param string $controller
      * @param string $parentSingular
      * @param string $subSingular
+     * @param array $middleware
      * @param string $parentKey
      * @param string $parentRequirement
      * @param string $subKey
      * @param string $subRequirement
+     * @return RouteInterface[]
      */
-    public function subCRUD($parentCollection, $subCollection, $controller, $parentSingular = null, $subSingular = null, $parentKey = self::DEFAULT_KEY, $parentRequirement = self::DEFAULT_REQUIREMENT, $subKey = self::DEFAULT_KEY, $subRequirement = self::DEFAULT_REQUIREMENT)
+    public function subCRUD($parentCollection, $subCollection, $controller, $parentSingular = null, $subSingular = null, array $middleware = [], $parentKey = self::DEFAULT_KEY, $parentRequirement = self::DEFAULT_REQUIREMENT, $subKey = self::DEFAULT_KEY, $subRequirement = self::DEFAULT_REQUIREMENT)
     {
+        $routes = [];
+
         if ($this->CRUDMethods['get']) {
-            $this->getSub($parentCollection, $subCollection, $controller, $parentSingular, $subSingular, $parentKey, $parentRequirement, $subKey, $subRequirement);
+            $routes[] = $this->getSub($parentCollection, $subCollection, $controller, $parentSingular, $subSingular, $parentKey, $parentRequirement, $subKey, $subRequirement);
         }
 
         if ($this->CRUDMethods['get_collection']) {
-            $this->cgetSub($parentCollection, $subCollection, $controller, $parentSingular, $parentKey, $parentRequirement);
+            $routes[] = $this->cgetSub($parentCollection, $subCollection, $controller, $parentSingular, $parentKey, $parentRequirement);
         }
 
         if ($this->CRUDMethods['post']) {
-            $this->postSub($parentCollection, $subCollection, $controller, $parentSingular, $subSingular, $parentKey, $parentRequirement);
+            $routes[] = $this->postSub($parentCollection, $subCollection, $controller, $parentSingular, $subSingular, $parentKey, $parentRequirement);
         }
 
         if ($this->CRUDMethods['put']) {
-            $this->putSub($parentCollection, $subCollection, $controller, $parentSingular, $subSingular, $parentKey, $parentRequirement, $subKey, $subRequirement);
+            $routes[] = $this->putSub($parentCollection, $subCollection, $controller, $parentSingular, $subSingular, $parentKey, $parentRequirement, $subKey, $subRequirement);
         }
 
         if ($this->CRUDMethods['delete']) {
-            $this->deleteSub($parentCollection, $subCollection, $controller, $parentSingular, $subSingular, $parentKey, $parentRequirement, $subKey, $subRequirement);
+            $routes[] = $this->deleteSub($parentCollection, $subCollection, $controller, $parentSingular, $subSingular, $parentKey, $parentRequirement, $subKey, $subRequirement);
         }
 
         if ($this->CRUDMethods['delete_collection']) {
-            $this->cdeleteSub($parentCollection, $subCollection, $controller, $parentSingular, $parentKey, $parentRequirement);
+            $routes[] = $this->cdeleteSub($parentCollection, $subCollection, $controller, $parentSingular, $parentKey, $parentRequirement);
         }
+
+        foreach ($routes as $route) {
+            foreach ($middleware as $m) {
+                $route->add($m);
+            }
+        }
+
+        return $routes;
     }
 
     /**
