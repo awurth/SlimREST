@@ -25,7 +25,8 @@
         "illuminate/events": "^5.3",
         "symfony/http-foundation": "^3.2",
         "awurth/slim-validation": "^1.2",
-        "incenteev/composer-parameter-handler": "^2.1"
+        "incenteev/composer-parameter-handler": "^2.1",
+        "symfony/console": "^3.2"
     },
     "scripts": {
         "start": "php -S 0.0.0.0:8080 -t public public/index.php",
