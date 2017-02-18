@@ -34,6 +34,5 @@ $ php console routes
 ```
 
 # TODO
-- Rest router sub-resources
 - JWT auth
 - FoundHandler (inject response in controller ?)
