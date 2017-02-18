@@ -17,9 +17,7 @@ $capsule->setAsGlobal();
 $capsule->bootEloquent();
 
 $container['auth'] = function () {
-    $sentinel = new Sentinel(
-        new SentinelBootstrapper(__DIR__ . '/sentinel.php')
-    );
+    $sentinel = new Sentinel(new SentinelBootstrapper(__DIR__ . '/sentinel.php'));
 
     return $sentinel->getSentinel();
 };
@@ -81,6 +79,6 @@ $container['errorHandler'] = function ($container) use ($config) {
  * public function getCollection($request, $response, $arg1, $arg2, $args3, ...)
  *
  */
-$container['foundHandler'] = function() {
+$container['foundHandler'] = function () {
     return new RequestResponseArgs();
 };

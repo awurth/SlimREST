@@ -3,11 +3,12 @@
 require __DIR__ . '/../vendor/autoload.php';
 
 use Illuminate\Database\Capsule\Manager;
+use Symfony\Component\Yaml\Yaml;
 
-$config = require __DIR__ . '/db.php';
+$parameters = Yaml::parse(file_get_contents(__DIR__ . '/parameters.yml'));
 
 $capsule = new Manager();
-$capsule->addConnection($config);
+$capsule->addConnection($parameters['parameters']);
 $capsule->setAsGlobal();
 $capsule->bootEloquent();
 
