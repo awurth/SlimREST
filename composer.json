@@ -18,7 +18,6 @@
     },
     "require": {
         "slim/slim": "^3.7",
-        "slim/twig-view": "^2.2",
         "illuminate/database": "^5.4",
         "respect/validation": "^1.1",
         "cartalyst/sentinel": "^2.0",
