@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Model\AccessToken;
 use Cartalyst\Sentinel\Users\UserInterface;
+use Firebase\JWT\ExpiredException;
 use Firebase\JWT\JWT;
 
 class JWTManager
@@ -24,6 +25,11 @@ class JWTManager
     private $serverName;
 
     /**
+     * @var AccessToken
+     */
+    private $accessToken;
+
+    /**
      * Constructor
      *
      * @param string $secret
@@ -35,6 +41,35 @@ class JWTManager
 
         $this->tokenLifetime = isset($config['token_lifetime']) ? $config['token_lifetime'] : 0;
         $this->serverName = isset($config['server_name']) ? $config['server_name'] : '';
+    }
+
+    /**
+     * Check if access token is valid
+     *
+     * @param string $token
+     * @return bool
+     */
+    public function checkToken($token)
+    {
+        $accessToken = AccessToken::with('user')->where('token', $token)->first();
+
+        if (null === $accessToken) {
+            return false;
+        }
+
+        try {
+            $decoded = (array) JWT::decode($token, $this->secret, ['HS256']);
+
+            if ($decoded['exp'] < time()) {
+                return false;
+            }
+        } catch (ExpiredException $e) {
+            return false;
+        }
+
+        $this->accessToken = $accessToken;
+
+        return true;
     }
 
     /**
@@ -86,5 +121,15 @@ class JWTManager
     public function getTokenLifetime()
     {
         return $this->tokenLifetime;
+    }
+
+    /**
+     * Get access token
+     *
+     * @return AccessToken
+     */
+    public function getAccessToken()
+    {
+        return $this->accessToken;
     }
 }
