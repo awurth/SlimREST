@@ -2,6 +2,7 @@
 
 namespace App\Middleware;
 
+use App\Service\JWTManager;
 use Interop\Container\ContainerInterface;
 
 use Cartalyst\Sentinel\Sentinel;
@@ -12,6 +13,7 @@ use Slim\Views\Twig;
  * @property Twig view
  * @property Router router
  * @property Sentinel sentinel
+ * @property JWTManager jwt
  */
 class Middleware
 {
