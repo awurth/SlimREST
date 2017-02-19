@@ -64,19 +64,29 @@ class RestRouter
      * @param string $parentCollection
      * @param string $subCollection
      * @param bool $one
+     * @param string $parentSingular
+     * @param string $subSingular
      * @param string $parentKey
      * @param string $parentRequirement
      * @param string $subKey
      * @param string $subRequirement
      * @return string
      */
-    public function subPattern($parentCollection, $subCollection, $one = true, $parentKey = self::DEFAULT_KEY, $parentRequirement = self::DEFAULT_REQUIREMENT, $subKey = self::DEFAULT_KEY, $subRequirement = self::DEFAULT_REQUIREMENT)
+    public function subPattern($parentCollection, $subCollection, $one = true, $parentSingular = null, $subSingular = null, $parentKey = self::DEFAULT_KEY, $parentRequirement = self::DEFAULT_REQUIREMENT, $subKey = self::DEFAULT_KEY, $subRequirement = self::DEFAULT_REQUIREMENT)
     {
-        $parent = $this->pattern($parentCollection, true, $parentKey, $parentRequirement);
+        if ($parentKey === self::DEFAULT_KEY) {
+            $parentKey = $parentSingular ? $parentSingular . '_' . $parentKey : $this->singular($parentCollection) . '_' . $parentKey;
+        }
+
+        if ($subKey === self::DEFAULT_KEY) {
+            $subKey = $subSingular ? $subSingular . '_' . $subKey : $this->singular($subCollection) . '_' . $subKey;
+        }
 
         if ($subRequirement) {
             $subRequirement = ':' . $subRequirement;
         }
+
+        $parent = $this->pattern($parentCollection, true, $parentKey, $parentRequirement);
 
         return $parent . '/' . $subCollection . ($one ? '/{' . $subKey . $subRequirement . '}' : '');
     }
@@ -167,7 +177,7 @@ class RestRouter
 
         return $this->router->map(
             [$method],
-            $this->subPattern($parentCollection, $subCollection, true, $parentKey, $parentRequirement, $subKey, $subRequirement),
+            $this->subPattern($parentCollection, $subCollection, true, $parentSingular, $subSingular, $parentKey, $parentRequirement, $subKey, $subRequirement),
             $controller . ':' . $method . ucfirst($parentSingular) . ucfirst($subSingular)
         )->setName($method . '_' . $parentSingular . '_' . $subSingular);
     }
@@ -199,7 +209,7 @@ class RestRouter
 
         return $this->router->map(
             [$method],
-            $this->subPattern($parentCollection, $subCollection, false, $parentKey, $parentRequirement),
+            $this->subPattern($parentCollection, $subCollection, false, $parentSingular, null, $parentKey, $parentRequirement),
             $controller . ':get' . ucfirst($parentSingular) . ucfirst($subCollection)
         )->setName('get_' . $parentSingular . '_' . $subCollection);
     }
@@ -363,15 +373,7 @@ class RestRouter
      */
     public function cgetSub($parentCollection, $subCollection, $controller, $parentSingular = null, $parentKey = self::DEFAULT_KEY, $parentRequirement = self::DEFAULT_REQUIREMENT)
     {
-        if (!$parentSingular) {
-            $parentSingular = $this->singular($parentCollection);
-        }
-
-        return $this->router->map(
-            ['GET'],
-            $this->subPattern($parentCollection, $subCollection, false, $parentKey, $parentRequirement),
-            $controller . ':get' . ucfirst($parentSingular) . ucfirst($subCollection)
-        )->setName('get_' . $parentSingular . '_' . $subCollection);
+        return $this->subCollection('GET', $parentCollection, $subCollection, $controller, $parentSingular, $parentKey, $parentRequirement);
     }
 
     /**
@@ -419,7 +421,7 @@ class RestRouter
 
         return $this->router->map(
             ['POST'],
-            $this->subPattern($parentCollection, $subCollection, false, $parentKey, $parentRequirement),
+            $this->subPattern($parentCollection, $subCollection, false, $parentSingular, $subSingular, $parentKey, $parentRequirement),
             $controller . ':post' . ucfirst($parentSingular) . ucfirst($subSingular)
         )->setName('post_' . $parentSingular . '_' . $subSingular);
     }

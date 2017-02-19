@@ -28,13 +28,13 @@ $router->CRUD('articles', 'ArticleController');
 /***********************************************************/
 
 /**
- *                URL                 |                   CONTROLLER                  |        ROUTE
- * -----------------------------------|-----------------------------------------------|------------------------
- * GET /articles/{id}/comments        | ArticleCommentController:getArticleComments   | get_article_comments
- * GET /articles/{id}/comments/{id}   | ArticleCommentController:getArticleComment    | get_article_comment
- * POST /articles/{id}/comments       | ArticleCommentController:postArticleComment   | post_article_comment
- * PUT /articles/{id}/comments/{id}   | ArticleCommentController:putArticleComment    | put_article_comment
- * DELETE /article/{id}/comments/{id} | ArticleCommentController:deleteArticleComment | delete_article_comment
+ *                        URL                         |                   CONTROLLER                  |        ROUTE
+ * ---------------------------------------------------|-----------------------------------------------|------------------------
+ * GET /articles/{article_id}/comments                | ArticleCommentController:getArticleComments   | get_article_comments
+ * GET /articles/{article_id}/comments/{comment_id}   | ArticleCommentController:getArticleComment    | get_article_comment
+ * POST /articles/{article_id}/comments               | ArticleCommentController:postArticleComment   | post_article_comment
+ * PUT /articles/{article_id}/comments/{comment_id}   | ArticleCommentController:putArticleComment    | put_article_comment
+ * DELETE /article/{article_id}/comments/{comment_id} | ArticleCommentController:deleteArticleComment | delete_article_comment
  */
 $router->subCRUD('articles', 'comments', 'ArticleCommentController');
 
