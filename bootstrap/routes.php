@@ -2,7 +2,15 @@
 
 use App\Service\RestRouter;
 
-$router = new RestRouter($container['router'], $config['settings']['rest']);
+$router = new RestRouter($container['router'], $config['rest']);
+
+/**
+ * Authentication
+ */
+$app->group('/api', function () {
+    $this->post('/register', 'AuthController:register')->setName('register');
+    $this->post('/login', 'AuthController:login')->setName('login');
+});
 
 /**
  *         URL          |           CONTROLLER            |     ROUTE
