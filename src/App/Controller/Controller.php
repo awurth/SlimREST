@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Model\User;
 use App\Service\JWTManager;
 use Awurth\Slim\Validation\Validator;
 use Cartalyst\Sentinel\Sentinel;
@@ -29,6 +30,18 @@ class Controller
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
+    }
+
+    /**
+     * Get current authenticated user
+     *
+     * @return User|null
+     */
+    public function getUser()
+    {
+        $token = $this->jwt->getAccessToken();
+
+        return $token ? $token->user : null;
     }
 
     /**
