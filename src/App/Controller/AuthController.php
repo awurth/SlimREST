@@ -76,4 +76,9 @@ class AuthController extends Controller
 
         return $this->validationErrors($response);
     }
+
+    public function me(Request $request, Response $response)
+    {
+        return $this->ok($response, $this->getUser());
+    }
 }
