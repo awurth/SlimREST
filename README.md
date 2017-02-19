@@ -34,7 +34,6 @@ $ php console routes
 ```
 
 # TODO
-- JWT auth
 - FoundHandler (inject response in controller ?)
 - Route builder (manage resources, not routes, configure them (chained methods), ...)
 - RESTful validator
