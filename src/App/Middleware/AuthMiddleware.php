@@ -6,8 +6,13 @@ class AuthMiddleware extends Middleware
 {
     public function __invoke($request, $response, $next)
     {
-        if (!$this->sentinel->check()) {
-            return $response->withRedirect($this->router->pathFor('login'));
+        if (!$this->jwt->getAccessToken()) {
+            return $response
+                ->withStatus(401)
+                ->withJson([
+                    'status' => 401,
+                    'message' => 'Access Denied'
+                ]);
         }
 
         return $next($request, $response);
