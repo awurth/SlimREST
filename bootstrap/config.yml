@@ -1,16 +1,20 @@
-settings:
-    displayErrorDetails: true
+config:
+    settings:
+        displayErrorDetails: true
     rest:
         prefix: /api
         crud:
-            get: true
-            get_collection: true
-            post: true
-            put: true
-            delete: true
+            get:               true
+            get_collection:    true
+            post:              true
+            put:               true
+            delete:            true
             delete_collection: false
     cors:
         origin:  '*'
         headers: '*'
         methods: 'GET,POST,PUT,PATCH,DELETE'
         max_age: 3600
+    jwt:
+        server_name:    localhost
+        token_lifetime: 3600

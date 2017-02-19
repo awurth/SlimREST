@@ -11,7 +11,7 @@ use Slim\Views\Twig;
 /**
  * @property Twig view
  * @property Router router
- * @property Sentinel auth
+ * @property Sentinel sentinel
  */
 class Middleware
 {

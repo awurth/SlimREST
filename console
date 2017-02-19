@@ -7,7 +7,7 @@ use Symfony\Component\Console\Application;
 use App\Command\RoutesCommand;
 
 $config = Symfony\Component\Yaml\Yaml::parse(file_get_contents(__DIR__ . '/bootstrap/config.yml'));
-$app = new Slim\App($config['settings']);
+$app = new Slim\App($config['settings']['slim']);
 
 require __DIR__ . '/bootstrap/dependencies.php';
 

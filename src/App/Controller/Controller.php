@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\JWTManager;
 use Awurth\Slim\Validation\Validator;
 use Cartalyst\Sentinel\Sentinel;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -13,7 +14,8 @@ use Slim\Router;
 /**
  * @property Router router
  * @property Validator validator
- * @property Sentinel auth
+ * @property Sentinel sentinel
+ * @property JWTManager jwt
  */
 class Controller
 {

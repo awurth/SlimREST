@@ -14,10 +14,12 @@ session_start();
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$config = Symfony\Component\Yaml\Yaml::parse(file_get_contents(__DIR__ . '/../bootstrap/config.yml'));
-$app = new Slim\App($config['settings']);
+$config = Symfony\Component\Yaml\Yaml::parse(file_get_contents(__DIR__ . '/../bootstrap/config.yml'))['config'];
+$app = new Slim\App($config);
 
 require __DIR__ . '/../bootstrap/dependencies.php';
+
+require __DIR__ . '/../bootstrap/handlers.php';
 
 require __DIR__ . '/../bootstrap/middleware.php';
 
