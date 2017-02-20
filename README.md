@@ -33,6 +33,12 @@ Execute the following command at the project root to print all routes in your te
 $ php console routes
 ```
 
+### Create users
+``` bash
+$ php console user:create
+```
+Use `--admin` option to set the user as admin
+
 # TODO
 - FoundHandler (inject response in controller ?)
 - Route builder (manage resources, not routes, configure them (chained methods), ...)

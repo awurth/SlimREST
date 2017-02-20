@@ -21,6 +21,9 @@ class RoutesCommand extends Command
         $this->router = $router;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $this
@@ -28,6 +31,9 @@ class RoutesCommand extends Command
             ->setDescription('Display API routes');
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         foreach ($this->router->getRoutes() as $route) {
