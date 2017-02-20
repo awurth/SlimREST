@@ -31,11 +31,13 @@ class RoutesCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         foreach ($this->router->getRoutes() as $route) {
-            $output->writeln('<fg=cyan;options=bold>' . $route->getName() . '</>');
-            $output->writeln('    ' . implode(', ', $route->getMethods()));
-            $output->writeln('    ' . $route->getPattern());
-            $output->writeln('    ' . $route->getCallable());
-            $output->writeln('');
+            if ($route->getName()) {
+                $output->writeln('<fg=cyan;options=bold>' . $route->getName() . '</>');
+                $output->writeln('    ' . implode(', ', $route->getMethods()));
+                $output->writeln('    ' . $route->getPattern());
+                $output->writeln('    ' . $route->getCallable());
+                $output->writeln('');
+            }
         }
 
         return 0;
