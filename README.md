@@ -41,5 +41,4 @@ $ php console routes
 # TODO
 - FoundHandler (inject response in controller ?)
 - Route builder (manage resources, not routes, configure them (chained methods), ...)
-- Database console commands
 - Vagrantfile, Dockerfile
