@@ -8,7 +8,6 @@ This is a skeleton for Slim PHP micro-framework to get started quickly
 - Validation (Respect)
 
 ## Installation
-### 1. Create project
 #### Using composer
 ``` bash
 $ composer create-project awurth/slim-rest-base [app-name]
@@ -21,16 +20,10 @@ $ cd [app-name]
 $ composer install
 ```
 
-### 2. Create tables
-``` bash
-$ php bootstrap/database.php
-```
-
 ## Features
-### Dump routes
-Execute the following command at the project root to print all routes in your terminal
+### Create database
 ``` bash
-$ php console routes
+$ php console db
 ```
 
 ### Create users
@@ -38,6 +31,12 @@ $ php console routes
 $ php console user:create
 ```
 Use `--admin` option to set the user as admin
+
+### Dump routes
+Execute the following command at the project root to print all routes in your terminal
+``` bash
+$ php console routes
+```
 
 # TODO
 - FoundHandler (inject response in controller ?)

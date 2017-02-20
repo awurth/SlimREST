@@ -6,6 +6,7 @@ require __DIR__ . '/vendor/autoload.php';
 use Symfony\Component\Console\Application;
 use App\Command\RoutesCommand;
 use App\Command\CreateUserCommand;
+use App\Command\DatabaseCommand;
 
 $config = Symfony\Component\Yaml\Yaml::parse(file_get_contents(__DIR__ . '/bootstrap/config.yml'))['config'];
 $app = new Slim\App($config);
@@ -22,5 +23,6 @@ $application = new Application();
 
 $application->add(new RoutesCommand($container['router']));
 $application->add(new CreateUserCommand($container));
+$application->add(new DatabaseCommand());
 
 $application->run();
