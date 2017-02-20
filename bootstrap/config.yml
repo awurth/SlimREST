@@ -12,8 +12,8 @@ config:
             delete_collection: false
     cors:
         origin:  '*'
-        headers: '*'
-        methods: 'GET,POST,PUT,PATCH,DELETE'
+        headers: 'X-Requested-With, Content-Type, Accept, Origin, Authorization'
+        methods: 'GET, POST, PUT, PATCH, DELETE'
         max_age: 3600
     jwt:
         server_name:    localhost

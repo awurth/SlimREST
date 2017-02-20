@@ -5,6 +5,13 @@ use App\Service\RestRouter;
 $router = new RestRouter($container['router'], $config['rest']);
 
 /**
+ * CORS Pre-flight request
+ */
+$app->options('/{routes:.+}', function ($request, $response) {
+    return $response;
+});
+
+/**
  * Authentication
  */
 $app->group('/api', function () use ($container) {
