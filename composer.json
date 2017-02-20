@@ -23,7 +23,7 @@
         "cartalyst/sentinel": "^2.0",
         "illuminate/events": "^5.4",
         "symfony/http-foundation": "^3.2",
-        "awurth/slim-validation": "^1.2",
+        "awurth/slim-validation-rest": "^1.0",
         "incenteev/composer-parameter-handler": "^2.1",
         "symfony/console": "^3.2",
         "firebase/php-jwt": "^4.0"

@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Model\User;
 use App\Service\JWTManager;
-use Awurth\Slim\Validation\Validator;
+use Awurth\Slim\Rest\Validation\Validator;
 use Cartalyst\Sentinel\Sentinel;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
