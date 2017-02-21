@@ -1,12 +1,10 @@
 parameters:
-    eloquent:
-        driver: mysql
-        host: localhost
-        database: slim_rest
-        username: root
-        password: ''
-        charset: utf8
-        collation: utf8_general_ci
-        prefix: ''
-    security:
-        secret: ThisTokenIsNotSecretChangeIt
+    driver: mysql
+    host: localhost
+    database: slim_rest
+    username: root
+    password: ''
+    charset: utf8
+    collation: utf8_general_ci
+    prefix: ''
+    secret: ThisTokenIsNotSecretChangeIt

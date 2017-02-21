@@ -12,7 +12,7 @@ $container = $app->getContainer();
 $parameters = Yaml::parse(file_get_contents(__DIR__ . '/parameters.yml'))['parameters'];
 
 $capsule = new Manager();
-$capsule->addConnection($parameters['eloquent']);
+$capsule->addConnection($parameters);
 $capsule->setAsGlobal();
 $capsule->bootEloquent();
 
@@ -23,7 +23,7 @@ $container['sentinel'] = function () {
 };
 
 $container['jwt'] = function () use ($parameters, $config) {
-    return new JWTManager($parameters['security']['secret'], $config['jwt']);
+    return new JWTManager($parameters['secret'], $config['jwt']);
 };
 
 $container['validator'] = function () {
