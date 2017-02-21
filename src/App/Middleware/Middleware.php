@@ -5,6 +5,8 @@ namespace App\Middleware;
 use App\Service\JWTManager;
 use Interop\Container\ContainerInterface;
 use Cartalyst\Sentinel\Sentinel;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Slim\Router;
 
 /**
@@ -12,7 +14,7 @@ use Slim\Router;
  * @property Sentinel sentinel
  * @property JWTManager jwt
  */
-class Middleware
+abstract class Middleware
 {
     /**
      * Slim application container
@@ -25,6 +27,8 @@ class Middleware
     {
         $this->container = $container;
     }
+
+    public abstract function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next);
 
     public function __get($property)
     {

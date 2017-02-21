@@ -18,7 +18,7 @@ use Slim\Router;
  * @property Sentinel sentinel
  * @property JWTManager jwt
  */
-class Controller
+abstract class Controller
 {
     /**
      * Slim application container
