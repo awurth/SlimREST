@@ -8,16 +8,8 @@ This is a skeleton for Slim PHP micro-framework to get started quickly
 - Validation (Respect)
 
 ## Installation
-#### Using composer
 ``` bash
 $ composer create-project awurth/slim-rest-base [app-name]
-```
-
-#### Manual install
-``` bash
-$ git clone https://github.com/awurth/slim-rest-base.git [app-name]
-$ cd [app-name]
-$ composer install
 ```
 
 ## Features
