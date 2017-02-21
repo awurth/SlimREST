@@ -2,6 +2,7 @@ config:
     settings:
         displayErrorDetails: true
     rest:
+        url:    http://localhost/slim-rest-base
         prefix: /api
         crud:
             get:               true

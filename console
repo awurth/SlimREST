@@ -21,7 +21,7 @@ require __DIR__ . '/bootstrap/routes.php';
 
 $application = new Application();
 
-$application->add(new RoutesCommand($container['router']));
+$application->add(new RoutesCommand($container));
 $application->add(new CreateUserCommand($container));
 $application->add(new DatabaseCommand());
 
