@@ -4,9 +4,9 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class AccessToken extends Model
+class RefreshToken extends Model
 {
-    protected $table = 'access_token';
+    protected $table = 'refresh_token';
 
     protected $primaryKey = 'id';
 

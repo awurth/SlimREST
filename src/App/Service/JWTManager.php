@@ -3,12 +3,17 @@
 namespace App\Service;
 
 use App\Model\AccessToken;
+use App\Model\RefreshToken;
+use App\Model\User;
 use Cartalyst\Sentinel\Users\UserInterface;
 use Firebase\JWT\ExpiredException;
 use Firebase\JWT\JWT;
 
 class JWTManager
 {
+    const ACCESS_TOKEN_LIFETIME = 3600;
+    const REFRESH_TOKEN_LIFETIME = 1209600;
+
     /**
      * @var string
      */
@@ -17,7 +22,7 @@ class JWTManager
     /**
      * @var int
      */
-    private $tokenLifetime;
+    private $accessTokenLifetime;
 
     /**
      * @var string
@@ -39,17 +44,18 @@ class JWTManager
     {
         $this->secret = $secret;
 
-        $this->tokenLifetime = isset($config['token_lifetime']) ? $config['token_lifetime'] : 0;
+        $this->accessTokenLifetime = isset($config['access_token_lifetime']) ? $config['access_token_lifetime'] : self::ACCESS_TOKEN_LIFETIME;
+        $this->refreshTokenLifetime = isset($config['refresh_token_lifetime']) ? $config['refresh_token_lifetime'] : self::REFRESH_TOKEN_LIFETIME;
         $this->serverName = isset($config['server_name']) ? $config['server_name'] : '';
     }
 
     /**
-     * Check if access token is valid
+     * Check if Access Token is valid
      *
      * @param string $token
      * @return bool
      */
-    public function checkToken($token)
+    public function checkAccessToken($token)
     {
         $accessToken = AccessToken::with('user')->where('token', $token)->first();
 
@@ -58,9 +64,9 @@ class JWTManager
         }
 
         try {
-            $decoded = (array) JWT::decode($token, $this->secret, ['HS256']);
+            $decoded = JWT::decode($token, $this->secret, ['HS256']);
 
-            if ($decoded['exp'] < time()) {
+            if (!isset($decoded->exp) || $decoded->exp < time()) {
                 return false;
             }
         } catch (ExpiredException $e) {
@@ -73,27 +79,52 @@ class JWTManager
     }
 
     /**
-     * Generate new JSON Web Token
+     * Check if Refresh Token is valid
+     *
+     * @param string $token
+     * @return bool
+     */
+    public function checkRefreshToken($token)
+    {
+        $refreshToken = RefreshToken::where('token', $token)->first();
+
+        if (null === $refreshToken) {
+            return false;
+        }
+
+        try {
+            $decoded = JWT::decode($token, $this->secret, ['HS256']);
+
+            if (!isset($decoded->exp) || $decoded->exp < time()) {
+                return false;
+            }
+        } catch (ExpiredException $e) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Generate new Access Token
      *
      * @param UserInterface $user
      * @param bool $save
      * @return string
      */
-    public function generateToken(UserInterface $user, $save = false)
+    public function generateAccessToken(UserInterface $user, $save = false)
     {
         $time = time();
+        $expiresAt = $time + $this->accessTokenLifetime;
 
         $payload = [
             'iat' => $time,
+            'exp' => $expiresAt,
             'data' => [
                 'userId' => $user->id,
                 'userName' => $user->username
             ]
         ];
-
-        if ($this->tokenLifetime) {
-            $payload['exp'] = $time + $this->tokenLifetime;
-        }
 
         if ($this->serverName) {
             $payload['iss'] = $this->serverName;
@@ -103,7 +134,8 @@ class JWTManager
 
         if ($save) {
             $accessToken = new AccessToken([
-                'token' => $token
+                'token' => $token,
+                'expires_at' => $expiresAt
             ]);
 
             $accessToken->user()->associate($user);
@@ -114,13 +146,83 @@ class JWTManager
     }
 
     /**
-     * Get token lifetime
+     * Generate new Refresh Token
+     *
+     * @param UserInterface $user
+     * @param bool $save
+     * @return string
+     */
+    public function generateRefreshToken(UserInterface $user, $save = false)
+    {
+        $time = time();
+        $expiresAt = $time + $this->refreshTokenLifetime;
+
+        $payload = [
+            'iat' => $time,
+            'exp' => $expiresAt,
+            'data' => [
+                'type' => 'refresh',
+                'userId' => $user->id,
+                'userName' => $user->username
+            ]
+        ];
+
+        if ($this->serverName) {
+            $payload['iss'] = $this->serverName;
+        }
+
+        $token = JWT::encode($payload, $this->secret);
+
+        if ($save) {
+            $refreshToken = new RefreshToken([
+                'token' => $token,
+                'expires_at' => $expiresAt
+            ]);
+
+            $refreshToken->user()->associate($user);
+            $refreshToken->save();
+        }
+
+        return $token;
+    }
+
+    /**
+     * Get Token User
+     *
+     * @param string $token
+     * @return User
+     */
+    public function getTokenUser($token) {
+        try {
+            $decoded = JWT::decode($token, $this->secret, ['HS256']);
+
+            if (isset($decoded->data->userId)) {
+                return User::find($decoded->data->userId);
+            }
+        } catch (ExpiredException $e) {
+        }
+
+        return null;
+    }
+
+    /**
+     * Get Access Token lifetime
      *
      * @return int
      */
-    public function getTokenLifetime()
+    public function getAccessTokenLifetime()
     {
-        return $this->tokenLifetime;
+        return $this->accessTokenLifetime;
+    }
+
+    /**
+     * Get Refresh Token lifetime
+     *
+     * @return int
+     */
+    public function getRefreshTokenLifetime()
+    {
+        return $this->refreshTokenLifetime;
     }
 
     /**
