@@ -7,7 +7,7 @@ use Slim\Handlers\Strategies\RequestResponseArgs;
  */
 $container['notFoundHandler'] = function ($container) {
     return function ($request, $response) use ($container) {
-        return $container['response']
+        return $response
             ->withStatus(404)
             ->withJson([
                 'status' => 404,
@@ -21,7 +21,7 @@ $container['notFoundHandler'] = function ($container) {
  */
 $container['notAllowedHandler'] = function ($container) {
     return function ($request, $response, $methods) use ($container) {
-        return $container['response']
+        return $response
             ->withStatus(405)
             ->withHeader('Allow', implode(', ', $methods))
             ->withJson([
@@ -43,7 +43,7 @@ $container['errorHandler'] = function ($container) use ($config) {
             $message['message'] = get_class($exception) . ': ' . $exception->getMessage();
         }
 
-        return $container['response']
+        return $response
             ->withStatus(500)
             ->withJson($message);
     };
@@ -61,7 +61,7 @@ $container['phpErrorHandler'] = function ($container) use ($config) {
             $message['message'] = get_class($error) . ': ' . $error->getMessage();
         }
 
-        return $container['response']
+        return $response
             ->withStatus(500)
             ->withJson($message);
     };
