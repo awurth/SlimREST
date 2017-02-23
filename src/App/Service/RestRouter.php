@@ -230,27 +230,27 @@ class RestRouter
         $routes = [];
 
         if ($this->CRUDMethods['get']) {
-            $routes[] = $this->get($collection, $controller, $singular, $key, $requirement);
+            $routes['get'] = $this->get($collection, $controller, $singular, $key, $requirement);
         }
 
         if ($this->CRUDMethods['get_collection']) {
-            $routes[] = $this->cget($collection, $controller);
+            $routes['cget'] = $this->cget($collection, $controller);
         }
 
         if ($this->CRUDMethods['post']) {
-            $routes[] = $this->post($collection, $controller, $singular);
+            $routes['post'] = $this->post($collection, $controller, $singular);
         }
 
         if ($this->CRUDMethods['put']) {
-            $routes[] = $this->put($collection, $controller, $singular, $key, $requirement);
+            $routes['put'] = $this->put($collection, $controller, $singular, $key, $requirement);
         }
 
         if ($this->CRUDMethods['delete']) {
-            $routes[] = $this->delete($collection, $controller, $singular, $key, $requirement);
+            $routes['delete'] = $this->delete($collection, $controller, $singular, $key, $requirement);
         }
 
         if ($this->CRUDMethods['delete_collection']) {
-            $routes[] = $this->cdelete($collection, $controller);
+            $routes['cdelete'] = $this->cdelete($collection, $controller);
         }
 
         foreach ($routes as $route) {
@@ -282,27 +282,27 @@ class RestRouter
         $routes = [];
 
         if ($this->CRUDMethods['get']) {
-            $routes[] = $this->getSub($parentCollection, $subCollection, $controller, $parentSingular, $subSingular, $parentKey, $parentRequirement, $subKey, $subRequirement);
+            $routes['get'] = $this->getSub($parentCollection, $subCollection, $controller, $parentSingular, $subSingular, $parentKey, $parentRequirement, $subKey, $subRequirement);
         }
 
         if ($this->CRUDMethods['get_collection']) {
-            $routes[] = $this->cgetSub($parentCollection, $subCollection, $controller, $parentSingular, $parentKey, $parentRequirement);
+            $routes['cget'] = $this->cgetSub($parentCollection, $subCollection, $controller, $parentSingular, $parentKey, $parentRequirement);
         }
 
         if ($this->CRUDMethods['post']) {
-            $routes[] = $this->postSub($parentCollection, $subCollection, $controller, $parentSingular, $subSingular, $parentKey, $parentRequirement);
+            $routes['post'] = $this->postSub($parentCollection, $subCollection, $controller, $parentSingular, $subSingular, $parentKey, $parentRequirement);
         }
 
         if ($this->CRUDMethods['put']) {
-            $routes[] = $this->putSub($parentCollection, $subCollection, $controller, $parentSingular, $subSingular, $parentKey, $parentRequirement, $subKey, $subRequirement);
+            $routes['put'] = $this->putSub($parentCollection, $subCollection, $controller, $parentSingular, $subSingular, $parentKey, $parentRequirement, $subKey, $subRequirement);
         }
 
         if ($this->CRUDMethods['delete']) {
-            $routes[] = $this->deleteSub($parentCollection, $subCollection, $controller, $parentSingular, $subSingular, $parentKey, $parentRequirement, $subKey, $subRequirement);
+            $routes['delete'] = $this->deleteSub($parentCollection, $subCollection, $controller, $parentSingular, $subSingular, $parentKey, $parentRequirement, $subKey, $subRequirement);
         }
 
         if ($this->CRUDMethods['delete_collection']) {
-            $routes[] = $this->cdeleteSub($parentCollection, $subCollection, $controller, $parentSingular, $parentKey, $parentRequirement);
+            $routes['cdelete'] = $this->cdeleteSub($parentCollection, $subCollection, $controller, $parentSingular, $parentKey, $parentRequirement);
         }
 
         foreach ($routes as $route) {
