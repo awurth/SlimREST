@@ -11,7 +11,7 @@ class JWTMiddleware extends Middleware
     {
         if ($request->hasHeader('Authorization')) {
             $header = $request->getHeader('Authorization');
-            $this->jwt->checkToken(substr($header[0], 7));
+            $this->jwt->checkAccessToken(substr($header[0], 7));
         }
 
         return $next($request, $response);

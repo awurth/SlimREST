@@ -18,4 +18,5 @@ config:
         max_age: 3600
     jwt:
         server_name:    localhost
-        token_lifetime: 3600
+        access_token_lifetime: 3600
+        refresh_token_lifetime: 1209600

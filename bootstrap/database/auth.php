@@ -7,15 +7,6 @@ use Cartalyst\Sentinel\Native\SentinelBootstrapper;
 
 $sentinel = (new Sentinel(new SentinelBootstrapper(__DIR__ . '/../sentinel.php')))->getSentinel();
 
-Manager::schema()->dropIfExists('activations');
-Manager::schema()->dropIfExists('persistences');
-Manager::schema()->dropIfExists('reminders');
-Manager::schema()->dropIfExists('role_users');
-Manager::schema()->dropIfExists('throttle');
-Manager::schema()->dropIfExists('roles');
-Manager::schema()->dropIfExists('access_token');
-Manager::schema()->dropIfExists('user');
-
 Manager::schema()->create('user', function (Blueprint $table) {
     $table->increments('id');
     $table->string('username')->unique();
@@ -32,6 +23,15 @@ Manager::schema()->create('access_token', function (Blueprint $table) {
     $table->increments('id');
     $table->integer('user_id')->unsigned();
     $table->string('token')->unique();
+    $table->integer('expires_at')->unsigned();
+    $table->foreign('user_id')->references('id')->on('user');
+});
+
+Manager::schema()->create('refresh_token', function (Blueprint $table) {
+    $table->increments('id');
+    $table->integer('user_id')->unsigned();
+    $table->string('token')->unique();
+    $table->integer('expires_at')->unsigned();
     $table->foreign('user_id')->references('id')->on('user');
 });
 
