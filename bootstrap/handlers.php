@@ -1,6 +1,7 @@
 <?php
 
 use Slim\Handlers\Strategies\RequestResponseArgs;
+use Slim\Exception\NotFoundException;
 
 /**
  * Return error in JSON if when a NotFoundException is thrown
@@ -21,12 +22,18 @@ $container['notFoundHandler'] = function ($container) {
  */
 $container['notAllowedHandler'] = function ($container) {
     return function ($request, $response, $methods) use ($container) {
+        $allowedMethods = implode(', ', $methods);
+
+        if ($allowedMethods === 'OPTIONS') {
+            throw new NotFoundException($request, $response);
+        }
+
         return $response
             ->withStatus(405)
-            ->withHeader('Allow', implode(', ', $methods))
+            ->withHeader('Allow', $allowedMethods)
             ->withJson([
                 'status' => 405,
-                'message' => 'Method must be one of: ' . implode(', ', $methods)
+                'message' => 'Method must be one of: ' . $allowedMethods
             ]);
     };
 };
