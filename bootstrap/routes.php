@@ -2,6 +2,8 @@
 
 use App\Service\RestRouter;
 
+use App\Middleware\AuthMiddleware;
+
 $router = new RestRouter($container['router'], $config['rest']);
 
 /**
@@ -18,7 +20,7 @@ $app->group('/api', function () use ($container) {
     $this->post('/register', 'AuthController:register')->setName('register');
     $this->post('/login', 'AuthController:login')->setName('login');
     $this->get('/users/me', 'AuthController:me')
-        ->add(new App\Middleware\AuthMiddleware($container))
+        ->add(new AuthMiddleware($container))
         ->setName('users.me');
 });
 
