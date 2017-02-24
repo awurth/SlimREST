@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Exception\AccessDeniedException;
 use App\Model\User;
 use App\Service\JWTManager;
 use Awurth\Slim\Rest\Validation\Validator;
@@ -180,6 +181,17 @@ abstract class Controller
     public function notFoundException(Request $request, Response $response)
     {
         return new NotFoundException($request, $response);
+    }
+
+    /**
+     * Create new AccessDeniedException
+     *
+     * @param string $message
+     * @return AccessDeniedException
+     */
+    public function accessDeniedException($message = "Access denied")
+    {
+        return new AccessDeniedException($message);
     }
 
     public function __get($property)

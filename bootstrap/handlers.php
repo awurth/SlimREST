@@ -2,9 +2,10 @@
 
 use Slim\Handlers\Strategies\RequestResponseArgs;
 use Slim\Exception\NotFoundException;
+use App\Exception\AccessDeniedException;
 
 /**
- * Return error in JSON if when a NotFoundException is thrown
+ * Return error in JSON when a NotFoundException is thrown
  */
 $container['notFoundHandler'] = function ($container) {
     return function ($request, $response) use ($container) {
@@ -38,8 +39,26 @@ $container['notAllowedHandler'] = function ($container) {
     };
 };
 
+/**
+ * Return error in JSON when an AccessDeniedException is thrown
+ */
+$container['accessDeniedHandler'] = function ($container) {
+    return function ($request, $response, $exception) use ($container) {
+        return $response
+            ->withStatus(403)
+            ->withJson($exception->getMessage());
+    };
+};
+
+/**
+ * Default Slim error handler
+ */
 $container['errorHandler'] = function ($container) use ($config) {
     return function ($request, $response, $exception) use ($container, $config) {
+        if ($exception instanceof AccessDeniedException) {
+            return $container['accessDeniedHandler']($request, $response, $exception);
+        }
+
         $message = [
             'status' => 500,
             'message' => 'Internal Server Error'
@@ -56,6 +75,9 @@ $container['errorHandler'] = function ($container) use ($config) {
     };
 };
 
+/**
+ * PHP error handler
+ */
 $container['phpErrorHandler'] = function ($container) use ($config) {
     return function ($request, $response, $error) use ($container, $config) {
         $message = [
