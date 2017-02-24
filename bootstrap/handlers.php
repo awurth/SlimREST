@@ -46,7 +46,10 @@ $container['accessDeniedHandler'] = function ($container) {
     return function ($request, $response, $exception) use ($container) {
         return $response
             ->withStatus(403)
-            ->withJson($exception->getMessage());
+            ->withJson([
+                'status' => 403,
+                'message' => $exception->getMessage()
+            ]);
     };
 };
 
