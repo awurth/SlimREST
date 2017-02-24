@@ -46,6 +46,21 @@ abstract class Controller
     }
 
     /**
+     * Throw an AccessDeniedException if user doesn't have the required role
+     *
+     * @param string $role
+     * @throws AccessDeniedException
+     */
+    public function requireRole($role)
+    {
+        $user = $this->getUser();
+
+        if (null === $user || !$user->inRole($role)) {
+            throw $this->accessDeniedException('Access denied: User must have role ' . $role);
+        }
+    }
+
+    /**
      * Stop the script and print info about a variable
      *
      * @param mixed $data
