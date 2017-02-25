@@ -44,6 +44,22 @@ $router->CRUD('articles', 'ArticleController');
 // $router->put('articles', 'ArticleController');
 // $router->delete('articles', 'ArticleController');
 
+// With options
+/**
+ * $options = [
+ *      'key' => 'id',
+ *      'requirement' => '[0-9]+',
+ *      'singular' => 'article'
+ * ];
+ *
+ * $router->CRUD('articles', 'ArticleController', [], $options);
+ *
+ * OR
+ *
+ * $router->get('articles', 'ArticleController', $options);
+ * ...
+ */
+
 /***********************************************************/
 /* -------------------- SUB RESOURCES -------------------- */
 /***********************************************************/
@@ -66,3 +82,22 @@ $router->subCRUD('articles', 'comments', 'ArticleCommentController');
 // $router->postSub('articles', 'comments', 'ArticleController');
 // $router->putSub('articles', 'comments', 'ArticleController');
 // $router->deleteSub('articles', 'comments', 'ArticleController');
+
+// With options
+/**
+ * $options = [
+ *      'parent_key' => 'article_id',
+ *      'parent_requirement' => '[0-9]+',
+ *      'sub_key' => 'comment_id',
+ *      'sub_requirement' => '[0-9]+',
+ *      'parent_singular' => 'article',
+ *      'sub_singular' => 'comment'
+ * ];
+ *
+ * $router->subCRUD('articles', 'comments', 'ArticleCommentController', [], $options);
+ *
+ * OR
+ *
+ * $router->getSub('articles', 'comments', 'ArticleController', $options);
+ * ...
+ */

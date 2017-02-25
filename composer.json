@@ -17,6 +17,7 @@
         }
     },
     "require": {
+        "php": ">=7.0.0",
         "slim/slim": "^3.7",
         "illuminate/database": "^5.4",
         "respect/validation": "^1.1",

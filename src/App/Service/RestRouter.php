@@ -21,6 +21,16 @@ class RestRouter
     protected $prefix;
 
     /**
+     * @var string
+     */
+    protected $key;
+
+    /**
+     * @var string
+     */
+    protected $requirement;
+
+    /**
      * @var array
      */
     protected $CRUDMethods;
@@ -28,15 +38,18 @@ class RestRouter
     public function __construct(RouterInterface $router, $config = [])
     {
         $this->router = $router;
-        $this->prefix = isset($config['prefix']) ? $config['prefix'] : '';
+
+        $this->prefix = $config['prefix'] ?? '';
+        $this->key = $config['key'] ?? self::DEFAULT_KEY;
+        $this->requirement = $config['requirement'] ?? self::DEFAULT_REQUIREMENT;
 
         $this->CRUDMethods = [
-            'get' => isset($config['crud']['get']) ? $config['crud']['get'] : true,
-            'get_collection' => isset($config['crud']['get_collection']) ? $config['crud']['get_collection'] : true,
-            'post' => isset($config['crud']['post']) ? $config['crud']['post'] : true,
-            'put' => isset($config['crud']['put']) ? $config['crud']['put'] : true,
-            'delete' => isset($config['crud']['delete']) ? $config['crud']['delete'] : true,
-            'delete_collection' => isset($config['crud']['delete_collection']) ? $config['crud']['delete_collection'] : false
+            'get' => $config['crud']['get'] ?? true,
+            'get_collection' => $config['crud']['get_collection'] ?? true,
+            'post' => $config['crud']['post'] ?? true,
+            'put' => $config['crud']['put'] ?? true,
+            'delete' => $config['crud']['delete'] ?? true,
+            'delete_collection' => $config['crud']['delete_collection'] ?? false
         ];
     }
 
@@ -45,12 +58,14 @@ class RestRouter
      *
      * @param string $collection
      * @param bool $one
-     * @param string $key
-     * @param string $requirement
+     * @param array $options
      * @return string
      */
-    public function pattern($collection, $one = true, $key = self::DEFAULT_KEY, $requirement = self::DEFAULT_REQUIREMENT)
+    public function pattern($collection, $one = true, array $options = [])
     {
+        $key = $options['key'] ?? $this->key;
+        $requirement = $options['requirement'] ?? $this->requirement;
+
         if ($requirement) {
             $requirement = ':' . $requirement;
         }
@@ -64,42 +79,30 @@ class RestRouter
      * @param string $parentCollection
      * @param string $subCollection
      * @param bool $one
-     * @param string $parentSingular
-     * @param string $subSingular
-     * @param string $parentKey
-     * @param string $parentRequirement
-     * @param string $subKey
-     * @param string $subRequirement
+     * @param array $options
      * @return string
      */
-    public function subPattern($parentCollection, $subCollection, $one = true, $parentSingular = null, $subSingular = null, $parentKey = self::DEFAULT_KEY, $parentRequirement = self::DEFAULT_REQUIREMENT, $subKey = self::DEFAULT_KEY, $subRequirement = self::DEFAULT_REQUIREMENT)
+    public function subPattern($parentCollection, $subCollection, $one = true, array $options = [])
     {
-        if ($parentKey === self::DEFAULT_KEY) {
-            $parentKey = $parentSingular ? $parentSingular . '_' . $parentKey : $this->singular($parentCollection) . '_' . $parentKey;
-        }
+        $parentSingular = $options['parent_singular'] ?? $this->singular($parentCollection);
+        $subSingular = $options['sub_singular'] ?? $this->singular($subCollection);
 
-        if ($subKey === self::DEFAULT_KEY) {
-            $subKey = $subSingular ? $subSingular . '_' . $subKey : $this->singular($subCollection) . '_' . $subKey;
-        }
+        $parentKey = $options['parent_key'] ?? $parentSingular . '_' . $this->key;
+        $subKey = $options['sub_key'] ?? $subSingular . '_' . $this->key;
+
+        $parentRequirement = $options['parent_requirement'] ?? $this->requirement;
+        $subRequirement = $options['sub_requirement'] ?? $this->requirement;
 
         if ($subRequirement) {
             $subRequirement = ':' . $subRequirement;
         }
 
-        $parent = $this->pattern($parentCollection, true, $parentKey, $parentRequirement);
+        $parent = $this->pattern($parentCollection, true, [
+            'key' => $parentKey,
+            'requirement' => $parentRequirement
+        ]);
 
         return $parent . '/' . $subCollection . ($one ? '/{' . $subKey . $subRequirement . '}' : '');
-    }
-
-    /**
-     * Get a resource name's singular (removes last character)
-     *
-     * @param string $collection
-     * @return string
-     */
-    public function singular($collection)
-    {
-        return substr($collection, 0, -1);
     }
 
     /**
@@ -108,30 +111,26 @@ class RestRouter
      * @param string $method
      * @param string $collection
      * @param string $controller
-     * @param string $singular
-     * @param string $key
-     * @param string $requirement
+     * @param array $options
      * @return RouteInterface
      */
-    public function one($method, $collection, $controller, $singular = null, $key = self::DEFAULT_KEY, $requirement = self::DEFAULT_REQUIREMENT)
+    public function one($method, $collection, $controller, array $options = [])
     {
         if (!$method) {
             throw new \InvalidArgumentException('The method is required');
         }
 
+        $singular = $options['singular'] ?? $this->singular($collection);
+
         if ($collection === $singular) {
             throw new \InvalidArgumentException('The collection name and its singular must be different');
-        }
-
-        if (!$singular) {
-            $singular = $this->singular($collection);
         }
 
         $method = strtolower($method);
 
         return $this->router->map(
             [$method],
-            $this->pattern($collection, true, $key, $requirement),
+            $this->pattern($collection, true, $options),
             $controller . ':' . $method . ucfirst($singular)
         )->setName($method . '_' . $singular);
     }
@@ -143,19 +142,17 @@ class RestRouter
      * @param string $parentCollection
      * @param string $subCollection
      * @param string $controller
-     * @param string $parentSingular
-     * @param string $subSingular
-     * @param string $parentKey
-     * @param string $parentRequirement
-     * @param string $subKey
-     * @param string $subRequirement
+     * @param array $options
      * @return RouteInterface
      */
-    public function subOne($method, $parentCollection, $subCollection, $controller, $parentSingular = null, $subSingular = null, $parentKey = self::DEFAULT_KEY, $parentRequirement = self::DEFAULT_REQUIREMENT, $subKey = self::DEFAULT_KEY, $subRequirement = self::DEFAULT_REQUIREMENT)
+    public function subOne($method, $parentCollection, $subCollection, $controller, array $options = [])
     {
         if (!$method) {
             throw new \InvalidArgumentException('The method is required');
         }
+
+        $parentSingular = $options['parent_singular'] ?? $this->singular($parentCollection);
+        $subSingular = $options['sub_singular'] ?? $this->singular($subCollection);
 
         if ($parentCollection === $parentSingular) {
             throw new \InvalidArgumentException('The parent collection name and its singular must be different');
@@ -165,19 +162,11 @@ class RestRouter
             throw new \InvalidArgumentException('The sub collection name and its singular must be different');
         }
 
-        if (!$parentSingular) {
-            $parentSingular = $this->singular($parentCollection);
-        }
-
-        if (!$subSingular) {
-            $subSingular = $this->singular($subCollection);
-        }
-
         $method = strtolower($method);
 
         return $this->router->map(
             [$method],
-            $this->subPattern($parentCollection, $subCollection, true, $parentSingular, $subSingular, $parentKey, $parentRequirement, $subKey, $subRequirement),
+            $this->subPattern($parentCollection, $subCollection, true, $options),
             $controller . ':' . $method . ucfirst($parentSingular) . ucfirst($subSingular)
         )->setName($method . '_' . $parentSingular . '_' . $subSingular);
     }
@@ -201,15 +190,23 @@ class RestRouter
         )->setName($method . '_' . $collection);
     }
 
-    public function subCollection($method, $parentCollection, $subCollection, $controller, $parentSingular = null, $parentKey = self::DEFAULT_KEY, $parentRequirement = self::DEFAULT_REQUIREMENT)
+    /**
+     * Generate a route for a sub collection
+     *
+     * @param string $method
+     * @param string $parentCollection
+     * @param string $subCollection
+     * @param string $controller
+     * @param array $options
+     * @return RouteInterface
+     */
+    public function subCollection($method, $parentCollection, $subCollection, $controller, array $options = [])
     {
-        if (!$parentSingular) {
-            $parentSingular = $this->singular($parentCollection);
-        }
+        $parentSingular = $options['parent_singular'] ?? $this->singular($parentCollection);
 
         return $this->router->map(
             [$method],
-            $this->subPattern($parentCollection, $subCollection, false, $parentSingular, null, $parentKey, $parentRequirement),
+            $this->subPattern($parentCollection, $subCollection, false, $options),
             $controller . ':get' . ucfirst($parentSingular) . ucfirst($subCollection)
         )->setName('get_' . $parentSingular . '_' . $subCollection);
     }
@@ -219,18 +216,16 @@ class RestRouter
      *
      * @param string $collection
      * @param string $controller
-     * @param string $singular
      * @param array $middleware
-     * @param string $key
-     * @param string $requirement
+     * @param array $options
      * @return RouteInterface[]
      */
-    public function CRUD($collection, $controller, $singular = null, array $middleware = [], $key = self::DEFAULT_KEY, $requirement = self::DEFAULT_REQUIREMENT)
+    public function CRUD($collection, $controller, array $middleware = [], array $options = [])
     {
         $routes = [];
 
         if ($this->CRUDMethods['get']) {
-            $routes['get'] = $this->get($collection, $controller, $singular, $key, $requirement);
+            $routes['get'] = $this->get($collection, $controller, $options);
         }
 
         if ($this->CRUDMethods['get_collection']) {
@@ -238,24 +233,26 @@ class RestRouter
         }
 
         if ($this->CRUDMethods['post']) {
-            $routes['post'] = $this->post($collection, $controller, $singular);
+            $routes['post'] = $this->post($collection, $controller, $options['singular'] ?? '');
         }
 
         if ($this->CRUDMethods['put']) {
-            $routes['put'] = $this->put($collection, $controller, $singular, $key, $requirement);
+            $routes['put'] = $this->put($collection, $controller, $options);
         }
 
         if ($this->CRUDMethods['delete']) {
-            $routes['delete'] = $this->delete($collection, $controller, $singular, $key, $requirement);
+            $routes['delete'] = $this->delete($collection, $controller, $options);
         }
 
         if ($this->CRUDMethods['delete_collection']) {
             $routes['cdelete'] = $this->cdelete($collection, $controller);
         }
 
-        foreach ($routes as $route) {
-            foreach ($middleware as $m) {
-                $route->add($m);
+        if (!empty($middleware)) {
+            foreach ($routes as $route) {
+                foreach ($middleware as $m) {
+                    $route->add($m);
+                }
             }
         }
 
@@ -268,46 +265,43 @@ class RestRouter
      * @param string $parentCollection
      * @param string $subCollection
      * @param string $controller
-     * @param string $parentSingular
-     * @param string $subSingular
      * @param array $middleware
-     * @param string $parentKey
-     * @param string $parentRequirement
-     * @param string $subKey
-     * @param string $subRequirement
+     * @param array $options
      * @return RouteInterface[]
      */
-    public function subCRUD($parentCollection, $subCollection, $controller, $parentSingular = null, $subSingular = null, array $middleware = [], $parentKey = self::DEFAULT_KEY, $parentRequirement = self::DEFAULT_REQUIREMENT, $subKey = self::DEFAULT_KEY, $subRequirement = self::DEFAULT_REQUIREMENT)
+    public function subCRUD($parentCollection, $subCollection, $controller, array $middleware = [], array $options = [])
     {
         $routes = [];
 
         if ($this->CRUDMethods['get']) {
-            $routes['get'] = $this->getSub($parentCollection, $subCollection, $controller, $parentSingular, $subSingular, $parentKey, $parentRequirement, $subKey, $subRequirement);
+            $routes['get'] = $this->getSub($parentCollection, $subCollection, $controller, $options);
         }
 
         if ($this->CRUDMethods['get_collection']) {
-            $routes['cget'] = $this->cgetSub($parentCollection, $subCollection, $controller, $parentSingular, $parentKey, $parentRequirement);
+            $routes['cget'] = $this->cgetSub($parentCollection, $subCollection, $controller, $options);
         }
 
         if ($this->CRUDMethods['post']) {
-            $routes['post'] = $this->postSub($parentCollection, $subCollection, $controller, $parentSingular, $subSingular, $parentKey, $parentRequirement);
+            $routes['post'] = $this->postSub($parentCollection, $subCollection, $controller, $options);
         }
 
         if ($this->CRUDMethods['put']) {
-            $routes['put'] = $this->putSub($parentCollection, $subCollection, $controller, $parentSingular, $subSingular, $parentKey, $parentRequirement, $subKey, $subRequirement);
+            $routes['put'] = $this->putSub($parentCollection, $subCollection, $controller, $options);
         }
 
         if ($this->CRUDMethods['delete']) {
-            $routes['delete'] = $this->deleteSub($parentCollection, $subCollection, $controller, $parentSingular, $subSingular, $parentKey, $parentRequirement, $subKey, $subRequirement);
+            $routes['delete'] = $this->deleteSub($parentCollection, $subCollection, $controller, $options);
         }
 
         if ($this->CRUDMethods['delete_collection']) {
-            $routes['cdelete'] = $this->cdeleteSub($parentCollection, $subCollection, $controller, $parentSingular, $parentKey, $parentRequirement);
+            $routes['cdelete'] = $this->cdeleteSub($parentCollection, $subCollection, $controller, $options);
         }
 
-        foreach ($routes as $route) {
-            foreach ($middleware as $m) {
-                $route->add($m);
+        if (!empty($middleware)) {
+            foreach ($routes as $route) {
+                foreach ($middleware as $m) {
+                    $route->add($m);
+                }
             }
         }
 
@@ -319,14 +313,12 @@ class RestRouter
      *
      * @param string $collection
      * @param string $controller
-     * @param string $singular
-     * @param string $key
-     * @param string $requirement
+     * @param array $options
      * @return RouteInterface
      */
-    public function get($collection, $controller, $singular = null, $key = self::DEFAULT_KEY, $requirement = self::DEFAULT_REQUIREMENT)
+    public function get($collection, $controller, array $options = [])
     {
-        return $this->one('GET', $collection, $controller, $singular, $key, $requirement);
+        return $this->one('GET', $collection, $controller, $options);
     }
 
     /**
@@ -335,17 +327,12 @@ class RestRouter
      * @param string $parentCollection
      * @param string $subCollection
      * @param string $controller
-     * @param string $parentSingular
-     * @param string $subSingular
-     * @param string $parentKey
-     * @param string $parentRequirement
-     * @param string $subKey
-     * @param string $subRequirement
+     * @param array $options
      * @return RouteInterface
      */
-    public function getSub($parentCollection, $subCollection, $controller, $parentSingular = null, $subSingular = null, $parentKey = self::DEFAULT_KEY, $parentRequirement = self::DEFAULT_REQUIREMENT, $subKey = self::DEFAULT_KEY, $subRequirement = self::DEFAULT_REQUIREMENT)
+    public function getSub($parentCollection, $subCollection, $controller, array $options = [])
     {
-        return $this->subOne('GET', $parentCollection, $subCollection, $controller, $parentSingular, $subSingular, $parentKey, $parentRequirement, $subKey, $subRequirement);
+        return $this->subOne('GET', $parentCollection, $subCollection, $controller, $options);
     }
 
     /**
@@ -366,14 +353,12 @@ class RestRouter
      * @param string $parentCollection
      * @param string $subCollection
      * @param string $controller
-     * @param string $parentSingular
-     * @param string $parentKey
-     * @param string $parentRequirement
+     * @param array $options
      * @return RouteInterface
      */
-    public function cgetSub($parentCollection, $subCollection, $controller, $parentSingular = null, $parentKey = self::DEFAULT_KEY, $parentRequirement = self::DEFAULT_REQUIREMENT)
+    public function cgetSub($parentCollection, $subCollection, $controller, array $options = [])
     {
-        return $this->subCollection('GET', $parentCollection, $subCollection, $controller, $parentSingular, $parentKey, $parentRequirement);
+        return $this->subCollection('GET', $parentCollection, $subCollection, $controller, $options);
     }
 
     /**
@@ -384,7 +369,7 @@ class RestRouter
      * @param string $singular
      * @return RouteInterface
      */
-    public function post($collection, $controller, $singular = null)
+    public function post($collection, $controller, $singular = '')
     {
         if (!$singular) {
             $singular = $this->singular($collection);
@@ -403,25 +388,17 @@ class RestRouter
      * @param string $parentCollection
      * @param string $subCollection
      * @param string $controller
-     * @param string $parentSingular
-     * @param string $subSingular
-     * @param string $parentKey
-     * @param string $parentRequirement
+     * @param array $options
      * @return RouteInterface
      */
-    public function postSub($parentCollection, $subCollection, $controller, $parentSingular = null, $subSingular = null, $parentKey = self::DEFAULT_KEY, $parentRequirement = self::DEFAULT_REQUIREMENT)
+    public function postSub($parentCollection, $subCollection, $controller, array $options = [])
     {
-        if (!$parentSingular) {
-            $parentSingular = $this->singular($parentCollection);
-        }
-
-        if (!$subSingular) {
-            $subSingular = $this->singular($subCollection);
-        }
+        $parentSingular = $options['parent_singular'] ?? $this->singular($parentCollection);
+        $subSingular = $options['sub_singular'] ?? $this->singular($subCollection);
 
         return $this->router->map(
             ['POST'],
-            $this->subPattern($parentCollection, $subCollection, false, $parentSingular, $subSingular, $parentKey, $parentRequirement),
+            $this->subPattern($parentCollection, $subCollection, false, $options),
             $controller . ':post' . ucfirst($parentSingular) . ucfirst($subSingular)
         )->setName('post_' . $parentSingular . '_' . $subSingular);
     }
@@ -431,14 +408,12 @@ class RestRouter
      *
      * @param string $collection
      * @param string $controller
-     * @param string $singular
-     * @param string $key
-     * @param string $requirement
+     * @param array $options
      * @return RouteInterface
      */
-    public function put($collection, $controller, $singular = null, $key = self::DEFAULT_KEY, $requirement = self::DEFAULT_REQUIREMENT)
+    public function put($collection, $controller, array $options = [])
     {
-        return $this->one('PUT', $collection, $controller, $singular, $key, $requirement);
+        return $this->one('PUT', $collection, $controller, $options);
     }
 
     /**
@@ -447,17 +422,12 @@ class RestRouter
      * @param string $parentCollection
      * @param string $subCollection
      * @param string $controller
-     * @param string $parentSingular
-     * @param string $subSingular
-     * @param string $parentKey
-     * @param string $parentRequirement
-     * @param string $subKey
-     * @param string $subRequirement
+     * @param array $options
      * @return RouteInterface
      */
-    public function putSub($parentCollection, $subCollection, $controller, $parentSingular = null, $subSingular = null, $parentKey = self::DEFAULT_KEY, $parentRequirement = self::DEFAULT_REQUIREMENT, $subKey = self::DEFAULT_KEY, $subRequirement = self::DEFAULT_REQUIREMENT)
+    public function putSub($parentCollection, $subCollection, $controller, array $options = [])
     {
-        return $this->subOne('PUT', $parentCollection, $subCollection, $controller, $parentSingular, $subSingular, $parentKey, $parentRequirement, $subKey, $subRequirement);
+        return $this->subOne('PUT', $parentCollection, $subCollection, $controller, $options);
     }
 
     /**
@@ -465,14 +435,12 @@ class RestRouter
      *
      * @param string $collection
      * @param string $controller
-     * @param string $singular
-     * @param string $key
-     * @param string $requirement
+     * @param array $options
      * @return RouteInterface
      */
-    public function delete($collection, $controller, $singular = null, $key = self::DEFAULT_KEY, $requirement = self::DEFAULT_REQUIREMENT)
+    public function delete($collection, $controller, array $options = [])
     {
-        return $this->one('DELETE', $collection, $controller, $singular, $key, $requirement);
+        return $this->one('DELETE', $collection, $controller, $options);
     }
 
     /**
@@ -481,17 +449,12 @@ class RestRouter
      * @param string $parentCollection
      * @param string $subCollection
      * @param string $controller
-     * @param string $parentSingular
-     * @param string $subSingular
-     * @param string $parentKey
-     * @param string $parentRequirement
-     * @param string $subKey
-     * @param string $subRequirement
+     * @param array $options
      * @return RouteInterface
      */
-    public function deleteSub($parentCollection, $subCollection, $controller, $parentSingular = null, $subSingular = null, $parentKey = self::DEFAULT_KEY, $parentRequirement = self::DEFAULT_REQUIREMENT, $subKey = self::DEFAULT_KEY, $subRequirement = self::DEFAULT_REQUIREMENT)
+    public function deleteSub($parentCollection, $subCollection, $controller, array $options = [])
     {
-        return $this->subOne('DELETE', $parentCollection, $subCollection, $controller, $parentSingular, $subSingular, $parentKey, $parentRequirement, $subKey, $subRequirement);
+        return $this->subOne('DELETE', $parentCollection, $subCollection, $controller, $options);
     }
 
     /**
@@ -512,13 +475,22 @@ class RestRouter
      * @param string $parentCollection
      * @param string $subCollection
      * @param string $controller
-     * @param string $parentSingular
-     * @param string $parentKey
-     * @param string $parentRequirement
+     * @param array $options
      * @return RouteInterface
      */
-    public function cdeleteSub($parentCollection, $subCollection, $controller, $parentSingular = null, $parentKey = self::DEFAULT_KEY, $parentRequirement = self::DEFAULT_REQUIREMENT)
+    public function cdeleteSub($parentCollection, $subCollection, $controller, array $options = [])
     {
-        return $this->subCollection('DELETE', $parentCollection, $subCollection, $controller, $parentSingular, $parentKey, $parentRequirement);
+        return $this->subCollection('DELETE', $parentCollection, $subCollection, $controller, $options);
+    }
+
+    /**
+     * Get a resource name's singular (removes last character)
+     *
+     * @param string $collection
+     * @return string
+     */
+    public function singular($collection)
+    {
+        return substr($collection, 0, -1);
     }
 }
