@@ -25,6 +25,11 @@ class JWTManager
     private $accessTokenLifetime;
 
     /**
+     * @var int
+     */
+    private $refreshTokenLifetime;
+
+    /**
      * @var string
      */
     private $serverName;
@@ -206,6 +211,36 @@ class JWTManager
     }
 
     /**
+     * Set server name
+     *
+     * @param string $name
+     */
+    public function setServerName($name)
+    {
+        $this->serverName = $name;
+    }
+
+    /**
+     * Get server name
+     *
+     * @return string
+     */
+    public function getServerName()
+    {
+        return $this->serverName;
+    }
+
+    /**
+     * Set Access Token lifetime
+     *
+     * @param int $lifetime
+     */
+    public function setAccessTokenLifetime($lifetime)
+    {
+        $this->accessTokenLifetime = $lifetime;
+    }
+
+    /**
      * Get Access Token lifetime
      *
      * @return int
@@ -216,6 +251,16 @@ class JWTManager
     }
 
     /**
+     * Set Refresh Token lifetime
+     *
+     * @param int $lifetime
+     */
+    public function setRefreshTokenLifetime($lifetime)
+    {
+        $this->refreshTokenLifetime = $lifetime;
+    }
+
+    /**
      * Get Refresh Token lifetime
      *
      * @return int
@@ -223,6 +268,16 @@ class JWTManager
     public function getRefreshTokenLifetime()
     {
         return $this->refreshTokenLifetime;
+    }
+
+    /**
+     * Set Access Token
+     *
+     * @param AccessToken $accessToken
+     */
+    public function setAccessToken(AccessToken $accessToken)
+    {
+        $this->accessToken = $accessToken;
     }
 
     /**
