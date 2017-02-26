@@ -8,6 +8,10 @@
 ##### AuthController:login
 ###### login
 
+### `POST` [/api/auth/refresh](http://localhost/slim-rest-base/api/auth/refresh)
+##### AuthController:refresh
+###### jwt.refresh
+
 ### `GET` [/api/users/me](http://localhost/slim-rest-base/api/users/me)
 ##### AuthController:me
 ###### users.me
