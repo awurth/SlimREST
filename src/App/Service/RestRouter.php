@@ -35,7 +35,7 @@ class RestRouter
      */
     protected $CRUDMethods;
 
-    public function __construct(RouterInterface $router, $config = [])
+    public function __construct(RouterInterface $router, array $config = [])
     {
         $this->router = $router;
 
@@ -61,7 +61,7 @@ class RestRouter
      * @param array $options
      * @return string
      */
-    public function pattern($collection, $one = true, array $options = [])
+    public function pattern(string $collection, bool $one = true, array $options = [])
     {
         $key = $options['key'] ?? $this->key;
         $requirement = $options['requirement'] ?? $this->requirement;
@@ -82,7 +82,7 @@ class RestRouter
      * @param array $options
      * @return string
      */
-    public function subPattern($parentCollection, $subCollection, $one = true, array $options = [])
+    public function subPattern(string $parentCollection, string $subCollection, bool $one = true, array $options = [])
     {
         $parentSingular = $options['parent_singular'] ?? $this->singular($parentCollection);
         $subSingular = $options['sub_singular'] ?? $this->singular($subCollection);
@@ -114,7 +114,7 @@ class RestRouter
      * @param array $options
      * @return RouteInterface
      */
-    public function one($method, $collection, $controller, array $options = [])
+    public function one(string $method, string $collection, string $controller, array $options = [])
     {
         if (!$method) {
             throw new \InvalidArgumentException('The method is required');
@@ -145,7 +145,7 @@ class RestRouter
      * @param array $options
      * @return RouteInterface
      */
-    public function subOne($method, $parentCollection, $subCollection, $controller, array $options = [])
+    public function subOne(string $method, string $parentCollection, string $subCollection, string $controller, array $options = [])
     {
         if (!$method) {
             throw new \InvalidArgumentException('The method is required');
@@ -179,7 +179,7 @@ class RestRouter
      * @param string $controller
      * @return RouteInterface
      */
-    public function collection($method, $collection, $controller)
+    public function collection(string $method, string $collection, string $controller)
     {
         $method = strtolower($method);
 
@@ -200,7 +200,7 @@ class RestRouter
      * @param array $options
      * @return RouteInterface
      */
-    public function subCollection($method, $parentCollection, $subCollection, $controller, array $options = [])
+    public function subCollection(string $method, string $parentCollection, string $subCollection, string $controller, array $options = [])
     {
         $parentSingular = $options['parent_singular'] ?? $this->singular($parentCollection);
 
@@ -220,7 +220,7 @@ class RestRouter
      * @param array $options
      * @return RouteInterface[]
      */
-    public function CRUD($collection, $controller, array $middleware = [], array $options = [])
+    public function CRUD(string $collection, string $controller, array $middleware = [], array $options = [])
     {
         $routes = [];
 
@@ -269,7 +269,7 @@ class RestRouter
      * @param array $options
      * @return RouteInterface[]
      */
-    public function subCRUD($parentCollection, $subCollection, $controller, array $middleware = [], array $options = [])
+    public function subCRUD(string $parentCollection, string $subCollection, string $controller, array $middleware = [], array $options = [])
     {
         $routes = [];
 
@@ -316,7 +316,7 @@ class RestRouter
      * @param array $options
      * @return RouteInterface
      */
-    public function get($collection, $controller, array $options = [])
+    public function get(string $collection, string $controller, array $options = [])
     {
         return $this->one('GET', $collection, $controller, $options);
     }
@@ -330,7 +330,7 @@ class RestRouter
      * @param array $options
      * @return RouteInterface
      */
-    public function getSub($parentCollection, $subCollection, $controller, array $options = [])
+    public function getSub(string $parentCollection, string $subCollection, string $controller, array $options = [])
     {
         return $this->subOne('GET', $parentCollection, $subCollection, $controller, $options);
     }
@@ -342,7 +342,7 @@ class RestRouter
      * @param string $controller
      * @return RouteInterface
      */
-    public function cget($collection, $controller)
+    public function cget(string $collection, string $controller)
     {
         return $this->collection('GET', $collection, $controller);
     }
@@ -356,7 +356,7 @@ class RestRouter
      * @param array $options
      * @return RouteInterface
      */
-    public function cgetSub($parentCollection, $subCollection, $controller, array $options = [])
+    public function cgetSub(string $parentCollection, string $subCollection, string $controller, array $options = [])
     {
         return $this->subCollection('GET', $parentCollection, $subCollection, $controller, $options);
     }
@@ -369,7 +369,7 @@ class RestRouter
      * @param string $singular
      * @return RouteInterface
      */
-    public function post($collection, $controller, $singular = '')
+    public function post(string $collection, string $controller, string $singular = '')
     {
         if (!$singular) {
             $singular = $this->singular($collection);
@@ -391,7 +391,7 @@ class RestRouter
      * @param array $options
      * @return RouteInterface
      */
-    public function postSub($parentCollection, $subCollection, $controller, array $options = [])
+    public function postSub(string $parentCollection, string $subCollection, string $controller, array $options = [])
     {
         $parentSingular = $options['parent_singular'] ?? $this->singular($parentCollection);
         $subSingular = $options['sub_singular'] ?? $this->singular($subCollection);
@@ -411,7 +411,7 @@ class RestRouter
      * @param array $options
      * @return RouteInterface
      */
-    public function put($collection, $controller, array $options = [])
+    public function put(string $collection, string $controller, array $options = [])
     {
         return $this->one('PUT', $collection, $controller, $options);
     }
@@ -425,7 +425,7 @@ class RestRouter
      * @param array $options
      * @return RouteInterface
      */
-    public function putSub($parentCollection, $subCollection, $controller, array $options = [])
+    public function putSub(string $parentCollection, string $subCollection, string $controller, array $options = [])
     {
         return $this->subOne('PUT', $parentCollection, $subCollection, $controller, $options);
     }
@@ -438,7 +438,7 @@ class RestRouter
      * @param array $options
      * @return RouteInterface
      */
-    public function delete($collection, $controller, array $options = [])
+    public function delete(string $collection, string $controller, array $options = [])
     {
         return $this->one('DELETE', $collection, $controller, $options);
     }
@@ -452,7 +452,7 @@ class RestRouter
      * @param array $options
      * @return RouteInterface
      */
-    public function deleteSub($parentCollection, $subCollection, $controller, array $options = [])
+    public function deleteSub(string $parentCollection, string $subCollection, string $controller, array $options = [])
     {
         return $this->subOne('DELETE', $parentCollection, $subCollection, $controller, $options);
     }
@@ -464,7 +464,7 @@ class RestRouter
      * @param string $controller
      * @return RouteInterface
      */
-    public function cdelete($collection, $controller)
+    public function cdelete(string $collection, string $controller)
     {
         return $this->collection('DELETE', $collection, $controller);
     }
@@ -478,7 +478,7 @@ class RestRouter
      * @param array $options
      * @return RouteInterface
      */
-    public function cdeleteSub($parentCollection, $subCollection, $controller, array $options = [])
+    public function cdeleteSub(string $parentCollection, string $subCollection, string $controller, array $options = [])
     {
         return $this->subCollection('DELETE', $parentCollection, $subCollection, $controller, $options);
     }
@@ -489,8 +489,88 @@ class RestRouter
      * @param string $collection
      * @return string
      */
-    public function singular($collection)
+    public function singular(string $collection)
     {
         return substr($collection, 0, -1);
+    }
+
+    /**
+     * Set URLs prefix
+     *
+     * @param string $prefix
+     */
+    public function setPrefix(string $prefix)
+    {
+        $this->prefix = $prefix;
+    }
+
+    /**
+     * Get URLs prefix
+     *
+     * @return string
+     */
+    public function getPrefix()
+    {
+        return $this->prefix;
+    }
+
+    /**
+     * Set default key
+     *
+     * @param string $key
+     */
+    public function setKey(string $key)
+    {
+        $this->key = $key;
+    }
+
+    /**
+     * Get default key
+     *
+     * @return string
+     */
+    public function getKey()
+    {
+        return $this->key;
+    }
+
+    /**
+     * Set default requirement
+     *
+     * @param string $requirement
+     */
+    public function setRequirement(string $requirement)
+    {
+        $this->requirement = $requirement;
+    }
+
+    /**
+     * Get default requirement
+     *
+     * @return string
+     */
+    public function getRequirement()
+    {
+        return $this->requirement;
+    }
+
+    /**
+     * Set CRUD methods
+     *
+     * @param array $methods
+     */
+    public function setCRUDMethods(array $methods)
+    {
+        $this->CRUDMethods = $methods;
+    }
+
+    /**
+     * Get CRUD methods
+     *
+     * @return array
+     */
+    public function getCRUDMethods()
+    {
+        return $this->CRUDMethods;
     }
 }
