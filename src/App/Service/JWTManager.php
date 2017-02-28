@@ -8,6 +8,7 @@ use App\Model\User;
 use Cartalyst\Sentinel\Users\UserInterface;
 use Firebase\JWT\ExpiredException;
 use Firebase\JWT\JWT;
+use Illuminate\Database\QueryException;
 
 class JWTManager
 {
@@ -144,7 +145,10 @@ class JWTManager
             ]);
 
             $accessToken->user()->associate($user);
-            $accessToken->save();
+            try {
+                $accessToken->save();
+            } catch (QueryException $e) {
+            }
         }
 
         return $token;
@@ -185,7 +189,10 @@ class JWTManager
             ]);
 
             $refreshToken->user()->associate($user);
-            $refreshToken->save();
+            try {
+                $refreshToken->save();
+            } catch (QueryException $e) {
+            }
         }
 
         return $token;
