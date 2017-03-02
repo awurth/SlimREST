@@ -11,7 +11,8 @@ class CORSMiddleware extends Middleware
     {
         $response = $response
             ->withHeader('Access-Control-Allow-Origin', $this->cors['origin'])
-            ->withHeader('Access-Control-Allow-Headers', $this->cors['headers'])
+            ->withHeader('Access-Control-Allow-Headers', $this->cors['allow_headers'])
+            ->withHeader('Access-Control-Expose-Headers', $this->cors['expose_headers'])
             ->withHeader('Access-Control-Allow-Methods', $this->cors['methods'])
             ->withHeader('Access-Control-Max-Age', $this->cors['max_age']);
 
