@@ -34,7 +34,3 @@ Use --markdown or -m option to display routes in markdown format
 ``` bash
 $ php console routes -m > API.md
 ```
-
-# TODO
-- Route builder (manage resources, not routes, configure them (chained methods), ...)
-- Vagrantfile, Dockerfile
