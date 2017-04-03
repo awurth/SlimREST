@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Exception\AccessDeniedException;
 use App\Model\User;
 use App\Service\JWTManager;
-use Awurth\Slim\Rest\Validation\Validator;
+use Awurth\SlimValidation\Validator;
 use Cartalyst\Sentinel\Sentinel;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;

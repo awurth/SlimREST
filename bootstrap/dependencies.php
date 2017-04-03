@@ -5,7 +5,7 @@ use Illuminate\Database\Capsule\Manager;
 use Cartalyst\Sentinel\Native\Facades\Sentinel;
 use Cartalyst\Sentinel\Native\SentinelBootstrapper;
 use App\Service\JWTManager;
-use Awurth\Slim\Rest\Validation\Validator;
+use Awurth\SlimValidation\Validator;
 
 $container = $app->getContainer();
 
@@ -27,5 +27,5 @@ $container['jwt'] = function () use ($parameters, $config) {
 };
 
 $container['validator'] = function () {
-    return new Validator();
+    return new Validator(false);
 };
