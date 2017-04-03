@@ -4,6 +4,7 @@ namespace App\Service;
 
 use Slim\Interfaces\RouteInterface;
 use Slim\Interfaces\RouterInterface;
+use InvalidArgumentException;
 
 class RestRouter
 {
@@ -117,13 +118,13 @@ class RestRouter
     public function one(string $method, string $collection, string $controller, array $options = [])
     {
         if (!$method) {
-            throw new \InvalidArgumentException('The method is required');
+            throw new InvalidArgumentException('The method is required');
         }
 
         $singular = $options['singular'] ?? $this->singular($collection);
 
         if ($collection === $singular) {
-            throw new \InvalidArgumentException('The collection name and its singular must be different');
+            throw new InvalidArgumentException('The collection name and its singular must be different');
         }
 
         $method = strtolower($method);
@@ -148,18 +149,18 @@ class RestRouter
     public function subOne(string $method, string $parentCollection, string $subCollection, string $controller, array $options = [])
     {
         if (!$method) {
-            throw new \InvalidArgumentException('The method is required');
+            throw new InvalidArgumentException('The method is required');
         }
 
         $parentSingular = $options['parent_singular'] ?? $this->singular($parentCollection);
         $subSingular = $options['sub_singular'] ?? $this->singular($subCollection);
 
         if ($parentCollection === $parentSingular) {
-            throw new \InvalidArgumentException('The parent collection name and its singular must be different');
+            throw new InvalidArgumentException('The parent collection name and its singular must be different');
         }
 
         if ($subCollection === $subSingular) {
-            throw new \InvalidArgumentException('The sub collection name and its singular must be different');
+            throw new InvalidArgumentException('The sub collection name and its singular must be different');
         }
 
         $method = strtolower($method);
