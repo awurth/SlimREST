@@ -24,7 +24,7 @@ config:
     cors:
         origin:         '*'
         allow_headers:  'X-Requested-With, Content-Type, Accept, Origin, Authorization'
-        expose_headers: 'Location'
+        expose_headers: 'Location, Content-Range'
         methods:        'GET, POST, PUT, PATCH, DELETE'
         max_age:        3600
     jwt:
