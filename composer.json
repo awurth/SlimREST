@@ -24,10 +24,10 @@
         "cartalyst/sentinel": "^2.0",
         "illuminate/events": "^5.4",
         "symfony/http-foundation": "^3.2",
-        "awurth/slim-validation-rest": "^1.0",
         "incenteev/composer-parameter-handler": "^2.1",
         "symfony/console": "^3.2",
-        "firebase/php-jwt": "^4.0"
+        "firebase/php-jwt": "^4.0",
+        "awurth/slim-validation": "^2.0"
     },
     "scripts": {
         "start": "php -S 0.0.0.0:8080 -t public public/index.php",
