@@ -23,7 +23,7 @@ Manager::schema()->create('access_token', function (Blueprint $table) {
     $table->increments('id');
     $table->unsignedInteger('user_id');
     $table->string('token', 512)->unique();
-    $table->integer('expires_at')->unsigned();
+    $table->unsignedInteger('expires_at');
     $table->foreign('user_id')->references('id')->on('user');
 });
 
