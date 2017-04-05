@@ -2,13 +2,16 @@
 
 use Slim\Handlers\Strategies\RequestResponseArgs;
 use Slim\Exception\NotFoundException;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ResponseInterface as Response;
 use App\Exception\AccessDeniedException;
+use App\Exception\UnauthorizedException;
 
 /**
  * Return error in JSON when a NotFoundException is thrown
  */
-$container['notFoundHandler'] = function ($container) {
-    return function ($request, $response) use ($container) {
+$container['notFoundHandler'] = function () {
+    return function (Request $request, Response $response) {
         return $response
             ->withStatus(404)
             ->withJson([
@@ -21,8 +24,8 @@ $container['notFoundHandler'] = function ($container) {
 /**
  * Return error in JSON when HTTP method is not allowed
  */
-$container['notAllowedHandler'] = function ($container) {
-    return function ($request, $response, $methods) use ($container) {
+$container['notAllowedHandler'] = function () {
+    return function (Request $request, Response $response, $methods) {
         $allowedMethods = implode(', ', $methods);
 
         if ($allowedMethods === 'OPTIONS') {
@@ -40,10 +43,24 @@ $container['notAllowedHandler'] = function ($container) {
 };
 
 /**
+ * Return error in JSON when an UnauthorizedException is thrown
+ */
+$container['unauthorizedHandler'] = function () {
+    return function (Request $request, Response $response, Exception $exception) {
+        return $response
+            ->withStatus(401)
+            ->withJson([
+                'status' => 401,
+                'message' => $exception->getMessage()
+            ]);
+    };
+};
+
+/**
  * Return error in JSON when an AccessDeniedException is thrown
  */
-$container['accessDeniedHandler'] = function ($container) {
-    return function ($request, $response, $exception) use ($container) {
+$container['accessDeniedHandler'] = function () {
+    return function (Request $request, Response $response, Exception $exception) {
         return $response
             ->withStatus(403)
             ->withJson([
@@ -57,9 +74,13 @@ $container['accessDeniedHandler'] = function ($container) {
  * Default Slim error handler
  */
 $container['errorHandler'] = function ($container) use ($config) {
-    return function ($request, $response, $exception) use ($container, $config) {
+    return function (Request $request, Response $response, Exception $exception) use ($container, $config) {
         if ($exception instanceof AccessDeniedException) {
             return $container['accessDeniedHandler']($request, $response, $exception);
+        }
+
+        if ($exception instanceof UnauthorizedException) {
+            return $container['unauthorizedHandler']($request, $response, $exception);
         }
 
         $message = [
@@ -81,8 +102,8 @@ $container['errorHandler'] = function ($container) use ($config) {
 /**
  * PHP error handler
  */
-$container['phpErrorHandler'] = function ($container) use ($config) {
-    return function ($request, $response, $error) use ($container, $config) {
+$container['phpErrorHandler'] = function () use ($config) {
+    return function (Request $request, Response $response, Throwable $error) use ($config) {
         $message = [
             'status' => 500,
             'message' => 'Internal Server Error'

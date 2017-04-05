@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Exception\AccessDeniedException;
+use App\Exception\UnauthorizedException;
 use App\Model\User;
 use App\Service\JWTManager;
 use Awurth\SlimValidation\Validator;
@@ -199,12 +200,24 @@ abstract class Controller
     }
 
     /**
+     * Create new UnauthorizedException
+     *
+     * @param string $message
+     *
+     * @return UnauthorizedException
+     */
+    public function unauthorizedException($message = 'Unauthorized')
+    {
+        return new UnauthorizedException($message);
+    }
+
+    /**
      * Create new AccessDeniedException
      *
      * @param string $message
      * @return AccessDeniedException
      */
-    public function accessDeniedException($message = "Access denied")
+    public function accessDeniedException($message = 'Access denied')
     {
         return new AccessDeniedException($message);
     }
