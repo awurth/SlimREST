@@ -3,6 +3,7 @@
 namespace App\Middleware;
 
 use App\Exception\AccessDeniedException;
+use App\Exception\UnauthorizedException;
 use Interop\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -24,12 +25,7 @@ class AuthMiddleware extends Middleware
     public function __invoke(Request $request, Response $response, callable $next)
     {
         if (!$this->jwt->getAccessToken()) {
-            return $response
-                ->withStatus(401)
-                ->withJson([
-                    'status' => 401,
-                    'message' => 'Unauthorized'
-                ]);
+            throw new UnauthorizedException();
         }
 
         if ($this->role) {
