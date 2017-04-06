@@ -1,8 +1,8 @@
 # Slim-rest-base - Slim 3 skeleton
-This is a skeleton for Slim PHP micro-framework to get started quickly
+> This is a skeleton for Slim PHP micro-framework to get started quickly
 
 ## Features
-- Rest router
+- REST router
 - Eloquent ORM
 - Authentication (Sentinel)
 - Validation (Respect)
@@ -13,7 +13,7 @@ $ composer create-project awurth/slim-rest-base [app-name]
 ```
 
 ## Features
-### Create database
+### Create database tables
 ``` bash
 $ php console db
 ```
