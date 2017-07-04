@@ -34,3 +34,6 @@ Use --markdown or -m option to display routes in markdown format
 ``` bash
 $ php console routes -m > API.md
 ```
+
+## Note
+You might want to replace the authentication part with a real OAuth implementation
