@@ -127,8 +127,7 @@ class JWTManager
             'iat' => $time,
             'exp' => $expiresAt,
             'data' => [
-                'userId' => $user->id,
-                'userName' => $user->username
+                'userId' => $user->id
             ]
         ];
 
