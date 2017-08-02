@@ -1,5 +1,5 @@
-# Slim-rest-base - Slim 3 skeleton
-> This is a skeleton for Slim PHP micro-framework to get started quickly
+# Slim REST base - A Slim 3 skeleton
+> This is a skeleton for Slim PHP micro-framework to get started quickly building a REST API
 
 ## Features
 - REST router
