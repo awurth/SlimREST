@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 use Cartalyst\Sentinel\Checkpoints\ThrottlingException;
-use Psr\Http\Message\ServerRequestInterface as Request;
-use Psr\Http\Message\ResponseInterface as Response;
+use Slim\Http\Request;
+use Slim\Http\Response;
 use Respect\Validation\Validator as V;
 
 class AuthController extends Controller
@@ -41,7 +41,7 @@ class AuthController extends Controller
         $email = $request->getParam('email');
         $password = $request->getParam('password');
 
-        $this->validator->validate($request, [
+        $this->validator->request($request, [
             'username' => V::length(3, 25)->alnum('_')->noWhitespace(),
             'email' => V::noWhitespace()->email(),
             'password' => [
@@ -88,7 +88,7 @@ class AuthController extends Controller
 
     public function refresh(Request $request, Response $response)
     {
-        $this->validator->validate($request, [
+        $this->validator->request($request, [
             'refresh_token' => [
                 'rules' => V::notBlank(),
                 'messages' => [
