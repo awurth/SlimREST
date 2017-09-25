@@ -2,8 +2,8 @@
 
 use Slim\Handlers\Strategies\RequestResponseArgs;
 use Slim\Exception\NotFoundException;
-use Psr\Http\Message\ServerRequestInterface as Request;
-use Psr\Http\Message\ResponseInterface as Response;
+use Slim\Http\Request;
+use Slim\Http\Response;
 use App\Exception\AccessDeniedException;
 use App\Exception\UnauthorizedException;
 
