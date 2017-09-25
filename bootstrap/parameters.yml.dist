@@ -3,8 +3,8 @@ parameters:
     host: localhost
     database: slim_rest
     username: root
-    password: ''
+    password: ~
     charset: utf8
     collation: utf8_general_ci
-    prefix: ''
+    prefix: ~
     secret: ThisTokenIsNotSecretChangeIt
