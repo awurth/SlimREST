@@ -8,8 +8,8 @@ use App\Model\User;
 use App\Service\JWTManager;
 use Awurth\SlimValidation\Validator;
 use Cartalyst\Sentinel\Sentinel;
-use Psr\Http\Message\ServerRequestInterface as Request;
-use Psr\Http\Message\ResponseInterface as Response;
+use Slim\Http\Request;
+use Slim\Http\Response;
 use Interop\Container\ContainerInterface;
 use Slim\Exception\NotFoundException;
 use Slim\Router;
@@ -23,19 +23,24 @@ use Slim\Router;
 abstract class Controller
 {
     /**
-     * Slim application container
+     * Slim application container.
      *
      * @var ContainerInterface
      */
     protected $container;
 
+    /**
+     * Constructor.
+     *
+     * @param ContainerInterface $container
+     */
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
 
     /**
-     * Get current authenticated user
+     * Gets the current authenticated user.
      *
      * @return User|null
      */
@@ -47,9 +52,10 @@ abstract class Controller
     }
 
     /**
-     * Throw an AccessDeniedException if user doesn't have the required role
+     * Throws an AccessDeniedException if user doesn't have the required role.
      *
      * @param string $role
+     *
      * @throws AccessDeniedException
      */
     public function requireRole($role)
@@ -62,38 +68,31 @@ abstract class Controller
     }
 
     /**
-     * Stop the script and print info about a variable
+     * Gets request parameters.
      *
-     * @param mixed $data
-     */
-    public function debug($data)
-    {
-        die('<pre>' . print_r($data, true) . '</pre>');
-    }
-
-    /**
-     * Get request params
-     *
-     * @param Request $request
+     * @param Request  $request
      * @param string[] $params
+     * @param mixed    $default
+     *
      * @return array
      */
-    public function params(Request $request, array $params)
+    public function params(Request $request, array $params, $default = null)
     {
         $data = [];
         foreach ($params as $param) {
-            $data[$param] = $request->getParam($param);
+            $data[$param] = $request->getParam($param, $default);
         }
 
         return $data;
     }
 
     /**
-     * Redirect to route
+     * Redirects to a route.
      *
      * @param Response $response
-     * @param string $route
-     * @param array $params
+     * @param string   $route
+     * @param array    $params
+     *
      * @return Response
      */
     public function redirect(Response $response, $route, array $params = [])
@@ -102,10 +101,10 @@ abstract class Controller
     }
 
     /**
-     * Redirect to url
+     * Redirects to a url.
      *
      * @param Response $response
-     * @param string $url
+     * @param string   $url
      *
      * @return Response
      */
@@ -115,11 +114,12 @@ abstract class Controller
     }
 
     /**
-     * Return "200 Ok" response with JSON data
+     * Returns a "200 Ok" response with JSON data.
      *
      * @param Response $response
-     * @param mixed $data
-     * @return int
+     * @param mixed    $data
+     *
+     * @return Response
      */
     public function ok(Response $response, $data)
     {
@@ -127,11 +127,12 @@ abstract class Controller
     }
 
     /**
-     * Return "201 Created" response with location header
+     * Returns a "201 Created" response with a location header.
      *
      * @param Response $response
-     * @param string $route
-     * @param array $params
+     * @param string   $route
+     * @param array    $params
+     *
      * @return Response
      */
     public function created(Response $response, $route, array $params = [])
@@ -140,9 +141,10 @@ abstract class Controller
     }
 
     /**
-     * Return "204 No Content" response
+     * Returns a "204 No Content" response.
      *
      * @param Response $response
+     *
      * @return Response
      */
     public function noContent(Response $response)
@@ -151,10 +153,11 @@ abstract class Controller
     }
 
     /**
-     * Return validation errors as a JSON array
+     * Returns validation errors as a JSON array.
      *
      * @param Response $response
-     * @return int
+     *
+     * @return Response
      */
     public function validationErrors(Response $response)
     {
@@ -162,12 +165,13 @@ abstract class Controller
     }
 
     /**
-     * Write JSON in the response body
+     * Writes JSON in the response body.
      *
      * @param Response $response
-     * @param mixed $data
-     * @param int $status
-     * @return int
+     * @param mixed    $data
+     * @param int      $status
+     *
+     * @return Response
      */
     public function json(Response $response, $data, $status = 200)
     {
@@ -175,11 +179,12 @@ abstract class Controller
     }
 
     /**
-     * Write text in the response body
+     * Writes text in the response body.
      *
      * @param Response $response
-     * @param string $data
-     * @param int $status
+     * @param string   $data
+     * @param int      $status
+     *
      * @return int
      */
     public function write(Response $response, $data, $status = 200)
@@ -188,10 +193,11 @@ abstract class Controller
     }
 
     /**
-     * Create new NotFoundException
+     * Creates a new NotFoundException.
      *
-     * @param Request $request
+     * @param Request  $request
      * @param Response $response
+     *
      * @return NotFoundException
      */
     public function notFoundException(Request $request, Response $response)
@@ -200,7 +206,7 @@ abstract class Controller
     }
 
     /**
-     * Create new UnauthorizedException
+     * Creates a new UnauthorizedException.
      *
      * @param string $message
      *
@@ -212,9 +218,10 @@ abstract class Controller
     }
 
     /**
-     * Create new AccessDeniedException
+     * Creates a new AccessDeniedException.
      *
      * @param string $message
+     *
      * @return AccessDeniedException
      */
     public function accessDeniedException($message = 'Access denied')
@@ -222,6 +229,13 @@ abstract class Controller
         return new AccessDeniedException($message);
     }
 
+    /**
+     * Gets a service from the container.
+     *
+     * @param string $property
+     *
+     * @return mixed
+     */
     public function __get($property)
     {
         return $this->container->get($property);
