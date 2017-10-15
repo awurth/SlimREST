@@ -1,11 +1,22 @@
 <?php
 
-use Slim\Handlers\Strategies\RequestResponseArgs;
-use Slim\Exception\NotFoundException;
-use Slim\Http\Request;
-use Slim\Http\Response;
 use App\Exception\AccessDeniedException;
 use App\Exception\UnauthorizedException;
+use Slim\Exception\NotFoundException;
+use Slim\Handlers\Strategies\RequestResponseArgs;
+use Slim\Http\Request;
+use Slim\Http\Response;
+
+/**
+ * Controller functions signature must be like:
+ *
+ * public function getCollection($request, $response, $arg1, $arg2, $args3, ...)
+ *
+ * https://www.slimframework.com/docs/objects/router.html#route-strategies
+ */
+$container['foundHandler'] = function () {
+    return new RequestResponseArgs();
+};
 
 /**
  * Return error in JSON when a NotFoundException is thrown
@@ -73,8 +84,8 @@ $container['accessDeniedHandler'] = function () {
 /**
  * Default Slim error handler
  */
-$container['errorHandler'] = function ($container) use ($config) {
-    return function (Request $request, Response $response, Exception $exception) use ($container, $config) {
+$container['errorHandler'] = function ($container) {
+    return function (Request $request, Response $response, Exception $exception) use ($container) {
         if ($exception instanceof AccessDeniedException) {
             return $container['accessDeniedHandler']($request, $response, $exception);
         }
@@ -88,7 +99,7 @@ $container['errorHandler'] = function ($container) use ($config) {
             'message' => 'Internal Server Error'
         ];
 
-        if ($config['settings']['displayErrorDetails']) {
+        if ('dev' === $container['env']) {
             $message['trace'] = $exception->getTrace();
             $message['message'] = get_class($exception) . ': ' . $exception->getMessage();
         }
@@ -102,14 +113,14 @@ $container['errorHandler'] = function ($container) use ($config) {
 /**
  * PHP error handler
  */
-$container['phpErrorHandler'] = function () use ($config) {
-    return function (Request $request, Response $response, Throwable $error) use ($config) {
+$container['phpErrorHandler'] = function ($container) {
+    return function (Request $request, Response $response, Throwable $error) use ($container) {
         $message = [
             'status' => 500,
             'message' => 'Internal Server Error'
         ];
 
-        if ($config['settings']['displayErrorDetails']) {
+        if ('dev' === $container['env']) {
             $message['trace'] = $error->getTrace();
             $message['message'] = get_class($error) . ': ' . $error->getMessage();
         }
@@ -118,14 +129,4 @@ $container['phpErrorHandler'] = function () use ($config) {
             ->withStatus(500)
             ->withJson($message);
     };
-};
-
-/**
- * Controller functions signature must be like:
- *
- * public function getCollection($request, $response, $arg1, $arg2, $args3, ...)
- *
- */
-$container['foundHandler'] = function () {
-    return new RequestResponseArgs();
 };

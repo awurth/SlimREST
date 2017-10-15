@@ -22,8 +22,8 @@ $container['sentinel'] = function () {
     return $sentinel->getSentinel();
 };
 
-$container['jwt'] = function () use ($parameters, $config) {
-    return new JWTManager($parameters['secret'], $config['jwt']);
+$container['jwt'] = function () use ($parameters, $container) {
+    return new JWTManager($parameters['secret'], $container['config']['jwt']);
 };
 
 $container['validator'] = function () {

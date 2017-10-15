@@ -11,4 +11,4 @@ $container['auth.middleware'] = function ($container) {
 };
 
 $app->add(new JWTMiddleware($container['jwt']));
-$app->add(new CORSMiddleware($container['cors']));
+$app->add(new CORSMiddleware($container['config']['cors']));
