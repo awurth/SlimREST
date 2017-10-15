@@ -2,11 +2,30 @@
 
 namespace App\Middleware;
 
-use Psr\Http\Message\ServerRequestInterface as Request;
-use Psr\Http\Message\ResponseInterface as Response;
+use App\Service\JWTManager;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
-class JWTMiddleware extends Middleware
+class JWTMiddleware implements MiddlewareInterface
 {
+    /**
+     * @var JWTManager
+     */
+    protected $jwt;
+
+    /**
+     * Constructor.
+     *
+     * @param JWTManager $jwt
+     */
+    public function __construct(JWTManager $jwt)
+    {
+        $this->jwt = $jwt;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function __invoke(Request $request, Response $response, callable $next)
     {
         if ($request->hasHeader('Authorization')) {

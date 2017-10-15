@@ -4,24 +4,37 @@ namespace App\Middleware;
 
 use App\Exception\AccessDeniedException;
 use App\Exception\UnauthorizedException;
-use Psr\Container\ContainerInterface;
-use Psr\Http\Message\ServerRequestInterface as Request;
-use Psr\Http\Message\ResponseInterface as Response;
+use Cartalyst\Sentinel\Sentinel;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
-class AuthMiddleware extends Middleware
+class AuthMiddleware implements MiddlewareInterface
 {
     /**
      * @var string
      */
-    private $role;
+    protected $role;
 
-    public function __construct(ContainerInterface $container, $role = '')
+    /**
+     * @var Sentinel
+     */
+    protected $sentinel;
+
+    /**
+     * Constructor.
+     *
+     * @param Sentinel $sentinel
+     * @param string   $role
+     */
+    public function __construct(Sentinel $sentinel, $role = null)
     {
-        parent::__construct($container);
-
+        $this->sentinel = $sentinel;
         $this->role = $role;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function __invoke(Request $request, Response $response, callable $next)
     {
         if (!$this->jwt->getAccessToken()) {

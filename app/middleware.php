@@ -1,4 +1,4 @@
 <?php
 
-$app->add(new App\Middleware\JWTMiddleware($container));
-$app->add(new App\Middleware\CORSMiddleware($container));
+$app->add(new App\Middleware\JWTMiddleware($container['jwt']));
+$app->add(new App\Middleware\CORSMiddleware($container['cors']));
