@@ -7,4 +7,4 @@ parameters:
     charset: utf8
     collation: utf8_general_ci
     prefix: ~
-    secret: ThisTokenIsNotSecretChangeIt
+    secret: 0f45c7e965ccb2bc6fb06974912062fb3ab1d43f
