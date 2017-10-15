@@ -2,9 +2,9 @@
 
 namespace App\Service;
 
+use InvalidArgumentException;
 use Slim\Interfaces\RouteInterface;
 use Slim\Interfaces\RouterInterface;
-use InvalidArgumentException;
 
 class RestRouter
 {

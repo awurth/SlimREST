@@ -8,10 +8,10 @@ use App\Model\User;
 use App\Service\JWTManager;
 use Awurth\SlimValidation\Validator;
 use Cartalyst\Sentinel\Sentinel;
+use Psr\Container\ContainerInterface;
+use Slim\Exception\NotFoundException;
 use Slim\Http\Request;
 use Slim\Http\Response;
-use Interop\Container\ContainerInterface;
-use Slim\Exception\NotFoundException;
 use Slim\Router;
 
 /**
@@ -23,8 +23,6 @@ use Slim\Router;
 abstract class Controller
 {
     /**
-     * Slim application container.
-     *
      * @var ContainerInterface
      */
     protected $container;

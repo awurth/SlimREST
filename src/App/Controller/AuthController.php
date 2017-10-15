@@ -3,9 +3,9 @@
 namespace App\Controller;
 
 use Cartalyst\Sentinel\Checkpoints\ThrottlingException;
+use Respect\Validation\Validator as V;
 use Slim\Http\Request;
 use Slim\Http\Response;
-use Respect\Validation\Validator as V;
 
 class AuthController extends Controller
 {

@@ -3,8 +3,8 @@
 namespace App\Middleware;
 
 use App\Service\JWTManager;
-use Interop\Container\ContainerInterface;
 use Cartalyst\Sentinel\Sentinel;
+use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Router;
