@@ -9,7 +9,7 @@ use App\Command\RoutesCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Yaml\Yaml;
 
-$config = Yaml::parse(file_get_contents(__DIR__ . '/../app/config.yml'))['config'];
+$config = Yaml::parse(file_get_contents(__DIR__ . '/../app/config/config.yml'))['config'];
 $app = new Slim\App($config);
 
 require __DIR__ . '/../app/dependencies.php';

@@ -14,7 +14,7 @@ session_start();
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$config = Symfony\Component\Yaml\Yaml::parse(file_get_contents(__DIR__ . '/../app/config.yml'))['config'];
+$config = Symfony\Component\Yaml\Yaml::parse(file_get_contents(__DIR__ . '/../app/config/config.yml'))['config'];
 $app = new Slim\App($config);
 
 require __DIR__ . '/../app/dependencies.php';

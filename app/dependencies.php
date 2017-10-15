@@ -9,7 +9,7 @@ use Awurth\SlimValidation\Validator;
 
 $container = $app->getContainer();
 
-$parameters = Yaml::parse(file_get_contents(__DIR__ . '/parameters.yml'))['parameters'];
+$parameters = Yaml::parse(file_get_contents(__DIR__ . '/config/parameters.yml'))['parameters'];
 
 $capsule = new Manager();
 $capsule->addConnection($parameters);
@@ -17,7 +17,7 @@ $capsule->setAsGlobal();
 $capsule->bootEloquent();
 
 $container['sentinel'] = function () {
-    $sentinel = new Sentinel(new SentinelBootstrapper(__DIR__ . '/sentinel.php'));
+    $sentinel = new Sentinel(new SentinelBootstrapper(__DIR__ . '/config/sentinel.php'));
 
     return $sentinel->getSentinel();
 };
