@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 use App\Command\CreateUserCommand;
 use App\Command\DatabaseCommand;
@@ -9,16 +9,16 @@ use App\Command\RoutesCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Yaml\Yaml;
 
-$config = Yaml::parse(file_get_contents(__DIR__ . '/app/config.yml'))['config'];
+$config = Yaml::parse(file_get_contents(__DIR__ . '/../app/config.yml'))['config'];
 $app = new Slim\App($config);
 
-require __DIR__ . '/app/dependencies.php';
+require __DIR__ . '/../app/dependencies.php';
 
-require __DIR__ . '/app/middleware.php';
+require __DIR__ . '/../app/middleware.php';
 
-require __DIR__ . '/app/controllers.php';
+require __DIR__ . '/../app/controllers.php';
 
-require __DIR__ . '/app/routes.php';
+require __DIR__ . '/../app/routes.php';
 
 $application = new Application();
 
