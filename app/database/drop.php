@@ -13,6 +13,7 @@ $tables = [
     'refresh_token',
     'user',
 ];
+
 foreach ($tables as $table) {
     Manager::schema()->dropIfExists($table);
 }

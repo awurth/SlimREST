@@ -1,2 +1,2 @@
 vendor/
-bootstrap/parameters.yml
+app/parameters.yml

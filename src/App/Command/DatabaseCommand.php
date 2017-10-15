@@ -23,7 +23,7 @@ class DatabaseCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        require __DIR__ . '/../../../bootstrap/database/index.php';
+        require __DIR__ . '/../../../app/database/index.php';
 
         return 0;
     }
