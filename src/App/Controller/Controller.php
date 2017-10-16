@@ -15,10 +15,12 @@ use Slim\Http\Response;
 use Slim\Router;
 
 /**
- * @property Router router
- * @property Validator validator
- * @property Sentinel sentinel
+ * @property Router     router
+ * @property Validator  validator
+ * @property Sentinel   sentinel
  * @property JWTManager jwt
+ * @property string     env
+ * @property string     root_dir
  */
 abstract class Controller
 {
