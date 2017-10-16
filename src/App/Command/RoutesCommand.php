@@ -2,7 +2,7 @@
 
 namespace App\Command;
 
-use Psr\Container\ContainerInterface;
+use Slim\Router;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -11,20 +11,27 @@ use Symfony\Component\Console\Output\OutputInterface;
 class RoutesCommand extends Command
 {
     /**
-     * @var ContainerInterface
+     * @var Router
      */
-    private $container;
+    protected $router;
+
+    /**
+     * @var array
+     */
+    protected $options;
 
     /**
      * Constructor.
      *
-     * @param ContainerInterface $container
+     * @param Router $router
+     * @param array  $restOptions
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(Router $router, array $restOptions)
     {
         parent::__construct();
 
-        $this->container = $container;
+        $this->router = $router;
+        $this->options = $restOptions;
     }
 
     /**
@@ -58,7 +65,7 @@ class RoutesCommand extends Command
 
     public function text(InputInterface $input, OutputInterface $output)
     {
-        foreach ($this->container->router->getRoutes() as $route) {
+        foreach ($this->router->getRoutes() as $route) {
             if ($route->getName()) {
                 $output->writeln('<fg=cyan;options=bold>' . $route->getName() . '</>');
                 $output->writeln('    ' . implode(', ', $route->getMethods()));
@@ -73,9 +80,9 @@ class RoutesCommand extends Command
     {
         $output->writeln('# API Routes');
         $output->writeln('');
-        $url = $this->container->rest['url'];
+        $url = $this->options['url'];
 
-        foreach ($this->container->router->getRoutes() as $route) {
+        foreach ($this->router->getRoutes() as $route) {
             if ($route->getName()) {
                 $methods = implode(', ', $route->getMethods());
 

@@ -2,7 +2,8 @@
 
 namespace App\Command;
 
-use Psr\Container\ContainerInterface;
+use Cartalyst\Sentinel\Sentinel;
+use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -13,20 +14,20 @@ use Symfony\Component\Console\Question\Question;
 class CreateUserCommand extends Command
 {
     /**
-     * @var ContainerInterface
+     * @var Sentinel
      */
-    private $container;
+    protected $sentinel;
 
     /**
      * Constructor.
      *
-     * @param ContainerInterface $container
+     * @param Sentinel $sentinel
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(Sentinel $sentinel)
     {
         parent::__construct();
 
-        $this->container = $container;
+        $this->sentinel = $sentinel;
     }
 
     /**
@@ -56,12 +57,12 @@ class CreateUserCommand extends Command
         $admin = $input->getOption('admin');
 
         if ($admin) {
-            $role = $this->container['sentinel']->findRoleByName('Admin');
+            $role = $this->sentinel->findRoleByName('Admin');
         } else {
-            $role = $this->container['sentinel']->findRoleByName('User');
+            $role = $this->sentinel->findRoleByName('User');
         }
 
-        $user = $this->container['sentinel']->registerAndActivate([
+        $user = $this->sentinel->registerAndActivate([
             'username' => $username,
             'email' => $email,
             'password' => $password,
@@ -86,7 +87,7 @@ class CreateUserCommand extends Command
             $question = new Question('Please choose a username:');
             $question->setValidator(function ($username) {
                 if (empty($username)) {
-                    throw new \Exception('Username can not be empty');
+                    throw new Exception('Username can not be empty');
                 }
 
                 return $username;
@@ -98,7 +99,7 @@ class CreateUserCommand extends Command
             $question = new Question('Please choose an email:');
             $question->setValidator(function ($email) {
                 if (empty($email)) {
-                    throw new \Exception('Email can not be empty');
+                    throw new Exception('Email can not be empty');
                 }
 
                 return $email;
@@ -111,7 +112,7 @@ class CreateUserCommand extends Command
             $question = new Question('Please choose a password:');
             $question->setValidator(function ($password) {
                 if (empty($password)) {
-                    throw new \Exception('Password can not be empty');
+                    throw new Exception('Password can not be empty');
                 }
 
                 return $password;

@@ -29,8 +29,8 @@ require __DIR__ . '/../app/routes.php';
 
 $application = new Application();
 
-$application->add(new CreateUserCommand($container));
+$application->add(new CreateUserCommand($container['sentinel']));
 $application->add(new DatabaseCommand());
-$application->add(new RoutesCommand($container));
+$application->add(new RoutesCommand($container['router'], $container['config']['rest']));
 
 $application->run();
