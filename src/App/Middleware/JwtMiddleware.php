@@ -6,7 +6,7 @@ use App\Service\JWTManager;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-class JWTMiddleware implements MiddlewareInterface
+class JwtMiddleware implements MiddlewareInterface
 {
     /**
      * @var JWTManager

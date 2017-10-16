@@ -5,7 +5,7 @@ namespace App\Middleware;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-class CORSMiddleware implements MiddlewareInterface
+class CorsMiddleware implements MiddlewareInterface
 {
     /**
      * @var array
