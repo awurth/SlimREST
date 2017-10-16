@@ -4,7 +4,7 @@ parameters:
     database: slim_rest
     username: root
     password: ~
-    charset: utf8
-    collation: utf8_general_ci
+    charset: utf8mb4
+    collation: utf8mb4_general_ci
     prefix: ~
     secret: 0f45c7e965ccb2bc6fb06974912062fb3ab1d43f
