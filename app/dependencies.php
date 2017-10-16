@@ -1,11 +1,14 @@
 <?php
 
-use Symfony\Component\Yaml\Yaml;
-use Illuminate\Database\Capsule\Manager;
-use Cartalyst\Sentinel\Native\Facades\Sentinel;
-use Cartalyst\Sentinel\Native\SentinelBootstrapper;
 use App\Service\JWTManager;
 use Awurth\SlimValidation\Validator;
+use Cartalyst\Sentinel\Native\Facades\Sentinel;
+use Cartalyst\Sentinel\Native\SentinelBootstrapper;
+use Illuminate\Database\Capsule\Manager;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
+use Monolog\Processor\UidProcessor;
+use Symfony\Component\Yaml\Yaml;
 
 $container = $app->getContainer();
 
@@ -28,4 +31,14 @@ $container['jwt'] = function () use ($parameters, $container) {
 
 $container['validator'] = function () {
     return new Validator(false);
+};
+
+$container['monolog'] = function ($container) {
+    $config = $container['config']['monolog'];
+
+    $logger = new Logger($config['name']);
+    $logger->pushProcessor(new UidProcessor());
+    $logger->pushHandler(new StreamHandler($config['path'], $config['level']));
+
+    return $logger;
 };

@@ -14,15 +14,21 @@ use Slim\Http\Response;
  *
  * https://www.slimframework.com/docs/objects/router.html#route-strategies
  */
-$container['foundHandler'] = function () {
+$container['foundHandler'] = function ($container) {
+    /** @var Request $request */
+    $request = $container['request'];
+    $container['monolog']->info(sprintf('Matched route "%s /%s"', $request->getMethod(), ltrim($request->getUri()->getPath(), '/')));
+
     return new RequestResponseArgs();
 };
 
 /**
  * Returns an error in JSON when a NotFoundException is thrown.
  */
-$container['notFoundHandler'] = function () {
-    return function (Request $request, Response $response) {
+$container['notFoundHandler'] = function ($container) {
+    return function (Request $request, Response $response) use ($container) {
+        $container['monolog']->error(sprintf('No resource found for "%s /%s"', $request->getMethod(), ltrim($request->getUri()->getPath(), '/')));
+
         return $response
             ->withStatus(404)
             ->withJson([
@@ -35,9 +41,16 @@ $container['notFoundHandler'] = function () {
 /**
  * Returns an error in JSON when the HTTP method is not allowed.
  */
-$container['notAllowedHandler'] = function () {
-    return function (Request $request, Response $response, $methods) {
+$container['notAllowedHandler'] = function ($container) {
+    return function (Request $request, Response $response, array $methods) use ($container) {
         $allowedMethods = implode(', ', $methods);
+
+        $container['monolog']->error(sprintf(
+            'No resource found for "%s /%s": Method not allowed (Allow: %s)',
+            $request->getMethod(),
+            ltrim($request->getUri()->getPath(), '/'),
+            $allowedMethods
+        ));
 
         if ($allowedMethods === 'OPTIONS') {
             throw new NotFoundException($request, $response);
@@ -56,8 +69,12 @@ $container['notAllowedHandler'] = function () {
 /**
  * Returns an error in JSON when an UnauthorizedException is thrown.
  */
-$container['unauthorizedHandler'] = function () {
-    return function (Request $request, Response $response, Exception $exception) {
+$container['unauthorizedHandler'] = function ($container) {
+    return function (Request $request, Response $response, Exception $exception) use ($container) {
+        $container['monolog']->debug('Unauthorized, the user is not authenticated', [
+            'exception' => $exception
+        ]);
+
         return $response
             ->withStatus($exception->getCode())
             ->withJson([
@@ -70,8 +87,12 @@ $container['unauthorizedHandler'] = function () {
 /**
  * Returns an error in JSON when an AccessDeniedException is thrown.
  */
-$container['accessDeniedHandler'] = function () {
-    return function (Request $request, Response $response, Exception $exception) {
+$container['accessDeniedHandler'] = function ($container) {
+    return function (Request $request, Response $response, Exception $exception) use ($container) {
+        $container['monolog']->debug('Access denied, the user does not have access to this section', [
+            'exception' => $exception
+        ]);
+
         return $response
             ->withStatus($exception->getCode())
             ->withJson([
@@ -94,6 +115,10 @@ $container['errorHandler'] = function ($container) {
             return $container['unauthorizedHandler']($request, $response, $exception);
         }
 
+        $container['monolog']->error('Uncaught PHP Exception ' . get_class($exception), [
+            'exception' => $exception
+        ]);
+
         $message = [
             'status' => 500,
             'message' => 'Internal Server Error.'
@@ -115,6 +140,10 @@ $container['errorHandler'] = function ($container) {
  */
 $container['phpErrorHandler'] = function ($container) {
     return function (Request $request, Response $response, Throwable $error) use ($container) {
+        $container['monolog']->critical('Uncaught PHP Exception ' . get_class($error), [
+            'exception' => $error
+        ]);
+
         $message = [
             'status' => 500,
             'message' => 'Internal Server Error.'
