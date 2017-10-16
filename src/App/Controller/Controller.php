@@ -210,7 +210,7 @@ abstract class Controller
      *
      * @return UnauthorizedException
      */
-    public function unauthorizedException($message = 'Unauthorized')
+    public function unauthorizedException($message = 'Unauthorized.')
     {
         return new UnauthorizedException($message);
     }
@@ -222,7 +222,7 @@ abstract class Controller
      *
      * @return AccessDeniedException
      */
-    public function accessDeniedException($message = 'Access denied')
+    public function accessDeniedException($message = 'Access Denied.')
     {
         return new AccessDeniedException($message);
     }

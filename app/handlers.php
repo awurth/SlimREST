@@ -8,7 +8,7 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 
 /**
- * Controller functions signature must be like:
+ * Controller methods signature must be like:
  *
  * public function getCollection($request, $response, $arg1, $arg2, $args3, ...)
  *
@@ -19,7 +19,7 @@ $container['foundHandler'] = function () {
 };
 
 /**
- * Return error in JSON when a NotFoundException is thrown
+ * Returns an error in JSON when a NotFoundException is thrown.
  */
 $container['notFoundHandler'] = function () {
     return function (Request $request, Response $response) {
@@ -27,13 +27,13 @@ $container['notFoundHandler'] = function () {
             ->withStatus(404)
             ->withJson([
                 'status' => 404,
-                'message' => 'Resource not found'
+                'message' => 'Resource not found.'
             ]);
     };
 };
 
 /**
- * Return error in JSON when HTTP method is not allowed
+ * Returns an error in JSON when the HTTP method is not allowed.
  */
 $container['notAllowedHandler'] = function () {
     return function (Request $request, Response $response, $methods) {
@@ -54,35 +54,35 @@ $container['notAllowedHandler'] = function () {
 };
 
 /**
- * Return error in JSON when an UnauthorizedException is thrown
+ * Returns an error in JSON when an UnauthorizedException is thrown.
  */
 $container['unauthorizedHandler'] = function () {
     return function (Request $request, Response $response, Exception $exception) {
         return $response
-            ->withStatus(401)
+            ->withStatus($exception->getCode())
             ->withJson([
-                'status' => 401,
+                'status' => $exception->getCode(),
                 'message' => $exception->getMessage()
             ]);
     };
 };
 
 /**
- * Return error in JSON when an AccessDeniedException is thrown
+ * Returns an error in JSON when an AccessDeniedException is thrown.
  */
 $container['accessDeniedHandler'] = function () {
     return function (Request $request, Response $response, Exception $exception) {
         return $response
-            ->withStatus(403)
+            ->withStatus($exception->getCode())
             ->withJson([
-                'status' => 403,
+                'status' => $exception->getCode(),
                 'message' => $exception->getMessage()
             ]);
     };
 };
 
 /**
- * Default Slim error handler
+ * Default Slim error handler.
  */
 $container['errorHandler'] = function ($container) {
     return function (Request $request, Response $response, Exception $exception) use ($container) {
@@ -96,7 +96,7 @@ $container['errorHandler'] = function ($container) {
 
         $message = [
             'status' => 500,
-            'message' => 'Internal Server Error'
+            'message' => 'Internal Server Error.'
         ];
 
         if ('dev' === $container['env']) {
@@ -111,13 +111,13 @@ $container['errorHandler'] = function ($container) {
 };
 
 /**
- * PHP error handler
+ * PHP error handler.
  */
 $container['phpErrorHandler'] = function ($container) {
     return function (Request $request, Response $response, Throwable $error) use ($container) {
         $message = [
             'status' => 500,
-            'message' => 'Internal Server Error'
+            'message' => 'Internal Server Error.'
         ];
 
         if ('dev' === $container['env']) {

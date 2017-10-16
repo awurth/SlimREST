@@ -3,11 +3,12 @@
 namespace App\Exception;
 
 use Exception;
+use RuntimeException;
 
-class UnauthorizedException extends Exception
+class UnauthorizedException extends RuntimeException
 {
-    public function __construct($message = 'Unauthorized', $code = 0, Exception $previous = null)
+    public function __construct($message = 'Unauthorized.', Exception $previous = null)
     {
-        parent::__construct($message, $code, $previous);
+        parent::__construct($message, 401, $previous);
     }
 }

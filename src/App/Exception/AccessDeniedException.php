@@ -3,11 +3,12 @@
 namespace App\Exception;
 
 use Exception;
+use RuntimeException;
 
-class AccessDeniedException extends Exception
+class AccessDeniedException extends RuntimeException
 {
-    public function __construct($message = 'Access denied', $code = 0, Exception $previous = null)
+    public function __construct($message = 'Access Denied.', Exception $previous = null)
     {
-        parent::__construct($message, $code, $previous);
+        parent::__construct($message, 403, $previous);
     }
 }
