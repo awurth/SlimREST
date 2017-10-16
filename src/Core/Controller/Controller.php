@@ -87,6 +87,19 @@ abstract class Controller
     }
 
     /**
+     * Generates a URL from a route.
+     *
+     * @param string $route
+     * @param array  $params
+     *
+     * @return string
+     */
+    public function path($route, array $params = [])
+    {
+        return $this->router->pathFor($route, $params);
+    }
+
+    /**
      * Redirects to a route.
      *
      * @param Response $response

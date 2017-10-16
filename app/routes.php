@@ -15,13 +15,15 @@ $app->options('/{routes:.+}', function ($request, $response) {
  * Authentication
  */
 $app->group('/api', function () use ($container) {
-    $this->post('/register', 'AuthController:register')->setName('register');
-    $this->post('/login', 'AuthController:login')->setName('login');
-    $this->post('/auth/refresh', 'AuthController:refresh')->setName('jwt.refresh');
-    $this->get('/users/me', 'AuthController:me')
+    $this->post('/register', 'security.auth.controller:register')->setName('register');
+    $this->post('/login', 'security.auth.controller:login')->setName('login');
+    $this->post('/auth/refresh', 'security.auth.controller:refresh')->setName('jwt.refresh');
+    $this->get('/users/me', 'security.auth.controller:me')
         ->add($container['auth.middleware']())
         ->setName('users.me');
 });
+
+$app->get('/', 'core.controller:root')->setName('root');
 
 /**
  *         URL          |           CONTROLLER            |     ROUTE
