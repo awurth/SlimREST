@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Service;
+namespace App\Core\Rest;
 
 use InvalidArgumentException;
 use Slim\Interfaces\RouteInterface;
 use Slim\Interfaces\RouterInterface;
 
-class RestRouter
+class Router
 {
     const DEFAULT_KEY = 'id';
     const DEFAULT_REQUIREMENT = '[0-9]+';

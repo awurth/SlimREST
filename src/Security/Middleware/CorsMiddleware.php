@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Middleware;
+namespace App\Security\Middleware;
 
+use App\Core\Middleware\MiddlewareInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 

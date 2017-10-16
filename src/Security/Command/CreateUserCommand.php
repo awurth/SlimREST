@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Command;
+namespace App\Security\Command;
 
 use Cartalyst\Sentinel\Sentinel;
 use Exception;

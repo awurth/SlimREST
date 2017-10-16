@@ -1,8 +1,8 @@
 <?php
 
-use App\Middleware\AuthMiddleware;
-use App\Middleware\CorsMiddleware;
-use App\Middleware\JwtMiddleware;
+use App\Security\Middleware\AuthMiddleware;
+use App\Security\Middleware\CorsMiddleware;
+use App\Security\Middleware\JwtMiddleware;
 
 $container['auth.middleware'] = function ($container) {
     return function ($role = null) use ($container) {

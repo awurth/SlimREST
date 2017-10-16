@@ -1,6 +1,6 @@
 <?php
 
-use App\Service\RestRouter;
+use App\Core\Rest\Router as RestRouter;
 
 $router = new RestRouter($container['router'], $container['config']['rest']);
 

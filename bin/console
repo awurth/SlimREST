@@ -3,9 +3,9 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
-use App\Command\CreateUserCommand;
-use App\Command\DatabaseCommand;
-use App\Command\RoutesCommand;
+use App\Core\Command\DatabaseCommand;
+use App\Core\Command\RoutesCommand;
+use App\Security\Command\CreateUserCommand;
 use Symfony\Component\Console\Application;
 
 $app = new Slim\App([

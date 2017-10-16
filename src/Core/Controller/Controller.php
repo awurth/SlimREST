@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Controller;
+namespace App\Core\Controller;
 
-use App\Exception\AccessDeniedException;
-use App\Exception\UnauthorizedException;
-use App\Model\User;
-use App\Service\JWTManager;
+use App\Security\Exception\AccessDeniedException;
+use App\Security\Exception\UnauthorizedException;
+use App\Security\Model\User;
+use App\Security\Jwt\Manager as JwtManager;
 use Awurth\SlimValidation\Validator;
 use Cartalyst\Sentinel\Sentinel;
 use Psr\Container\ContainerInterface;
@@ -18,7 +18,7 @@ use Slim\Router;
  * @property Router     router
  * @property Validator  validator
  * @property Sentinel   sentinel
- * @property JWTManager jwt
+ * @property JwtManager jwt
  * @property string     env
  * @property string     root_dir
  */

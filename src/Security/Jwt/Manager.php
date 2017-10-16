@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Service;
+namespace App\Security\Jwt;
 
-use App\Model\AccessToken;
-use App\Model\RefreshToken;
-use App\Model\User;
+use App\Security\Model\AccessToken;
+use App\Security\Model\RefreshToken;
+use App\Security\Model\User;
 use Cartalyst\Sentinel\Users\UserInterface;
 use Firebase\JWT\ExpiredException;
 use Firebase\JWT\JWT;
 use Illuminate\Database\QueryException;
 
-class JWTManager
+class Manager
 {
     const ACCESS_TOKEN_LIFETIME = 3600;
     const REFRESH_TOKEN_LIFETIME = 1209600;

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Middleware;
+namespace App\Core\Middleware;
 
-use App\Service\JWTManager;
+use App\Security\Jwt\Manager as JwtManager;
 use Cartalyst\Sentinel\Sentinel;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -11,7 +11,7 @@ use Slim\Router;
 /**
  * @property Router router
  * @property Sentinel sentinel
- * @property JWTManager jwt
+ * @property JwtManager jwt
  */
 interface MiddlewareInterface
 {

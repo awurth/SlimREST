@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Command;
+namespace App\Core\Command;
 
 use Slim\Router;
 use Symfony\Component\Console\Command\Command;

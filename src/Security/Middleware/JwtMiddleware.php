@@ -1,24 +1,25 @@
 <?php
 
-namespace App\Middleware;
+namespace App\Security\Middleware;
 
-use App\Service\JWTManager;
+use App\Core\Middleware\MiddlewareInterface;
+use App\Security\Jwt\Manager as JwtManager;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
 class JwtMiddleware implements MiddlewareInterface
 {
     /**
-     * @var JWTManager
+     * @var JwtManager
      */
     protected $jwt;
 
     /**
      * Constructor.
      *
-     * @param JWTManager $jwt
+     * @param JwtManager $jwt
      */
-    public function __construct(JWTManager $jwt)
+    public function __construct(JwtManager $jwt)
     {
         $this->jwt = $jwt;
     }

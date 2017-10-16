@@ -1,6 +1,6 @@
 <?php
 
-use App\Service\JWTManager;
+use App\Security\Jwt\Manager as JwtManager;
 use Awurth\SlimValidation\Validator;
 use Cartalyst\Sentinel\Native\Facades\Sentinel;
 use Cartalyst\Sentinel\Native\SentinelBootstrapper;
@@ -26,7 +26,7 @@ $container['sentinel'] = function () {
 };
 
 $container['jwt'] = function () use ($parameters, $container) {
-    return new JWTManager($parameters['secret'], $container['config']['jwt']);
+    return new JwtManager($parameters['secret'], $container['config']['jwt']);
 };
 
 $container['validator'] = function () {
