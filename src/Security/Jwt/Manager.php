@@ -5,7 +5,6 @@ namespace App\Security\Jwt;
 use App\Security\Model\AccessToken;
 use App\Security\Model\RefreshToken;
 use App\Security\Model\User;
-use Cartalyst\Sentinel\Users\UserInterface;
 use Firebase\JWT\ExpiredException;
 use Firebase\JWT\JWT;
 use Illuminate\Database\QueryException;
@@ -116,12 +115,12 @@ class Manager
     /**
      * Generates a new Access Token.
      *
-     * @param UserInterface $user
-     * @param bool          $save
+     * @param User $user
+     * @param bool $save
      *
      * @return string
      */
-    public function generateAccessToken(UserInterface $user, $save = false)
+    public function generateAccessToken(User $user, $save = false)
     {
         $time = time();
         $expiresAt = $time + $this->accessTokenLifetime;
@@ -159,12 +158,12 @@ class Manager
     /**
      * Generates a new Refresh Token.
      *
-     * @param UserInterface $user
-     * @param bool          $save
+     * @param User $user
+     * @param bool $save
      *
      * @return string
      */
-    public function generateRefreshToken(UserInterface $user, $save = false)
+    public function generateRefreshToken(User $user, $save = false)
     {
         $time = time();
         $expiresAt = $time + $this->refreshTokenLifetime;
