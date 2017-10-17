@@ -4,6 +4,7 @@ namespace App\Security\Controller;
 
 use App\Core\Controller\Controller;
 use Cartalyst\Sentinel\Checkpoints\ThrottlingException;
+use Cartalyst\Sentinel\Users\UserInterface;
 use Respect\Validation\Validator as V;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -20,7 +21,7 @@ class AuthController extends Controller
         try {
             $user = $this->sentinel->stateless($credentials);
 
-            if ($user) {
+            if ($user instanceof UserInterface) {
                 return $this->ok($response, [
                     'access_token' => $this->jwt->generateAccessToken($user, true),
                     'expires_in' => $this->jwt->getAccessTokenLifetime(),
