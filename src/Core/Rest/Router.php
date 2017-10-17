@@ -36,6 +36,12 @@ class Router
      */
     protected $CRUDMethods;
 
+    /**
+     * Constructor.
+     *
+     * @param RouterInterface $router
+     * @param array           $config
+     */
     public function __construct(RouterInterface $router, array $config = [])
     {
         $this->router = $router;
@@ -46,20 +52,21 @@ class Router
 
         $this->CRUDMethods = [
             'get' => $config['crud']['get'] ?? true,
-            'get_collection' => $config['crud']['get_collection'] ?? true,
+            'cget' => $config['crud']['get_collection'] ?? true,
             'post' => $config['crud']['post'] ?? true,
             'put' => $config['crud']['put'] ?? true,
             'delete' => $config['crud']['delete'] ?? true,
-            'delete_collection' => $config['crud']['delete_collection'] ?? false
+            'cdelete' => $config['crud']['delete_collection'] ?? false
         ];
     }
 
     /**
-     * Get url pattern of a resource
+     * Gets the URL pattern of a resource.
      *
      * @param string $collection
-     * @param bool $one
-     * @param array $options
+     * @param bool   $one
+     * @param array  $options
+     *
      * @return string
      */
     public function pattern(string $collection, bool $one = true, array $options = [])
@@ -75,12 +82,13 @@ class Router
     }
 
     /**
-     * Get url pattern of a sub resource
+     * Gets the URL pattern of a sub resource.
      *
      * @param string $parentCollection
      * @param string $subCollection
-     * @param bool $one
-     * @param array $options
+     * @param bool   $one
+     * @param array  $options
+     *
      * @return string
      */
     public function subPattern(string $parentCollection, string $subCollection, bool $one = true, array $options = [])
@@ -107,12 +115,13 @@ class Router
     }
 
     /**
-     * Generate a route for a single resource
+     * Generates a route for a single resource.
      *
      * @param string $method
      * @param string $collection
      * @param string $controller
-     * @param array $options
+     * @param array  $options
+     *
      * @return RouteInterface
      */
     public function one(string $method, string $collection, string $controller, array $options = [])
@@ -137,13 +146,14 @@ class Router
     }
 
     /**
-     * Generate a single route for a sub resource
+     * Generates a single route for a sub resource.
      *
      * @param string $method
      * @param string $parentCollection
      * @param string $subCollection
      * @param string $controller
-     * @param array $options
+     * @param array  $options
+     *
      * @return RouteInterface
      */
     public function subOne(string $method, string $parentCollection, string $subCollection, string $controller, array $options = [])
@@ -173,11 +183,12 @@ class Router
     }
 
     /**
-     * Generate a route for a collection
+     * Generates a route for a collection.
      *
      * @param string $method
      * @param string $collection
      * @param string $controller
+     *
      * @return RouteInterface
      */
     public function collection(string $method, string $collection, string $controller)
@@ -192,13 +203,14 @@ class Router
     }
 
     /**
-     * Generate a route for a sub collection
+     * Generates a route for a sub collection.
      *
      * @param string $method
      * @param string $parentCollection
      * @param string $subCollection
      * @param string $controller
-     * @param array $options
+     * @param array  $options
+     *
      * @return RouteInterface
      */
     public function subCollection(string $method, string $parentCollection, string $subCollection, string $controller, array $options = [])
@@ -213,40 +225,22 @@ class Router
     }
 
     /**
-     * Generate all routes for a resource
+     * Generates all routes for a resource.
      *
      * @param string $collection
      * @param string $controller
-     * @param array $middleware
-     * @param array $options
+     * @param array  $middleware
+     * @param array  $options
+     *
      * @return RouteInterface[]
      */
     public function CRUD(string $collection, string $controller, array $middleware = [], array $options = [])
     {
         $routes = [];
-
-        if ($this->CRUDMethods['get']) {
-            $routes['get'] = $this->get($collection, $controller, $options);
-        }
-
-        if ($this->CRUDMethods['get_collection']) {
-            $routes['cget'] = $this->cget($collection, $controller);
-        }
-
-        if ($this->CRUDMethods['post']) {
-            $routes['post'] = $this->post($collection, $controller, $options['singular'] ?? '');
-        }
-
-        if ($this->CRUDMethods['put']) {
-            $routes['put'] = $this->put($collection, $controller, $options);
-        }
-
-        if ($this->CRUDMethods['delete']) {
-            $routes['delete'] = $this->delete($collection, $controller, $options);
-        }
-
-        if ($this->CRUDMethods['delete_collection']) {
-            $routes['cdelete'] = $this->cdelete($collection, $controller);
+        foreach ($this->CRUDMethods as $method => $enabled) {
+            if ($enabled) {
+                $routes[$method] = $this->$method($collection, $controller, 'post' === $method ? ($options['singular'] ?? '') : $options);
+            }
         }
 
         if (!empty($middleware)) {
@@ -261,41 +255,24 @@ class Router
     }
 
     /**
-     * Generate all routes for a sub resource
+     * Generates all routes for a sub resource.
      *
      * @param string $parentCollection
      * @param string $subCollection
      * @param string $controller
-     * @param array $middleware
-     * @param array $options
+     * @param array  $middleware
+     * @param array  $options
+     *
      * @return RouteInterface[]
      */
     public function subCRUD(string $parentCollection, string $subCollection, string $controller, array $middleware = [], array $options = [])
     {
         $routes = [];
-
-        if ($this->CRUDMethods['get']) {
-            $routes['get'] = $this->getSub($parentCollection, $subCollection, $controller, $options);
-        }
-
-        if ($this->CRUDMethods['get_collection']) {
-            $routes['cget'] = $this->cgetSub($parentCollection, $subCollection, $controller, $options);
-        }
-
-        if ($this->CRUDMethods['post']) {
-            $routes['post'] = $this->postSub($parentCollection, $subCollection, $controller, $options);
-        }
-
-        if ($this->CRUDMethods['put']) {
-            $routes['put'] = $this->putSub($parentCollection, $subCollection, $controller, $options);
-        }
-
-        if ($this->CRUDMethods['delete']) {
-            $routes['delete'] = $this->deleteSub($parentCollection, $subCollection, $controller, $options);
-        }
-
-        if ($this->CRUDMethods['delete_collection']) {
-            $routes['cdelete'] = $this->cdeleteSub($parentCollection, $subCollection, $controller, $options);
+        foreach ($this->CRUDMethods as $method => $enabled) {
+            if ($enabled) {
+                $call = $method . 'Sub';
+                $routes[$method] = $this->$call($parentCollection, $subCollection, $controller, $options);
+            }
         }
 
         if (!empty($middleware)) {
@@ -310,11 +287,12 @@ class Router
     }
 
     /**
-     * Generate a route for a single resource with GET method
+     * Generates a route for a single resource with the GET method.
      *
      * @param string $collection
      * @param string $controller
-     * @param array $options
+     * @param array  $options
+     *
      * @return RouteInterface
      */
     public function get(string $collection, string $controller, array $options = [])
@@ -323,12 +301,13 @@ class Router
     }
 
     /**
-     * Generate a route for a single sub resource with GET method
+     * Generates a route for a single sub resource with the GET method.
      *
      * @param string $parentCollection
      * @param string $subCollection
      * @param string $controller
-     * @param array $options
+     * @param array  $options
+     *
      * @return RouteInterface
      */
     public function getSub(string $parentCollection, string $subCollection, string $controller, array $options = [])
@@ -337,10 +316,11 @@ class Router
     }
 
     /**
-     * Generate a route for a collection with GET method
+     * Generates a route for a collection with the GET method.
      *
      * @param string $collection
      * @param string $controller
+     *
      * @return RouteInterface
      */
     public function cget(string $collection, string $controller)
@@ -349,12 +329,13 @@ class Router
     }
 
     /**
-     * Generate a route for a sub resource collection with GET method
+     * Generates a route for a sub resource collection with the GET method.
      *
      * @param string $parentCollection
      * @param string $subCollection
      * @param string $controller
-     * @param array $options
+     * @param array  $options
+     *
      * @return RouteInterface
      */
     public function cgetSub(string $parentCollection, string $subCollection, string $controller, array $options = [])
@@ -363,11 +344,12 @@ class Router
     }
 
     /**
-     * Generate a route for a collection with POST method
+     * Generates a route for a collection with the POST method.
      *
      * @param string $collection
      * @param string $controller
      * @param string $singular
+     *
      * @return RouteInterface
      */
     public function post(string $collection, string $controller, string $singular = '')
@@ -384,12 +366,13 @@ class Router
     }
 
     /**
-     * Generate a route for a sub resource collection with POST method
+     * Generates a route for a sub resource collection with the POST method.
      *
      * @param string $parentCollection
      * @param string $subCollection
      * @param string $controller
-     * @param array $options
+     * @param array  $options
+     *
      * @return RouteInterface
      */
     public function postSub(string $parentCollection, string $subCollection, string $controller, array $options = [])
@@ -405,11 +388,12 @@ class Router
     }
 
     /**
-     * Generate a route for a single resource with PUT method
+     * Generates a route for a single resource with the PUT method.
      *
      * @param string $collection
      * @param string $controller
-     * @param array $options
+     * @param array  $options
+     *
      * @return RouteInterface
      */
     public function put(string $collection, string $controller, array $options = [])
@@ -418,12 +402,13 @@ class Router
     }
 
     /**
-     * Generate a route for a single sub resource with PUT method
+     * Generates a route for a single sub resource with the PUT method.
      *
      * @param string $parentCollection
      * @param string $subCollection
      * @param string $controller
-     * @param array $options
+     * @param array  $options
+     *
      * @return RouteInterface
      */
     public function putSub(string $parentCollection, string $subCollection, string $controller, array $options = [])
@@ -432,11 +417,12 @@ class Router
     }
 
     /**
-     * Generate a route for a single resource with DELETE method
+     * Generates a route for a single resource with the DELETE method.
      *
      * @param string $collection
      * @param string $controller
-     * @param array $options
+     * @param array  $options
+     *
      * @return RouteInterface
      */
     public function delete(string $collection, string $controller, array $options = [])
@@ -445,12 +431,13 @@ class Router
     }
 
     /**
-     * Generate a route for a single sub resource with DELETE method
+     * Generates a route for a single sub resource with the DELETE method.
      *
      * @param string $parentCollection
      * @param string $subCollection
      * @param string $controller
-     * @param array $options
+     * @param array  $options
+     *
      * @return RouteInterface
      */
     public function deleteSub(string $parentCollection, string $subCollection, string $controller, array $options = [])
@@ -459,10 +446,11 @@ class Router
     }
 
     /**
-     * Generate a route for a collection with DELETE method
+     * Generates a route for a collection with the DELETE method.
      *
      * @param string $collection
      * @param string $controller
+     *
      * @return RouteInterface
      */
     public function cdelete(string $collection, string $controller)
@@ -471,12 +459,13 @@ class Router
     }
 
     /**
-     * Generate a route for a sub resource collection with DELETE method
+     * Generates a route for a sub resource collection with the DELETE method.
      *
      * @param string $parentCollection
      * @param string $subCollection
      * @param string $controller
-     * @param array $options
+     * @param array  $options
+     *
      * @return RouteInterface
      */
     public function cdeleteSub(string $parentCollection, string $subCollection, string $controller, array $options = [])
@@ -485,18 +474,19 @@ class Router
     }
 
     /**
-     * Get a resource name's singular (removes last character)
+     * Gets a resource name's singular (removes last character).
      *
      * @param string $collection
+     *
      * @return string
      */
-    public function singular(string $collection)
+    public function singular(string $collection): string
     {
         return substr($collection, 0, -1);
     }
 
     /**
-     * Set URLs prefix
+     * Sets URLs prefix.
      *
      * @param string $prefix
      */
@@ -506,17 +496,17 @@ class Router
     }
 
     /**
-     * Get URLs prefix
+     * Gets URLs prefix.
      *
      * @return string
      */
-    public function getPrefix()
+    public function getPrefix(): string
     {
         return $this->prefix;
     }
 
     /**
-     * Set default key
+     * Sets the default key.
      *
      * @param string $key
      */
@@ -526,17 +516,17 @@ class Router
     }
 
     /**
-     * Get default key
+     * Gets the default key.
      *
      * @return string
      */
-    public function getKey()
+    public function getKey(): string
     {
         return $this->key;
     }
 
     /**
-     * Set default requirement
+     * Sets the default route placeholder requirement.
      *
      * @param string $requirement
      */
@@ -546,17 +536,17 @@ class Router
     }
 
     /**
-     * Get default requirement
+     * Gets the default route placeholder requirement.
      *
      * @return string
      */
-    public function getRequirement()
+    public function getRequirement(): string
     {
         return $this->requirement;
     }
 
     /**
-     * Set CRUD methods
+     * Sets the CRUD methods.
      *
      * @param array $methods
      */
@@ -566,11 +556,11 @@ class Router
     }
 
     /**
-     * Get CRUD methods
+     * Gets the CRUD methods.
      *
      * @return array
      */
-    public function getCRUDMethods()
+    public function getCRUDMethods(): array
     {
         return $this->CRUDMethods;
     }
