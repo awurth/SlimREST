@@ -41,10 +41,10 @@ class Manager
     private $accessToken;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param string $secret
-     * @param array $config
+     * @param array  $config
      */
     public function __construct($secret, array $config = [])
     {
@@ -56,9 +56,10 @@ class Manager
     }
 
     /**
-     * Check if Access Token is valid
+     * Checks if an Access Token is valid.
      *
      * @param string $token
+     *
      * @return bool
      */
     public function checkAccessToken($token)
@@ -85,9 +86,10 @@ class Manager
     }
 
     /**
-     * Check if Refresh Token is valid
+     * Checks if a Refresh Token is valid.
      *
      * @param string $token
+     *
      * @return bool
      */
     public function checkRefreshToken($token)
@@ -112,10 +114,11 @@ class Manager
     }
 
     /**
-     * Generate new Access Token
+     * Generates a new Access Token.
      *
      * @param UserInterface $user
-     * @param bool $save
+     * @param bool          $save
+     *
      * @return string
      */
     public function generateAccessToken(UserInterface $user, $save = false)
@@ -154,10 +157,11 @@ class Manager
     }
 
     /**
-     * Generate new Refresh Token
+     * Generates a new Refresh Token.
      *
      * @param UserInterface $user
-     * @param bool $save
+     * @param bool          $save
+     *
      * @return string
      */
     public function generateRefreshToken(UserInterface $user, $save = false)
@@ -198,10 +202,11 @@ class Manager
     }
 
     /**
-     * Get Token User
+     * Gets the User associated with the given Token.
      *
      * @param string $token
-     * @return User
+     *
+     * @return User|null
      */
     public function getTokenUser($token) {
         try {
@@ -217,7 +222,7 @@ class Manager
     }
 
     /**
-     * Set server name
+     * Sets the server name.
      *
      * @param string $name
      */
@@ -227,7 +232,7 @@ class Manager
     }
 
     /**
-     * Get server name
+     * Gets the server name.
      *
      * @return string
      */
@@ -237,7 +242,7 @@ class Manager
     }
 
     /**
-     * Set Access Token lifetime
+     * Sets the Access Token lifetime.
      *
      * @param int $lifetime
      */
@@ -247,7 +252,7 @@ class Manager
     }
 
     /**
-     * Get Access Token lifetime
+     * Gets the Access Token lifetime.
      *
      * @return int
      */
@@ -257,7 +262,7 @@ class Manager
     }
 
     /**
-     * Set Refresh Token lifetime
+     * Sets the Refresh Token lifetime.
      *
      * @param int $lifetime
      */
@@ -267,7 +272,7 @@ class Manager
     }
 
     /**
-     * Get Refresh Token lifetime
+     * Gets the Refresh Token lifetime.
      *
      * @return int
      */
@@ -277,7 +282,7 @@ class Manager
     }
 
     /**
-     * Set Access Token
+     * Sets the Access Token.
      *
      * @param AccessToken $accessToken
      */
@@ -287,7 +292,7 @@ class Manager
     }
 
     /**
-     * Get access token
+     * Gets the Access Token.
      *
      * @return AccessToken
      */
