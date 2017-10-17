@@ -234,7 +234,7 @@ class Router
      *
      * @return RouteInterface[]
      */
-    public function CRUD(string $collection, string $controller, array $middleware = [], array $options = [])
+    public function crud(string $collection, string $controller, array $middleware = [], array $options = [])
     {
         $routes = [];
         foreach ($this->CRUDMethods as $method => $enabled) {
@@ -265,7 +265,7 @@ class Router
      *
      * @return RouteInterface[]
      */
-    public function subCRUD(string $parentCollection, string $subCollection, string $controller, array $middleware = [], array $options = [])
+    public function subCrud(string $parentCollection, string $subCollection, string $controller, array $middleware = [], array $options = [])
     {
         $routes = [];
         foreach ($this->CRUDMethods as $method => $enabled) {

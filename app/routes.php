@@ -34,7 +34,7 @@ $app->get('/', 'core.controller:root')->setName('root');
  * PUT /articles/{id}   | ArticleController:putArticle    | put_article
  * DELETE /article/{id} | ArticleController:deleteArticle | delete_article
  */
-$router->CRUD('articles', 'ArticleController');
+$router->crud('articles', 'ArticleController');
 
 // OR
 
@@ -52,7 +52,7 @@ $router->CRUD('articles', 'ArticleController');
  *      'singular' => 'article'
  * ];
  *
- * $router->CRUD('articles', 'ArticleController', [], $options);
+ * $router->crud('articles', 'ArticleController', [], $options);
  *
  * OR
  *
@@ -73,7 +73,7 @@ $router->CRUD('articles', 'ArticleController');
  * PUT /articles/{article_id}/comments/{comment_id}   | ArticleCommentController:putArticleComment    | put_article_comment
  * DELETE /article/{article_id}/comments/{comment_id} | ArticleCommentController:deleteArticleComment | delete_article_comment
  */
-$router->subCRUD('articles', 'comments', 'ArticleCommentController');
+$router->subCrud('articles', 'comments', 'ArticleCommentController');
 
 // OR
 
@@ -94,7 +94,7 @@ $router->subCRUD('articles', 'comments', 'ArticleCommentController');
  *      'sub_singular' => 'comment'
  * ];
  *
- * $router->subCRUD('articles', 'comments', 'ArticleCommentController', [], $options);
+ * $router->subCrud('articles', 'comments', 'ArticleCommentController', [], $options);
  *
  * OR
  *
