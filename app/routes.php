@@ -28,21 +28,23 @@ $app->get('/', 'core.controller:root')->setName('root');
 /**
  *         URL          |           CONTROLLER            |     ROUTE
  * ---------------------|---------------------------------|----------------
- * GET /articles        | ArticleController:getArticle    | get_articles
- * GET /articles/{id}   | ArticleController:getArticles   | get_article
- * POST /articles       | ArticleController:postArticle   | post_article
- * PUT /articles/{id}   | ArticleController:putArticle    | put_article
- * DELETE /article/{id} | ArticleController:deleteArticle | delete_article
+ * GET /articles        | article.controller:getArticle    | get_articles
+ * GET /articles/{id}   | article.controller:getArticles   | get_article
+ * POST /articles       | article.controller:postArticle   | post_article
+ * PUT /articles/{id}   | article.controller:putArticle    | put_article
+ * DELETE /article/{id} | article.controller:deleteArticle | delete_article
  */
-$router->crud('articles', 'ArticleController');
+$router->crud('articles', 'article.controller');
 
 // OR
 
-// $router->cget('articles', 'ArticleController');
-// $router->get('articles', 'ArticleController');
-// $router->post('articles', 'ArticleController');
-// $router->put('articles', 'ArticleController');
-// $router->delete('articles', 'ArticleController');
+/**
+ * $router->cget('articles', 'article.controller');
+ * $router->get('articles', 'article.controller');
+ * $router->post('articles', 'article.controller');
+ * $router->put('articles', 'article.controller');
+ * $router->delete('articles', 'article.controller');
+ */
 
 // With options
 /**
@@ -52,11 +54,11 @@ $router->crud('articles', 'ArticleController');
  *      'singular' => 'article'
  * ];
  *
- * $router->crud('articles', 'ArticleController', [], $options);
+ * $router->crud('articles', 'article.controller', [], $options);
  *
  * OR
  *
- * $router->get('articles', 'ArticleController', $options);
+ * $router->get('articles', 'article.controller', $options);
  * ...
  */
 
@@ -77,11 +79,13 @@ $router->subCrud('articles', 'comments', 'ArticleCommentController');
 
 // OR
 
-// $router->cgetSub('articles', 'comments', 'ArticleController');
-// $router->getSub('articles', 'comments', 'ArticleController');
-// $router->postSub('articles', 'comments', 'ArticleController');
-// $router->putSub('articles', 'comments', 'ArticleController');
-// $router->deleteSub('articles', 'comments', 'ArticleController');
+/**
+ * $router->cgetSub('articles', 'comments', 'article.controller');
+ * $router->getSub('articles', 'comments', 'article.controller');
+ * $router->postSub('articles', 'comments', 'article.controller');
+ * $router->putSub('articles', 'comments', 'article.controller');
+ * $router->deleteSub('articles', 'comments', 'article.controller');
+ */
 
 // With options
 /**
@@ -98,6 +102,6 @@ $router->subCrud('articles', 'comments', 'ArticleCommentController');
  *
  * OR
  *
- * $router->getSub('articles', 'comments', 'ArticleController', $options);
+ * $router->getSub('articles', 'comments', 'article.controller', $options);
  * ...
  */
