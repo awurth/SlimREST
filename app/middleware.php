@@ -6,7 +6,7 @@ use App\Security\Middleware\JwtMiddleware;
 
 $container['auth.middleware'] = function ($container) {
     return function ($role = null) use ($container) {
-        return new AuthMiddleware($container['sentinel'], $role);
+        return new AuthMiddleware($container['jwt'], $role);
     };
 };
 

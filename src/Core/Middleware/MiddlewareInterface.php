@@ -2,21 +2,13 @@
 
 namespace App\Core\Middleware;
 
-use App\Security\Jwt\Manager as JwtManager;
-use Cartalyst\Sentinel\Sentinel;
 use Slim\Http\Request;
 use Slim\Http\Response;
-use Slim\Router;
 
-/**
- * @property Router router
- * @property Sentinel sentinel
- * @property JwtManager jwt
- */
 interface MiddlewareInterface
 {
     /**
-     * Method call when the class is user as a function.
+     * Method called when the class is used as a function.
      *
      * @param Request $request
      * @param Response $response

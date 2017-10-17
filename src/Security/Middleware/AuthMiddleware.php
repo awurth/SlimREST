@@ -5,7 +5,7 @@ namespace App\Security\Middleware;
 use App\Core\Middleware\MiddlewareInterface;
 use App\Security\Exception\AccessDeniedException;
 use App\Security\Exception\UnauthorizedException;
-use Cartalyst\Sentinel\Sentinel;
+use App\Security\Jwt\Manager as JwtManager;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -17,19 +17,19 @@ class AuthMiddleware implements MiddlewareInterface
     protected $role;
 
     /**
-     * @var Sentinel
+     * @var JwtManager
      */
-    protected $sentinel;
+    protected $jwt;
 
     /**
      * Constructor.
      *
-     * @param Sentinel $sentinel
-     * @param string   $role
+     * @param JwtManager $jwt
+     * @param string     $role
      */
-    public function __construct(Sentinel $sentinel, $role = null)
+    public function __construct(JwtManager $jwt, $role = null)
     {
-        $this->sentinel = $sentinel;
+        $this->jwt = $jwt;
         $this->role = $role;
     }
 
