@@ -63,19 +63,34 @@ class RoutesCommand extends Command
         return 0;
     }
 
+    /**
+     * Displays routes in plain text.
+     *
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     */
     public function text(InputInterface $input, OutputInterface $output)
     {
         foreach ($this->router->getRoutes() as $route) {
-            if ($route->getName()) {
+            if (!empty($route->getName())) {
                 $output->writeln('<fg=cyan;options=bold>' . $route->getName() . '</>');
                 $output->writeln('    ' . implode(', ', $route->getMethods()));
                 $output->writeln('    ' . $route->getPattern());
-                $output->writeln('    ' . $route->getCallable());
+                if (is_string($route->getCallable())) {
+                    $output->writeln('    ' . $route->getCallable());
+                }
+
                 $output->writeln('');
             }
         }
     }
 
+    /**
+     * Displays routes in markdown format.
+     *
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     */
     public function markdown(InputInterface $input, OutputInterface $output)
     {
         $output->writeln('# API Routes');
@@ -83,15 +98,17 @@ class RoutesCommand extends Command
         $url = $this->options['url'];
 
         foreach ($this->router->getRoutes() as $route) {
-            if ($route->getName()) {
-                $methods = implode(', ', $route->getMethods());
+            $methods = implode(', ', $route->getMethods());
 
-                $output->writeln('### `' . $methods . '` [' . $route->getPattern() . '](' . $url . $route->getPattern() . ')');
+            $output->writeln('### `' . $methods . '` [' . $route->getPattern() . '](' . $url . $route->getPattern() . ')');
+            if (is_string($route->getCallable())) {
                 $output->writeln('##### ' . $route->getCallable());
-                $output->writeln('###### ' . $route->getName());
-
-                $output->writeln('');
             }
+            if (!empty($route->getName())) {
+                $output->writeln('###### ' . $route->getName());
+            }
+
+            $output->writeln('');
         }
     }
 }
