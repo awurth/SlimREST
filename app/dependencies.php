@@ -10,8 +10,6 @@ use Monolog\Logger;
 use Monolog\Processor\UidProcessor;
 use Symfony\Component\Yaml\Yaml;
 
-$container = $app->getContainer();
-
 $parameters = Yaml::parse(file_get_contents(__DIR__ . '/config/parameters.yml'))['parameters'];
 
 $capsule = new Manager();
