@@ -4,19 +4,19 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "2b074bb5219422cf6705c3c5724834d3",
+    "content-hash": "ce577b49aa88ffd2394028833a23ecbe",
     "packages": [
         {
             "name": "awurth/slim-validation",
             "version": "3.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/awurth/slim-validation.git",
+                "url": "https://github.com/awurth/SlimValidation.git",
                 "reference": "85175e844dcd6e1b0abde91dc5f7b2d0d465e47c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/awurth/slim-validation/zipball/85175e844dcd6e1b0abde91dc5f7b2d0d465e47c",
+                "url": "https://api.github.com/repos/awurth/SlimValidation/zipball/85175e844dcd6e1b0abde91dc5f7b2d0d465e47c",
                 "reference": "85175e844dcd6e1b0abde91dc5f7b2d0d465e47c",
                 "shasum": ""
             },
@@ -57,6 +57,62 @@
                 "validation"
             ],
             "time": "2017-09-21T19:07:13+00:00"
+        },
+        {
+            "name": "bshaffer/oauth2-server-php",
+            "version": "v1.9.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bshaffer/oauth2-server-php.git",
+                "reference": "8856aed1a98d6da596ae3f9b8095b5c7a1581697"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bshaffer/oauth2-server-php/zipball/8856aed1a98d6da596ae3f9b8095b5c7a1581697",
+                "reference": "8856aed1a98d6da596ae3f9b8095b5c7a1581697",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.9"
+            },
+            "require-dev": {
+                "aws/aws-sdk-php": "~2.8",
+                "firebase/php-jwt": "~2.2",
+                "mongodb/mongodb": "^1.1",
+                "predis/predis": "dev-master",
+                "thobbs/phpcassa": "dev-master"
+            },
+            "suggest": {
+                "aws/aws-sdk-php": "~2.8 is required to use DynamoDB storage",
+                "firebase/php-jwt": "~1.1 is required to use MondoDB storage",
+                "predis/predis": "Required to use Redis storage",
+                "thobbs/phpcassa": "Required to use Cassandra storage"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "OAuth2": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Brent Shaffer",
+                    "email": "bshafs@gmail.com",
+                    "homepage": "http://brentertainment.com"
+                }
+            ],
+            "description": "OAuth2 Server for PHP",
+            "homepage": "http://github.com/bshaffer/oauth2-server-php",
+            "keywords": [
+                "auth",
+                "oauth",
+                "oauth2"
+            ],
+            "time": "2017-01-06T23:20:00+00:00"
         },
         {
             "name": "cartalyst/sentinel",
