@@ -9,7 +9,7 @@ use Respect\Validation\Validator as V;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-class AuthController extends Controller
+class TokenController extends Controller
 {
     public function token(Request $request)
     {

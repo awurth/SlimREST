@@ -2,7 +2,7 @@
 
 $controllers = [
     'core.controller' => 'App\Core\Controller\CoreController',
-    'security.auth.controller' => 'App\Security\Controller\AuthController',
+    'security.token.controller' => 'App\Security\Controller\TokenController',
     'security.registration.controller' => 'App\Security\Controller\RegistrationController'
 ];
 

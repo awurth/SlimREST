@@ -16,8 +16,8 @@ $app->options('/{routes:.+}', function ($request, $response) {
  */
 $app->group('/', function () use ($container) {
     $this->post('register', 'security.registration.controller:register')->setName('register');
-    $this->post('oauth/v2/token', 'security.auth.controller:token')->setName('oauth_token');
-    $this->get('users/me', 'security.auth.controller:me')
+    $this->post('oauth/v2/token', 'security.token.controller:token')->setName('oauth_token');
+    $this->get('users/me', 'security.token.controller:me')
         ->add($container['auth.middleware']())
         ->setName('users.me');
 });
