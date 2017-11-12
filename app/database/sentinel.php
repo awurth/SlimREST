@@ -20,22 +20,6 @@ Manager::schema()->create('user', function (Blueprint $table) {
     $table->timestamps();
 });
 
-Manager::schema()->create('access_token', function (Blueprint $table) {
-    $table->increments('id');
-    $table->unsignedInteger('user_id');
-    $table->string('token')->unique();
-    $table->unsignedInteger('expires_at');
-    $table->foreign('user_id')->references('id')->on('user');
-});
-
-Manager::schema()->create('refresh_token', function (Blueprint $table) {
-    $table->increments('id');
-    $table->unsignedInteger('user_id');
-    $table->string('token')->unique();
-    $table->unsignedInteger('expires_at');
-    $table->foreign('user_id')->references('id')->on('user');
-});
-
 Manager::schema()->create('activations', function (Blueprint $table) {
     $table->increments('id');
     $table->unsignedInteger('user_id');
