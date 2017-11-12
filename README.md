@@ -1,4 +1,7 @@
 # Slim REST base - A Slim 3 skeleton
+
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/a0ec0038-d946-4408-8367-3e1c1e26b3e7/mini.png)](https://insight.sensiolabs.com/projects/a0ec0038-d946-4408-8367-3e1c1e26b3e7) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/awurth/slim-rest-base/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/awurth/slim-rest-base/?branch=master)
+
 This is an app skeleton for the Slim PHP Micro-Framework to get started quickly building a REST API
 
 ## Features
@@ -48,3 +51,6 @@ $ sf db
 
 ## Note
 You might want to replace the authentication part with a real OAuth implementation
+
+# TODO
+- PHPUnit
