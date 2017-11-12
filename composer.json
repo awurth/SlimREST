@@ -21,6 +21,7 @@
         "awurth/slim-validation": "^3.0",
         "bshaffer/oauth2-server-php": "^1.9",
         "cartalyst/sentinel": "^2.0",
+        "chadicus/slim-oauth2": "^3.1",
         "firebase/php-jwt": "^5.0",
         "illuminate/database": "^5.4",
         "illuminate/events": "^5.4",
