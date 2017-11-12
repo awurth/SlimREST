@@ -71,39 +71,6 @@ class AuthController extends Controller
         return $this->validationErrors($response);
     }
 
-    public function refresh(Request $request, Response $response)
-    {
-        $this->validator->request($request, [
-            'refresh_token' => [
-                'rules' => V::notBlank(),
-                'messages' => [
-                    'notBlank' => 'Refresh token is missing'
-                ]
-            ]
-        ]);
-
-        $token = $request->getParam('refresh_token');
-
-        if ($this->validator->isValid()) {
-            if ($this->jwt->checkRefreshToken($token)) {
-                $user = $this->jwt->getTokenUser($token);
-                if ($user) {
-                    return $this->ok($response, [
-                        'access_token' => $this->jwt->generateAccessToken($user, true),
-                        'expires_in' => $this->jwt->getAccessTokenLifetime(),
-                        'refresh_token' => $this->jwt->generateRefreshToken($user, true)
-                    ]);
-                }
-
-                $this->validator->addError('refresh_token', 'Unknown user');
-            } else {
-                $this->validator->addError('refresh_token', 'Invalid token');
-            }
-        }
-
-        return $this->validationErrors($response);
-    }
-
     public function me(Request $request, Response $response)
     {
         return $this->ok($response, $this->getUser());
