@@ -8,6 +8,7 @@ use App\Security\Model\User;
 use App\Security\Jwt\Manager as JwtManager;
 use Awurth\SlimValidation\Validator;
 use Cartalyst\Sentinel\Sentinel;
+use OAuth2\Server;
 use Psr\Container\ContainerInterface;
 use Slim\Exception\NotFoundException;
 use Slim\Http\Request;
@@ -15,10 +16,11 @@ use Slim\Http\Response;
 use Slim\Router;
 
 /**
- * @property Router     router
- * @property Validator  validator
- * @property Sentinel   sentinel
  * @property JwtManager jwt
+ * @property Server     oauth
+ * @property Router     router
+ * @property Sentinel   sentinel
+ * @property Validator  validator
  * @property string     env
  * @property string     root_dir
  */
