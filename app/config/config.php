@@ -9,6 +9,12 @@ return [
 
     'sentinel' => require __DIR__ . '/sentinel.php',
 
+    'oauth' => [
+        'pdo' => [
+            'user_table' => 'user'
+        ]
+    ],
+
     'rest' => [
         // All URLs generated with the RestRouter will be prefixed with this.
         'prefix' => '/api',
