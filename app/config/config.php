@@ -1,8 +1,13 @@
 <?php
 
 use Monolog\Logger;
+use Symfony\Component\Yaml\Yaml;
 
 return [
+
+    'parameters' => Yaml::parse(file_get_contents(__DIR__ . '/parameters.yml'))['parameters'],
+
+    'sentinel' => require __DIR__ . '/sentinel.php',
 
     'rest' => [
         // All URLs generated with the RestRouter will be prefixed with this.

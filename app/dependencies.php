@@ -8,23 +8,19 @@ use Illuminate\Database\Capsule\Manager;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Monolog\Processor\UidProcessor;
-use Symfony\Component\Yaml\Yaml;
-
-$parameters = Yaml::parse(file_get_contents(__DIR__ . '/config/parameters.yml'))['parameters'];
 
 $capsule = new Manager();
-$capsule->addConnection($parameters);
+$capsule->addConnection($container['config']['parameters']);
 $capsule->setAsGlobal();
 $capsule->bootEloquent();
 
-$container['sentinel'] = function () {
-    $sentinel = new Sentinel(new SentinelBootstrapper(__DIR__ . '/config/sentinel.php'));
-
+$container['sentinel'] = function ($container) {
+    $sentinel = new Sentinel(new SentinelBootstrapper($container['config']['sentinel']));
     return $sentinel->getSentinel();
 };
 
-$container['jwt'] = function () use ($parameters, $container) {
-    return new JwtManager($parameters['secret'], $container['config']['jwt']);
+$container['jwt'] = function ($container) {
+    return new JwtManager($container['config']['parameters']['secret'], $container['config']['jwt']);
 };
 
 $container['validator'] = function () {
