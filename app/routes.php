@@ -14,11 +14,10 @@ $app->options('/{routes:.+}', function ($request, $response) {
 /**
  * Authentication
  */
-$app->group('/api', function () use ($container) {
-    $this->post('/register', 'security.auth.controller:register')->setName('register');
-    $this->post('/login', 'security.auth.controller:login')->setName('login');
-    $this->post('/auth/refresh', 'security.auth.controller:refresh')->setName('jwt.refresh');
-    $this->get('/users/me', 'security.auth.controller:me')
+$app->group('/', function () use ($container) {
+    $this->post('register', 'security.auth.controller:register')->setName('register');
+    $this->post('oauth/v2/token', 'security.auth.controller:token')->setName('oauth_token');
+    $this->get('users/me', 'security.auth.controller:me')
         ->add($container['auth.middleware']())
         ->setName('users.me');
 });

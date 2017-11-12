@@ -11,9 +11,8 @@ class CoreController extends Controller
     {
         return $this->ok($response, [
             'security' => [
-                'login' => $this->path('login'),
+                'oauth_token' => $this->path('oauth_token'),
                 'register' => $this->path('register'),
-                'refresh_token' => $this->path('jwt.refresh'),
                 'user' => $this->path('users.me')
             ]
         ]);

@@ -3,38 +3,21 @@
 namespace App\Security\Controller;
 
 use App\Core\Controller\Controller;
-use Cartalyst\Sentinel\Checkpoints\ThrottlingException;
-use Cartalyst\Sentinel\Users\UserInterface;
+use Chadicus\Slim\OAuth2\Http\RequestBridge;
+use Chadicus\Slim\OAuth2\Http\ResponseBridge;
 use Respect\Validation\Validator as V;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
 class AuthController extends Controller
 {
-    public function login(Request $request, Response $response)
+    public function token(Request $request)
     {
-        $credentials = [
-            'username' => $request->getParam('username'),
-            'password' => $request->getParam('password')
-        ];
+        $oauthRequest = RequestBridge::toOAuth2($request);
 
-        try {
-            $user = $this->sentinel->stateless($credentials);
+        $oauthResponse = $this->oauth->handleTokenRequest($oauthRequest);
 
-            if ($user instanceof UserInterface) {
-                return $this->ok($response, [
-                    'access_token' => $this->jwt->generateAccessToken($user, true),
-                    'expires_in' => $this->jwt->getAccessTokenLifetime(),
-                    'refresh_token' => $this->jwt->generateRefreshToken($user, true)
-                ]);
-            } else {
-                $this->validator->addError('auth', 'Bad username or password');
-            }
-        } catch (ThrottlingException $e) {
-            $this->validator->addError('auth', 'Too many attempts!');
-        }
-
-        return $this->validationErrors($response);
+        return ResponseBridge::fromOauth2($oauthResponse);
     }
 
     public function register(Request $request, Response $response)
