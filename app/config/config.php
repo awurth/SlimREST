@@ -44,13 +44,6 @@ return [
         'max_age'        => 3600
     ],
 
-    'jwt' => [
-        // The server name used to encrypt access tokens and refresh tokens.
-        'server_name'            => 'localhost',
-        'access_token_lifetime'  => 3600, // seconds (1h)
-        'refresh_token_lifetime' => 1209600 // seconds (14 days)
-    ],
-
     'monolog' => [
         'name' => 'app',
         'path' => $container['root_dir'] . '/var/logs/' . $container['env'] . '.log',

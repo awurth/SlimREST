@@ -5,21 +5,20 @@ use App\Core\Rest\Router as RestRouter;
 $router = new RestRouter($container['router'], $container['config']['rest']);
 
 /**
- * CORS Pre-flight request
+ * CORS Pre-flight request.
  */
 $app->options('/{routes:.+}', function ($request, $response) {
     return $response;
 });
 
 /**
- * Authentication
+ * Security.
  */
 $app->group('/', function () use ($container) {
     $this->post('register', 'security.registration.controller:register')->setName('register');
     $this->post('oauth/v2/token', 'security.token.controller:token')->setName('oauth_token');
-    $this->get('users/me', 'security.token.controller:me')
-        ->add($container['auth.middleware']())
-        ->setName('users.me');
+    $this->get('user', 'security.token.controller:user')
+        ->setName('user');
 });
 
 $app->get('/', 'core.controller:root')->setName('root');

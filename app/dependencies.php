@@ -1,6 +1,5 @@
 <?php
 
-use App\Security\Jwt\Manager as JwtManager;
 use App\Security\Storage\Pdo;
 use Awurth\SlimValidation\Validator;
 use Cartalyst\Sentinel\Native\Facades\Sentinel;
@@ -10,7 +9,6 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Monolog\Processor\UidProcessor;
 use OAuth2\Server;
-use OAuth2\GrantType\ClientCredentials;
 use OAuth2\GrantType\RefreshToken;
 use OAuth2\GrantType\UserCredentials;
 
@@ -32,10 +30,6 @@ $container['oauth'] = function ($container) use ($capsule) {
     $server->addGrantType(new RefreshToken($storage));
 
     return $server;
-};
-
-$container['jwt'] = function ($container) {
-    return new JwtManager($container['config']['parameters']['secret'], $container['config']['jwt']);
 };
 
 $container['validator'] = function () {

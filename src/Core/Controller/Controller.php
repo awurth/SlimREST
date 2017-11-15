@@ -5,7 +5,6 @@ namespace App\Core\Controller;
 use App\Security\Exception\AccessDeniedException;
 use App\Security\Exception\UnauthorizedException;
 use App\Security\Model\User;
-use App\Security\Jwt\Manager as JwtManager;
 use Awurth\SlimValidation\Validator;
 use Cartalyst\Sentinel\Sentinel;
 use OAuth2\Server;
@@ -16,13 +15,12 @@ use Slim\Http\Response;
 use Slim\Router;
 
 /**
- * @property JwtManager jwt
- * @property Server     oauth
- * @property Router     router
- * @property Sentinel   sentinel
- * @property Validator  validator
- * @property string     env
- * @property string     root_dir
+ * @property Server    oauth
+ * @property Router    router
+ * @property Sentinel  sentinel
+ * @property Validator validator
+ * @property string    env
+ * @property string    root_dir
  */
 abstract class Controller
 {
@@ -39,18 +37,6 @@ abstract class Controller
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
-    }
-
-    /**
-     * Gets the current authenticated user.
-     *
-     * @return User|null
-     */
-    public function getUser()
-    {
-        $token = $this->jwt->getAccessToken();
-
-        return $token ? $token->user : null;
     }
 
     /**
