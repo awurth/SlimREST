@@ -48,9 +48,13 @@ abstract class Controller
      */
     public function requireRole($role)
     {
-        $user = $this->getUser();
+        $user = $this->sentinel->getUser();
 
-        if (null === $user || !$user->inRole($role)) {
+        if (null === $user) {
+            throw $this->unauthorizedException();
+        }
+
+        if (!$user->inRole($role)) {
             throw $this->accessDeniedException('Access denied: User must have role ' . $role);
         }
     }
@@ -79,12 +83,27 @@ abstract class Controller
      *
      * @param string $route
      * @param array  $params
+     * @param array  $queryParams
      *
      * @return string
      */
-    public function path($route, array $params = [])
+    public function path($route, array $params = [], array $queryParams = [])
     {
-        return $this->router->pathFor($route, $params);
+        return $this->router->pathFor($route, $params, $queryParams);
+    }
+
+    /**
+     * Generates a relative URL from a route.
+     *
+     * @param string $route
+     * @param array  $params
+     * @param array  $queryParams
+     *
+     * @return string
+     */
+    public function relativePath($route, array $params = [], array $queryParams = [])
+    {
+        return $this->router->relativePathFor($route, $params, $queryParams);
     }
 
     /**
