@@ -6,7 +6,7 @@ use App\Core\Middleware\MiddlewareInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-class CorsMiddleware implements MiddlewareInterface
+class Cors implements MiddlewareInterface
 {
     /**
      * @var array
