@@ -11,9 +11,9 @@ class CoreController extends Controller
     {
         return $this->ok($response, [
             'security' => [
-                'oauth_token' => $this->path('oauth_token'),
-                'register' => $this->path('register'),
-                'user' => $this->path('users.me')
+                'oauth_token' => $this->relativePath('oauth_token'),
+                'register'    => $this->relativePath('register'),
+                'user'        => $this->relativePath('user')
             ]
         ]);
     }
