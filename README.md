@@ -1,4 +1,4 @@
-# Slim REST base - A Slim 3 skeleton
+# Slim 3 RESTful application skeleton
 
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/a0ec0038-d946-4408-8367-3e1c1e26b3e7/mini.png)](https://insight.sensiolabs.com/projects/a0ec0038-d946-4408-8367-3e1c1e26b3e7) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/awurth/slim-rest-base/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/awurth/slim-rest-base/?branch=master)
 
@@ -6,7 +6,7 @@ This is an app skeleton for the Slim PHP Micro-Framework to get started quickly 
 
 ## Features
 - [Eloquent ORM](https://github.com/illuminate/database)
-- Authentication ([Sentinel](https://github.com/cartalyst/sentinel))
+- Authentication ([Sentinel](https://github.com/cartalyst/sentinel) + [OAuth 2](https://github.com/bshaffer/oauth2-server-php))
 - Validation ([Respect](https://github.com/Respect/Validation) + [Slim Validation](https://github.com/awurth/slim-validation))
 - Logs ([Monolog](https://github.com/Seldaek/monolog))
 - Console commands for updating the database schema and creating users
@@ -48,9 +48,6 @@ $ php bin/console db
 # With Symfony2 plugin
 $ sf db
 ```
-
-## Note
-You might want to replace the authentication part with a real OAuth implementation
 
 # TODO
 - PHPUnit
