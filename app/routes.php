@@ -18,6 +18,7 @@ $app->group('/', function () use ($container) {
     $this->post('register', 'security.registration.controller:register')->setName('register');
     $this->post('oauth/v2/token', 'security.token.controller:token')->setName('oauth_token');
     $this->get('user', 'security.token.controller:user')
+        ->add($container['auth.middleware'])
         ->setName('user');
 });
 
