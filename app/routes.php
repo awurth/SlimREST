@@ -68,13 +68,13 @@ $router->crud('articles', 'article.controller');
 /**
  *                        URL                         |                   CONTROLLER                  |        ROUTE
  * ---------------------------------------------------|-----------------------------------------------|------------------------
- * GET /articles/{article_id}/comments                | ArticleCommentController:getArticleComments   | get_article_comments
- * GET /articles/{article_id}/comments/{comment_id}   | ArticleCommentController:getArticleComment    | get_article_comment
- * POST /articles/{article_id}/comments               | ArticleCommentController:postArticleComment   | post_article_comment
- * PUT /articles/{article_id}/comments/{comment_id}   | ArticleCommentController:putArticleComment    | put_article_comment
- * DELETE /article/{article_id}/comments/{comment_id} | ArticleCommentController:deleteArticleComment | delete_article_comment
+ * GET /articles/{article_id}/comments                | article.comment.controller:getArticleComments   | get_article_comments
+ * GET /articles/{article_id}/comments/{comment_id}   | article.comment.controller:getArticleComment    | get_article_comment
+ * POST /articles/{article_id}/comments               | article.comment.controller:postArticleComment   | post_article_comment
+ * PUT /articles/{article_id}/comments/{comment_id}   | article.comment.controller:putArticleComment    | put_article_comment
+ * DELETE /article/{article_id}/comments/{comment_id} | article.comment.controller:deleteArticleComment | delete_article_comment
  */
-$router->subCrud('articles', 'comments', 'ArticleCommentController');
+$router->subCrud('articles', 'comments', 'article.comment.controller');
 
 // OR
 
@@ -97,7 +97,7 @@ $router->subCrud('articles', 'comments', 'ArticleCommentController');
  *      'sub_singular' => 'comment'
  * ];
  *
- * $router->subCrud('articles', 'comments', 'ArticleCommentController', [], $options);
+ * $router->subCrud('articles', 'comments', 'article.comment.controller', [], $options);
  *
  * OR
  *
