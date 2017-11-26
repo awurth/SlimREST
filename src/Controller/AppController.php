@@ -5,7 +5,7 @@ namespace App\Controller;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-class CoreController extends Controller
+class AppController extends Controller
 {
     public function root(Request $request, Response $response)
     {

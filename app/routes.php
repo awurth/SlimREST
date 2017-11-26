@@ -22,7 +22,7 @@ $app->group('/', function () use ($container) {
         ->setName('user');
 });
 
-$app->get('/', 'core.controller:root')->setName('root');
+$app->get('/', 'app.controller:root')->setName('root');
 
 /**
  *         URL          |           CONTROLLER            |     ROUTE

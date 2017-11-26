@@ -1,7 +1,7 @@
 <?php
 
 $controllers = [
-    'core.controller'                  => 'App\Controller\CoreController',
+    'app.controller'                   => 'App\Controller\AppController',
     'security.token.controller'        => 'App\Controller\TokenController',
     'security.registration.controller' => 'App\Controller\RegistrationController'
 ];
