@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\Rest;
+namespace App\Rest;
 
 use InvalidArgumentException;
 use Slim\Interfaces\RouteInterface;

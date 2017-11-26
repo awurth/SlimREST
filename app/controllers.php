@@ -1,9 +1,9 @@
 <?php
 
 $controllers = [
-    'core.controller' => 'App\Core\Controller\CoreController',
-    'security.token.controller' => 'App\Security\Controller\TokenController',
-    'security.registration.controller' => 'App\Security\Controller\RegistrationController'
+    'core.controller'                  => 'App\Controller\CoreController',
+    'security.token.controller'        => 'App\Controller\TokenController',
+    'security.registration.controller' => 'App\Controller\RegistrationController'
 ];
 
 foreach ($controllers as $key => $class) {

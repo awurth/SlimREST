@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Core\Controller;
+namespace App\Controller;
 
-use App\Security\Exception\AccessDeniedException;
-use App\Security\Exception\UnauthorizedException;
-use App\Security\Model\User;
+use App\Exception\AccessDeniedException;
+use App\Exception\UnauthorizedException;
 use Awurth\SlimValidation\Validator;
 use Cartalyst\Sentinel\Sentinel;
 use OAuth2\Server;

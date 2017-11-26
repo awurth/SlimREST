@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Security\Controller;
+namespace App\Controller;
 
-use App\Core\Controller\Controller;
 use Chadicus\Slim\OAuth2\Http\RequestBridge;
 use Chadicus\Slim\OAuth2\Http\ResponseBridge;
 use Slim\Http\Request;

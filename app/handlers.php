@@ -1,7 +1,7 @@
 <?php
 
-use App\Security\Exception\AccessDeniedException;
-use App\Security\Exception\UnauthorizedException;
+use App\Exception\AccessDeniedException;
+use App\Exception\UnauthorizedException;
 use Slim\Exception\NotFoundException;
 use Slim\Handlers\Strategies\RequestResponseArgs;
 use Slim\Http\Request;

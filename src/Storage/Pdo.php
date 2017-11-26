@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Security\Storage;
+namespace App\Storage;
 
 use OAuth2\Storage\Pdo as BasePdo;
 

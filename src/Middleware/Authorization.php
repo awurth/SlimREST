@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Security\Middleware;
+namespace App\Middleware;
 
-use App\Core\Middleware\MiddlewareInterface;
-use App\Security\Exception\UnauthorizedException;
-use App\Security\Model\User;
+use App\Exception\UnauthorizedException;
+use App\Model\User;
 use Cartalyst\Sentinel\Sentinel;
 use Chadicus\Slim\OAuth2\Http\RequestBridge;
 use OAuth2\Server;

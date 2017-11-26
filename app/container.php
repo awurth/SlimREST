@@ -1,6 +1,6 @@
 <?php
 
-use App\Security\Storage\Pdo;
+use App\Storage\Pdo;
 use Awurth\SlimValidation\Validator;
 use Cartalyst\Sentinel\Native\Facades\Sentinel;
 use Cartalyst\Sentinel\Native\SentinelBootstrapper;
