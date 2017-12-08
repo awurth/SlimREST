@@ -9,6 +9,7 @@ This is an app skeleton for the Slim PHP Micro-Framework to get started quickly 
 - Authentication ([Sentinel](https://github.com/cartalyst/sentinel) + [OAuth 2](https://github.com/bshaffer/oauth2-server-php))
 - Validation ([Respect](https://github.com/Respect/Validation) + [Slim Validation](https://github.com/awurth/slim-validation))
 - Logs ([Monolog](https://github.com/Seldaek/monolog))
+- Dotenv configuration
 - Console commands for updating the database schema and creating users
 - A RESTful router
 
