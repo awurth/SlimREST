@@ -2,10 +2,6 @@
 
 use Illuminate\Database\Capsule\Manager;
 use Illuminate\Database\Schema\Blueprint;
-use Cartalyst\Sentinel\Native\Facades\Sentinel;
-use Cartalyst\Sentinel\Native\SentinelBootstrapper;
-
-$sentinel = (new Sentinel(new SentinelBootstrapper(__DIR__ . '/../config/sentinel.php')))->getSentinel();
 
 Manager::schema()->create('oauth_clients', function (Blueprint $table) {
     $table->string('client_id', 80);

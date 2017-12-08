@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Cartalyst\Sentinel\Native\Facades\Sentinel;
 use Cartalyst\Sentinel\Native\SentinelBootstrapper;
 
-$sentinel = (new Sentinel(new SentinelBootstrapper(__DIR__ . '/../config/sentinel.php')))->getSentinel();
+$sentinel = (new Sentinel(new SentinelBootstrapper(__DIR__.'/../sentinel.php')))->getSentinel();
 
 Manager::schema()->create('user', function (Blueprint $table) {
     $table->increments('id');
@@ -73,8 +73,6 @@ Manager::schema()->create('throttle', function (Blueprint $table) {
     $table->timestamps();
     $table->foreign('user_id')->references('id')->on('user');
 });
-
-/* -------------------------------------------------- */
 
 $sentinel->getRoleRepository()->createModel()->create([
     'name' => 'Admin',

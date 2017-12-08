@@ -61,7 +61,7 @@ $container['notAllowedHandler'] = function ($container) {
             ->withHeader('Allow', $allowedMethods)
             ->withJson([
                 'status' => 405,
-                'message' => 'Method must be one of: ' . $allowedMethods
+                'message' => 'Method must be one of: '.$allowedMethods
             ]);
     };
 };
@@ -115,7 +115,7 @@ $container['errorHandler'] = function ($container) {
             return $container['unauthorizedHandler']($request, $response, $exception);
         }
 
-        $container['monolog']->error('Uncaught PHP Exception ' . get_class($exception), [
+        $container['monolog']->error('Uncaught PHP Exception '.get_class($exception), [
             'exception' => $exception
         ]);
 
@@ -126,7 +126,7 @@ $container['errorHandler'] = function ($container) {
 
         if ('dev' === $container['env']) {
             $message['trace'] = $exception->getTrace();
-            $message['message'] = get_class($exception) . ': ' . $exception->getMessage();
+            $message['message'] = get_class($exception).': '.$exception->getMessage();
         }
 
         return $response
@@ -140,7 +140,7 @@ $container['errorHandler'] = function ($container) {
  */
 $container['phpErrorHandler'] = function ($container) {
     return function (Request $request, Response $response, Throwable $error) use ($container) {
-        $container['monolog']->critical('Uncaught PHP Exception ' . get_class($error), [
+        $container['monolog']->critical('Uncaught PHP Exception '.get_class($error), [
             'exception' => $error
         ]);
 
@@ -151,7 +151,7 @@ $container['phpErrorHandler'] = function ($container) {
 
         if ('dev' === $container['env']) {
             $message['trace'] = $error->getTrace();
-            $message['message'] = get_class($error) . ': ' . $error->getMessage();
+            $message['message'] = get_class($error).': '.$error->getMessage();
         }
 
         return $response

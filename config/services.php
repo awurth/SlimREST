@@ -4,7 +4,7 @@ use Monolog\Logger;
 
 return [
 
-    'sentinel' => require __DIR__ . '/sentinel.php',
+    'sentinel' => require __DIR__.'/sentinel.php',
 
     'eloquent' => [
         'driver'    => $_SERVER['APP_DATABASE_DRIVER'],
