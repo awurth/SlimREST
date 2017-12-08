@@ -1,4 +1,4 @@
-app/config/parameters.yml
+.env
 vendor/
 var/*
 !var/log/

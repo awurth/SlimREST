@@ -1,13 +1,21 @@
 <?php
 
 use Monolog\Logger;
-use Symfony\Component\Yaml\Yaml;
 
 return [
 
-    'parameters' => Yaml::parse(file_get_contents(__DIR__ . '/parameters.yml'))['parameters'],
-
     'sentinel' => require __DIR__ . '/sentinel.php',
+
+    'eloquent' => [
+        'driver'    => $_SERVER['APP_DATABASE_DRIVER'],
+        'host'      => $_SERVER['APP_DATABASE_HOST'],
+        'database'  => $_SERVER['APP_DATABASE_DATABASE'],
+        'username'  => $_SERVER['APP_DATABASE_USERNAME'],
+        'password'  => $_SERVER['APP_DATABASE_PASSWORD'],
+        'charset'   => $_SERVER['APP_DATABASE_CHARSET'],
+        'collation' => $_SERVER['APP_DATABASE_COLLATION'],
+        'prefix'    => $_SERVER['APP_DATABASE_PREFIX']
+    ],
 
     'oauth' => [
         'pdo' => [

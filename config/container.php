@@ -13,7 +13,7 @@ use OAuth2\GrantType\RefreshToken;
 use OAuth2\GrantType\UserCredentials;
 
 $capsule = new Manager();
-$capsule->addConnection($container['settings']['parameters']);
+$capsule->addConnection($container['settings']['eloquent']);
 $capsule->setAsGlobal();
 $capsule->bootEloquent();
 

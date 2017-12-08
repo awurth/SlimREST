@@ -25,29 +25,17 @@
         "firebase/php-jwt": "^5.0",
         "illuminate/database": "^5.4",
         "illuminate/events": "^5.4",
-        "incenteev/composer-parameter-handler": "^2.1",
         "monolog/monolog": "^1.23",
         "respect/validation": "^1.1",
         "slim/slim": "^3.8",
         "symfony/console": "^3.3",
-        "symfony/http-foundation": "^3.3",
-        "symfony/yaml": "^3.3"
+        "symfony/dotenv": "^3.0",
+        "symfony/http-foundation": "^3.3"
     },
     "config": {
         "sort-packages": true
     },
     "scripts": {
-        "start": "php -S 0.0.0.0:8080 -t public public/index.php",
-        "post-install-cmd": [
-            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters"
-        ],
-        "post-update-cmd": [
-            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters"
-        ]
-    },
-    "extra": {
-        "incenteev-parameters": {
-            "file": "config/parameters.yml"
-        }
+        "start": "php -S 0.0.0.0:8080 -t public public/index.php"
     }
 }
