@@ -2,7 +2,7 @@
 
 use App\Rest\Router as RestRouter;
 
-$router = new RestRouter($container['router'], $container['config']['rest']);
+$router = new RestRouter($container['router'], $container['settings']['rest']);
 
 /**
  * CORS Pre-flight request.
