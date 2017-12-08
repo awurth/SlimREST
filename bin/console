@@ -3,28 +3,19 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
+use App\Application;
 use App\Command\DatabaseCommand;
 use App\Command\RoutesCommand;
 use App\Command\CreateUserCommand;
-use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Application as Console;
 
-$app = new Slim\App([
-    'env' => 'dev',
-    'root_dir' => dirname(__DIR__),
-    'settings' => [
-        'displayErrorDetails' => true
-    ]
-]);
+$app = new Application('dev');
 $container = $app->getContainer();
 
-$container['config'] = require __DIR__ . '/../app/config/config.dev.php';
+$console = new Console();
 
-require __DIR__ . '/../app/bootstrap.php';
+$console->add(new CreateUserCommand($container['sentinel']));
+$console->add(new DatabaseCommand());
+$console->add(new RoutesCommand($container['router'], $container['settings']['rest']));
 
-$application = new Application();
-
-$application->add(new CreateUserCommand($container['sentinel']));
-$application->add(new DatabaseCommand());
-$application->add(new RoutesCommand($container['router'], $container['config']['rest']));
-
-$application->run();
+$console->run();
