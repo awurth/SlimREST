@@ -116,6 +116,9 @@ class Application extends App
     protected function registerHandlers()
     {
         $container = $this->getContainer();
-        require $this->getConfigurationDir().'/handlers.php';
+        $handlers = require $this->getConfigurationDir().'/handlers.php';
+        foreach ($handlers as $name => $callable) {
+            $container[$name] = $callable;
+        }
     }
 }
