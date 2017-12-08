@@ -1,6 +1,6 @@
-vendor/
 app/config/parameters.yml
+vendor/
 var/*
-!var/logs
-var/logs/*
-!var/logs/.gitkeep
+!var/log/
+var/log/*
+!var/log/.gitkeep
