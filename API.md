@@ -1,58 +1,60 @@
 # API Routes
 
-### `POST` [/api/register](http://localhost/slim-rest-base/api/register)
-##### AuthController:register
+### `OPTIONS` [/{routes:.+}](http://localhost/slim-rest-base/{routes:.+})
+
+### `POST` [/register](http://localhost/slim-rest-base/register)
+##### registration.controller:register
 ###### register
 
-### `POST` [/api/login](http://localhost/slim-rest-base/api/login)
-##### AuthController:login
-###### login
+### `POST` [/oauth/v2/token](http://localhost/slim-rest-base/oauth/v2/token)
+##### token.controller:token
+###### oauth_token
 
-### `POST` [/api/auth/refresh](http://localhost/slim-rest-base/api/auth/refresh)
-##### AuthController:refresh
-###### jwt.refresh
+### `GET` [/user](http://localhost/slim-rest-base/user)
+##### token.controller:user
+###### user
 
-### `GET` [/api/users/me](http://localhost/slim-rest-base/api/users/me)
-##### AuthController:me
-###### users.me
+### `GET` [/](http://localhost/slim-rest-base/)
+##### app.controller:root
+###### root
 
 ### `GET` [/api/articles/{id:[0-9]+}](http://localhost/slim-rest-base/api/articles/{id:[0-9]+})
-##### ArticleController:getArticle
+##### article.controller:getArticle
 ###### get_article
 
 ### `GET` [/api/articles](http://localhost/slim-rest-base/api/articles)
-##### ArticleController:getArticles
+##### article.controller:getArticles
 ###### get_articles
 
 ### `POST` [/api/articles](http://localhost/slim-rest-base/api/articles)
-##### ArticleController:postArticle
+##### article.controller:postArticle
 ###### post_article
 
 ### `PUT` [/api/articles/{id:[0-9]+}](http://localhost/slim-rest-base/api/articles/{id:[0-9]+})
-##### ArticleController:putArticle
+##### article.controller:putArticle
 ###### put_article
 
 ### `DELETE` [/api/articles/{id:[0-9]+}](http://localhost/slim-rest-base/api/articles/{id:[0-9]+})
-##### ArticleController:deleteArticle
+##### article.controller:deleteArticle
 ###### delete_article
 
 ### `GET` [/api/articles/{article_id:[0-9]+}/comments/{comment_id:[0-9]+}](http://localhost/slim-rest-base/api/articles/{article_id:[0-9]+}/comments/{comment_id:[0-9]+})
-##### ArticleCommentController:getArticleComment
+##### article.comment.controller:getArticleComment
 ###### get_article_comment
 
 ### `GET` [/api/articles/{article_id:[0-9]+}/comments](http://localhost/slim-rest-base/api/articles/{article_id:[0-9]+}/comments)
-##### ArticleCommentController:getArticleComments
+##### article.comment.controller:getArticleComments
 ###### get_article_comments
 
 ### `POST` [/api/articles/{article_id:[0-9]+}/comments](http://localhost/slim-rest-base/api/articles/{article_id:[0-9]+}/comments)
-##### ArticleCommentController:postArticleComment
+##### article.comment.controller:postArticleComment
 ###### post_article_comment
 
 ### `PUT` [/api/articles/{article_id:[0-9]+}/comments/{comment_id:[0-9]+}](http://localhost/slim-rest-base/api/articles/{article_id:[0-9]+}/comments/{comment_id:[0-9]+})
-##### ArticleCommentController:putArticleComment
+##### article.comment.controller:putArticleComment
 ###### put_article_comment
 
 ### `DELETE` [/api/articles/{article_id:[0-9]+}/comments/{comment_id:[0-9]+}](http://localhost/slim-rest-base/api/articles/{article_id:[0-9]+}/comments/{comment_id:[0-9]+})
-##### ArticleCommentController:deleteArticleComment
+##### article.comment.controller:deleteArticleComment
 ###### delete_article_comment
 
