@@ -20,6 +20,6 @@ class TokenController extends Controller
 
     public function user(Request $request, Response $response)
     {
-        return $this->ok($response, $this->getUser());
+        return $this->ok($response, $this->sentinel->getUser());
     }
 }
