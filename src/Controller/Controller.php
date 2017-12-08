@@ -18,8 +18,6 @@ use Slim\Router;
  * @property Router    router
  * @property Sentinel  sentinel
  * @property Validator validator
- * @property string    env
- * @property string    root_dir
  */
 abstract class Controller
 {
@@ -45,7 +43,7 @@ abstract class Controller
      *
      * @throws AccessDeniedException
      */
-    public function requireRole($role)
+    protected function requireRole($role)
     {
         $user = $this->sentinel->getUser();
 
@@ -54,7 +52,7 @@ abstract class Controller
         }
 
         if (!$user->inRole($role)) {
-            throw $this->accessDeniedException('Access denied: User must have role ' . $role);
+            throw $this->accessDeniedException('Access denied: User must have role '.$role);
         }
     }
 
@@ -67,7 +65,7 @@ abstract class Controller
      *
      * @return array
      */
-    public function params(Request $request, array $params, $default = null)
+    protected function params(Request $request, array $params, $default = null)
     {
         $data = [];
         foreach ($params as $param) {
@@ -86,7 +84,7 @@ abstract class Controller
      *
      * @return string
      */
-    public function path($route, array $params = [], array $queryParams = [])
+    protected function path($route, array $params = [], array $queryParams = [])
     {
         return $this->router->pathFor($route, $params, $queryParams);
     }
@@ -100,7 +98,7 @@ abstract class Controller
      *
      * @return string
      */
-    public function relativePath($route, array $params = [], array $queryParams = [])
+    protected function relativePath($route, array $params = [], array $queryParams = [])
     {
         return $this->router->relativePathFor($route, $params, $queryParams);
     }
@@ -114,7 +112,7 @@ abstract class Controller
      *
      * @return Response
      */
-    public function redirect(Response $response, $route, array $params = [])
+    protected function redirect(Response $response, $route, array $params = [])
     {
         return $response->withRedirect($this->router->pathFor($route, $params));
     }
@@ -127,7 +125,7 @@ abstract class Controller
      *
      * @return Response
      */
-    public function redirectTo(Response $response, $url)
+    protected function redirectTo(Response $response, $url)
     {
         return $response->withRedirect($url);
     }
@@ -140,7 +138,7 @@ abstract class Controller
      *
      * @return Response
      */
-    public function ok(Response $response, $data)
+    protected function ok(Response $response, $data)
     {
         return $this->json($response, $data);
     }
@@ -154,7 +152,7 @@ abstract class Controller
      *
      * @return Response
      */
-    public function created(Response $response, $route, array $params = [])
+    protected function created(Response $response, $route, array $params = [])
     {
         return $this->redirect($response, $route, $params)->withStatus(201);
     }
@@ -166,7 +164,7 @@ abstract class Controller
      *
      * @return Response
      */
-    public function noContent(Response $response)
+    protected function noContent(Response $response)
     {
         return $response->withStatus(204);
     }
@@ -178,7 +176,7 @@ abstract class Controller
      *
      * @return Response
      */
-    public function validationErrors(Response $response)
+    protected function validationErrors(Response $response)
     {
         return $this->json($response, $this->validator->getErrors(), 400);
     }
@@ -192,7 +190,7 @@ abstract class Controller
      *
      * @return Response
      */
-    public function json(Response $response, $data, $status = 200)
+    protected function json(Response $response, $data, $status = 200)
     {
         return $response->withJson($data, $status);
     }
@@ -206,7 +204,7 @@ abstract class Controller
      *
      * @return int
      */
-    public function write(Response $response, $data, $status = 200)
+    protected function write(Response $response, $data, $status = 200)
     {
         return $response->withStatus($status)->getBody()->write($data);
     }
@@ -219,7 +217,7 @@ abstract class Controller
      *
      * @return NotFoundException
      */
-    public function notFoundException(Request $request, Response $response)
+    protected function notFoundException(Request $request, Response $response)
     {
         return new NotFoundException($request, $response);
     }
@@ -231,7 +229,7 @@ abstract class Controller
      *
      * @return UnauthorizedException
      */
-    public function unauthorizedException($message = 'Unauthorized.')
+    protected function unauthorizedException($message = 'Unauthorized.')
     {
         return new UnauthorizedException($message);
     }
@@ -243,7 +241,7 @@ abstract class Controller
      *
      * @return AccessDeniedException
      */
-    public function accessDeniedException($message = 'Access Denied.')
+    protected function accessDeniedException($message = 'Access Denied.')
     {
         return new AccessDeniedException($message);
     }
