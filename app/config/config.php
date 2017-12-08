@@ -46,7 +46,7 @@ return [
 
     'monolog' => [
         'name' => 'app',
-        'path' => $container['root_dir'] . '/var/logs/' . $container['env'] . '.log',
+        'path' => $app->getLogDir().'/'.$app->getEnvironment().'.log',
         'level' => Logger::ERROR
     ]
 
