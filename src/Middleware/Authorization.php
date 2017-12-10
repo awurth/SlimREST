@@ -58,7 +58,7 @@ class Authorization implements MiddlewareInterface
             }
         }
 
-        throw new UnauthorizedException();
+        throw new UnauthorizedException($request, $response);
     }
 
     /**
