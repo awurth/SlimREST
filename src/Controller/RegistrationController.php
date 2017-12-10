@@ -2,11 +2,12 @@
 
 namespace App\Controller;
 
+use Awurth\Slim\Helper\Controller\RestController;
 use Respect\Validation\Validator as V;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-class RegistrationController extends Controller
+class RegistrationController extends RestController
 {
     public function register(Request $request, Response $response)
     {
@@ -40,15 +41,12 @@ class RegistrationController extends Controller
         }
 
         if ($this->validator->isValid()) {
-            $role = $this->sentinel->findRoleByName('User');
+            $role = $this->sentinel->findRoleByName('user');
 
             $user = $this->sentinel->registerAndActivate([
                 'username' => $username,
                 'email' => $email,
-                'password' => $password,
-                'permissions' => [
-                    'user.delete' => 0
-                ]
+                'password' => $password
             ]);
 
             $role->users()->attach($user);
@@ -56,6 +54,6 @@ class RegistrationController extends Controller
             return $this->created($response, 'login');
         }
 
-        return $this->validationErrors($response);
+        return $this->badRequest($response, $this->validator->getErrors());
     }
 }

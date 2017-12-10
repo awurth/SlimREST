@@ -2,12 +2,13 @@
 
 namespace App\Controller;
 
+use Awurth\Slim\Helper\Controller\RestController;
 use Chadicus\Slim\OAuth2\Http\RequestBridge;
 use Chadicus\Slim\OAuth2\Http\ResponseBridge;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-class TokenController extends Controller
+class TokenController extends RestController
 {
     public function token(Request $request)
     {

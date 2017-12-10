@@ -2,10 +2,11 @@
 
 namespace App\Controller;
 
+use Awurth\Slim\Helper\Controller\RestController;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-class AppController extends Controller
+class AppController extends RestController
 {
     public function root(Request $request, Response $response)
     {
