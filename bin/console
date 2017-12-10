@@ -17,7 +17,7 @@ if (!isset($_SERVER['APP_ENV'])) {
     (new Dotenv())->load(__DIR__.'/../.env');
 }
 
-$app = new Application('dev');
+$app = new Application($_SERVER['APP_ENV'] ?? 'dev');
 $container = $app->getContainer();
 
 $console = new Console();
