@@ -2,8 +2,8 @@
 
 namespace App\Middleware;
 
-use App\Exception\UnauthorizedException;
 use App\Model\User;
+use Awurth\Slim\Helper\Exception\UnauthorizedException;
 use Cartalyst\Sentinel\Sentinel;
 use Chadicus\Slim\OAuth2\Http\RequestBridge;
 use OAuth2\Server;
