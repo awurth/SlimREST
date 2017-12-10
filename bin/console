@@ -4,9 +4,9 @@
 require __DIR__.'/../vendor/autoload.php';
 
 use App\Application;
-use App\Command\DatabaseCommand;
-use App\Command\RoutesCommand;
-use App\Command\CreateUserCommand;
+use Awurth\Slim\Helper\Command\RequireFileCommand;
+use Awurth\Slim\Helper\Command\RoutesCommand;
+use Awurth\Slim\Helper\Command\SentinelCreateUserCommand;
 use Symfony\Component\Console\Application as Console;
 use Symfony\Component\Dotenv\Dotenv;
 
@@ -22,8 +22,8 @@ $container = $app->getContainer();
 
 $console = new Console();
 
-$console->add(new CreateUserCommand($container['sentinel']));
-$console->add(new DatabaseCommand());
+$console->add(new RequireFileCommand($app->getConfigurationDir().'/database/index.php', 'db', 'Update database schema'));
 $console->add(new RoutesCommand($container['router'], $container['settings']['rest']));
+$console->add(new SentinelCreateUserCommand($container['sentinel']));
 
 $console->run();
