@@ -27,12 +27,19 @@ class Cors implements MiddlewareInterface
      */
     public function __invoke(Request $request, Response $response, callable $next)
     {
-        $response = $response
-            ->withHeader('Access-Control-Allow-Origin', $this->options['origin'])
-            ->withHeader('Access-Control-Allow-Headers', $this->options['allow_headers'])
-            ->withHeader('Access-Control-Expose-Headers', $this->options['expose_headers'])
-            ->withHeader('Access-Control-Allow-Methods', $this->options['methods'])
-            ->withHeader('Access-Control-Max-Age', $this->options['max_age']);
+        $headers = [
+            'origin'         => 'Access-Control-Allow-Origin',
+            'methods'        => 'Access-Control-Allow-Methods',
+            'allow_headers'  => 'Access-Control-Allow-Headers',
+            'expose_headers' => 'Access-Control-Expose-Headers',
+            'max_age'        => 'Access-Control-Max-Age',
+        ];
+
+        foreach ($headers as $key => $name) {
+            if (isset($this->options[$key])) {
+                $response = $response->withHeader($name, $this->options[$key]);
+            }
+        }
 
         return $next($request, $response);
     }
