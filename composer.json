@@ -18,6 +18,7 @@
     },
     "require": {
         "php": "^7.0",
+        "awurth/slim-helpers": "^1.0",
         "awurth/slim-validation": "^3.0",
         "bshaffer/oauth2-server-php": "^1.9",
         "cartalyst/sentinel": "^2.0",
