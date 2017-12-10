@@ -1,7 +1,5 @@
 <?php
 
-use Monolog\Logger;
-
 return [
 
     'sentinel' => require __DIR__.'/sentinel.php',
@@ -55,7 +53,7 @@ return [
     'monolog' => [
         'name' => 'app',
         'path' => $app->getLogDir().'/'.$app->getEnvironment().'.log',
-        'level' => Logger::ERROR
+        'level' => Monolog\Logger::ERROR
     ]
 
 ];

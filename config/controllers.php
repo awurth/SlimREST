@@ -2,6 +2,6 @@
 
 return [
     'app.controller'          => 'App\Controller\AppController',
-    'token.controller'        => 'App\Controller\TokenController',
-    'registration.controller' => 'App\Controller\RegistrationController'
+    'registration.controller' => 'App\Controller\RegistrationController',
+    'token.controller'        => 'App\Controller\TokenController'
 ];
