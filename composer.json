@@ -2,7 +2,7 @@
     "name": "awurth/slim-rest-base",
     "description": "Slim PHP Micro-Framework for building a REST API",
     "keywords": ["slim", "framework", "boilerplate", "skeleton", "rest", "api", "oauth", "eloquent"],
-    "homepage": "https://github.com/awurth/slim-rest-base",
+    "homepage": "https://github.com/awurth/SlimREST",
     "license": "MIT",
     "authors": [
         {
