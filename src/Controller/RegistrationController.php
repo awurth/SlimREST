@@ -7,6 +7,10 @@ use Respect\Validation\Validator as V;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
+/**
+ * @property \Awurth\SlimValidation\Validator validator
+ * @property \Cartalyst\Sentinel\Sentinel     sentinel
+ */
 class RegistrationController extends RestController
 {
     public function register(Request $request, Response $response)
@@ -41,6 +45,7 @@ class RegistrationController extends RestController
         }
 
         if ($this->validator->isValid()) {
+            /** @var \Cartalyst\Sentinel\Roles\EloquentRole $role */
             $role = $this->sentinel->findRoleByName('user');
 
             $user = $this->sentinel->registerAndActivate([
