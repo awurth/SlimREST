@@ -1,6 +1,6 @@
 <?php
 
-$config = require __DIR__ . '/services.php';
+$config = require $app->getConfigurationDir().'/services.php';
 
 // Used for generating links in API routes markdown.
 $config['rest']['url'] = 'http://localhost/slim-rest-base';

@@ -2,7 +2,7 @@
 
 return [
 
-    'sentinel' => require __DIR__.'/sentinel.php',
+    'sentinel' => require $app->getConfigurationDir().'/sentinel.php',
 
     'eloquent' => [
         'driver'    => $_SERVER['APP_DATABASE_DRIVER'],
