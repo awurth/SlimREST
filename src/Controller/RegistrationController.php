@@ -51,7 +51,10 @@ class RegistrationController extends RestController
             $user = $this->sentinel->registerAndActivate([
                 'username' => $username,
                 'email' => $email,
-                'password' => $password
+                'password' => $password,
+                'permissions' => [
+                    'user.delete' => 0
+                ]
             ]);
 
             $role->users()->attach($user);
