@@ -3,7 +3,7 @@
 use App\Middleware\Authorization;
 use App\Middleware\Cors;
 
-$container['auth.middleware'] = function ($container) {
+$container['middleware.auth'] = function ($container) {
     return new Authorization($container['oauth'], $container['sentinel']);
 };
 
