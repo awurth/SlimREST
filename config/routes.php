@@ -15,34 +15,34 @@ $app->options('/{routes:.+}', function ($request, $response) {
  * Security.
  */
 $app->group('/', function () use ($container) {
-    $this->post('register', 'registration.controller:register')->setName('register');
-    $this->post('oauth/v2/token', 'token.controller:token')->setName('oauth_token');
-    $this->get('user', 'token.controller:user')
+    $this->post('register', 'controller.registration:register')->setName('register');
+    $this->post('oauth/v2/token', 'controller.token:token')->setName('oauth_token');
+    $this->get('user', 'controller.token:user')
         ->add($container['middleware.auth'])
         ->setName('user');
 });
 
-$app->get('/', 'app.controller:root')->setName('root');
+$app->get('/', 'controller.app:root')->setName('root');
 
 /**
  *         URL          |           CONTROLLER            |     ROUTE
  * ---------------------|---------------------------------|----------------
- * GET /articles        | article.controller:getArticle    | get_articles
- * GET /articles/{id}   | article.controller:getArticles   | get_article
- * POST /articles       | article.controller:postArticle   | post_article
- * PUT /articles/{id}   | article.controller:putArticle    | put_article
- * DELETE /article/{id} | article.controller:deleteArticle | delete_article
+ * GET /articles        | controller.article:getArticle    | get_articles
+ * GET /articles/{id}   | controller.article:getArticles   | get_article
+ * POST /articles       | controller.article:postArticle   | post_article
+ * PUT /articles/{id}   | controller.article:putArticle    | put_article
+ * DELETE /article/{id} | controller.article:deleteArticle | delete_article
  */
-$router->crud('articles', 'article.controller');
+$router->crud('articles', 'controller.article');
 
 // OR
 
 /**
- * $router->cget('articles', 'article.controller');
- * $router->get('articles', 'article.controller');
- * $router->post('articles', 'article.controller');
- * $router->put('articles', 'article.controller');
- * $router->delete('articles', 'article.controller');
+ * $router->cget('articles', 'controller.article');
+ * $router->get('articles', 'controller.article');
+ * $router->post('articles', 'controller.article');
+ * $router->put('articles', 'controller.article');
+ * $router->delete('articles', 'controller.article');
  */
 
 // With options
@@ -53,11 +53,11 @@ $router->crud('articles', 'article.controller');
  *      'singular' => 'article'
  * ];
  *
- * $router->crud('articles', 'article.controller', [], $options);
+ * $router->crud('articles', 'controller.article', [], $options);
  *
  * OR
  *
- * $router->get('articles', 'article.controller', $options);
+ * $router->get('articles', 'controller.article', $options);
  * ...
  */
 
@@ -68,22 +68,22 @@ $router->crud('articles', 'article.controller');
 /**
  *                        URL                         |                   CONTROLLER                  |        ROUTE
  * ---------------------------------------------------|-----------------------------------------------|------------------------
- * GET /articles/{article_id}/comments                | article.comment.controller:getArticleComments   | get_article_comments
- * GET /articles/{article_id}/comments/{comment_id}   | article.comment.controller:getArticleComment    | get_article_comment
- * POST /articles/{article_id}/comments               | article.comment.controller:postArticleComment   | post_article_comment
- * PUT /articles/{article_id}/comments/{comment_id}   | article.comment.controller:putArticleComment    | put_article_comment
- * DELETE /article/{article_id}/comments/{comment_id} | article.comment.controller:deleteArticleComment | delete_article_comment
+ * GET /articles/{article_id}/comments                | controller.article.comment:getArticleComments   | get_article_comments
+ * GET /articles/{article_id}/comments/{comment_id}   | controller.article.comment:getArticleComment    | get_article_comment
+ * POST /articles/{article_id}/comments               | controller.article.comment:postArticleComment   | post_article_comment
+ * PUT /articles/{article_id}/comments/{comment_id}   | controller.article.comment:putArticleComment    | put_article_comment
+ * DELETE /article/{article_id}/comments/{comment_id} | controller.article.comment:deleteArticleComment | delete_article_comment
  */
-$router->subCrud('articles', 'comments', 'article.comment.controller');
+$router->subCrud('articles', 'comments', 'controller.article.comment');
 
 // OR
 
 /**
- * $router->cgetSub('articles', 'comments', 'article.controller');
- * $router->getSub('articles', 'comments', 'article.controller');
- * $router->postSub('articles', 'comments', 'article.controller');
- * $router->putSub('articles', 'comments', 'article.controller');
- * $router->deleteSub('articles', 'comments', 'article.controller');
+ * $router->cgetSub('articles', 'comments', 'controller.article');
+ * $router->getSub('articles', 'comments', 'controller.article');
+ * $router->postSub('articles', 'comments', 'controller.article');
+ * $router->putSub('articles', 'comments', 'controller.article');
+ * $router->deleteSub('articles', 'comments', 'controller.article');
  */
 
 // With options
@@ -97,10 +97,10 @@ $router->subCrud('articles', 'comments', 'article.comment.controller');
  *      'sub_singular' => 'comment'
  * ];
  *
- * $router->subCrud('articles', 'comments', 'article.comment.controller', [], $options);
+ * $router->subCrud('articles', 'comments', 'controller.article.comment', [], $options);
  *
  * OR
  *
- * $router->getSub('articles', 'comments', 'article.controller', $options);
+ * $router->getSub('articles', 'comments', 'controller.article', $options);
  * ...
  */
