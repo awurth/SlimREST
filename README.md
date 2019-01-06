@@ -33,7 +33,7 @@ sudo chmod -R 775 [app-name]/var
 2. Rename /env.dist to .env and set the db connection details.
 3. Create Tables
 ``` bash
-$ bin/console db
+$ php bin/console db
 ```
 
 ##### Set URL (dev)
@@ -50,19 +50,19 @@ $config['rest']['url'] = 'https://[your-url]';
 
 ### Create users
 ``` bash
-$ bin/console user:create
+$ php bin/console user:create
 ```
 Use `--admin` option to set the user as admin
 
 ### Dump routes
 Execute the following command at the project root to print all routes in your terminal
 ``` bash
-$ bin/console routes
+$ php bin/console routes
 ```
 
 Use --markdown or -m option to display routes in markdown format
 ``` bash
-$ bin/console routes -m > API.md
+$ php bin/console routes -m > API.md
 ```
 
 If you're using [Oh My Zsh](https://github.com/robbyrussell/oh-my-zsh), you can install the symfony2 plugin, which provides an alias and autocompletion:
